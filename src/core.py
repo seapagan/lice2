@@ -2,42 +2,45 @@
 
 from __future__ import annotations
 
-import sys
-from importlib import resources
-from typing import Union
-
-if sys.version_info >= (3, 9):
-    # For Python 3.9 and newer
-    def resource_stream(package, resource):
-        """Emulate the 'resource_stream' method."""
-        return resources.files(package).joinpath(resource).open("rb")
-
-    def resource_listdir(package, directory):
-        """Emulate the 'resource_listdir' method."""
-        return [
-            f.name
-            for f in resources.files(package).joinpath(directory).iterdir()
-        ]
-else:
-    # For Python 3.7 and 3.8
-    def resource_stream(package, resource):
-        """Emulate the 'resource_stream' method."""
-        return resources.open_binary(package, resource)
-
-    def resource_listdir(package, directory):
-        """Emulate the 'resource_listdir' method."""
-        return resources.contents(package)
-
-
 import argparse
-import datetime
 import getpass
 import os
 import re
 import subprocess
 import sys
+from contextlib import closing
+from datetime import datetime
+from importlib import resources
 from io import StringIO
 from pathlib import Path
+from typing import IO, Union
+
+try:
+    from pkg_resources import resource_listdir, resource_stream  # type: ignore
+except ImportError:
+    import importlib.resources
+
+    def resource_stream(
+        package_or_requirement: resources.Package, resource_name: str
+    ) -> IO[bytes]:
+        """Emulate the 'resource_stream' method."""
+        ref = importlib.resources.files(package_or_requirement).joinpath(
+            resource_name
+        )
+        return ref.open("rb")
+
+    def resource_listdir(
+        package_or_requirement: resources.Package, resource_name: str
+    ) -> list[str]:
+        """Emulate the 'resource_listdir' method."""
+        resource_qualname = f"{package_or_requirement}.{resource_name}".rstrip(
+            "."
+        )
+        return [
+            r.name
+            for r in importlib.resources.files(resource_qualname).iterdir()
+        ]
+
 
 LICENSES: list[str] = []
 for file in sorted(resource_listdir(__name__, ".")):
@@ -128,11 +131,7 @@ def clean_path(p: str) -> str:
 
     Expand user and environment variables anensuring absolute path.
     """
-    # p = os.path.expanduser(p)
-    # p = os.path.expandvars(p)
-    # p = os.path.abspath(p)
-    # return p
-    expanded = os.path.expandvars(os.path.expanduser(str(p)))
+    expanded = os.path.expandvars(Path(p).expanduser())
     return str(Path(expanded).resolve())
 
 
@@ -151,7 +150,7 @@ def guess_organization() -> str:
     If that can't be found, fall back to $USER environment variable.
     """
     try:
-        stdout = subprocess.check_output("git config --get user.name".split())
+        stdout = subprocess.check_output("git config --get user.name".split())  # noqa: S603
         org = stdout.strip().decode("UTF-8")
     except subprocess.CalledProcessError:
         org = getpass.getuser()
@@ -218,28 +217,31 @@ def format_license(template: StringIO, lang: str) -> StringIO:
     """
     if not lang:
         lang = "txt"
+
     out = StringIO()
-    template.seek(0)  # from the start of the buffer
-    out.write(LANG_CMT[LANGS[lang]][0] + "\n")
-    for line in template.readlines():
-        out.write(LANG_CMT[LANGS[lang]][1] + " ")
-        out.write(line)
-    out.write(LANG_CMT[LANGS[lang]][2] + "\n")
-    template.close()  # force garbage collector
+
+    with closing(template):
+        template.seek(0)  # from the start of the buffer
+        out.write(LANG_CMT[LANGS[lang]][0] + "\n")
+        for line in template:
+            out.write(LANG_CMT[LANGS[lang]][1] + " ")
+            out.write(line)
+        out.write(LANG_CMT[LANGS[lang]][2] + "\n")
+
     return out
 
 
-def get_suffix(name: str) -> Union[str, bool]:
+def get_suffix(name: str) -> Union[str, None]:
     """Check if file name have valid suffix for formatting.
 
-    If have suffix, return it else return False.
+    If have suffix, return it else return None.
     """
     a = name.count(".")
     if a:
         ext = name.split(".")[-1]
         if ext in LANGS:
             return ext
-    return False
+    return None
 
 
 def get_args() -> argparse.Namespace:
@@ -277,7 +279,7 @@ def get_args() -> argparse.Namespace:
         "-p",
         "--proj",
         dest="project",
-        default=os.getcwd().split(os.sep)[-1],
+        default=Path.cwd().name,
         help="name of project, defaults to name of current directory",
     )
     parser.add_argument(
@@ -291,15 +293,15 @@ def get_args() -> argparse.Namespace:
         "--year",
         dest="year",
         type=valid_year,
-        default="%i" % datetime.date.today().year,
+        default="%i" % datetime.now().date().year,  # noqa: DTZ005
         help="copyright year",
     )
     parser.add_argument(
         "-l",
         "--language",
         dest="language",
-        help="format output for language source file, one of: %s [default is "
-        "not formatted (txt)]" % ", ".join(LANGS.keys()),
+        help="format output for language source file, one of: "
+        f"{', '.join(LANGS.keys())} [default is not formatted (txt)]",
     )
     parser.add_argument(
         "-f",
@@ -331,6 +333,74 @@ def get_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def list_vars(args: argparse.Namespace, license_name: str) -> None:
+    """List the variables for the given template."""
+    context = get_context(args)
+
+    if args.template_path:
+        template = load_file_template(args.template_path)
+    else:
+        template = load_package_template(license_name)
+
+    var_list = extract_vars(template)
+
+    if var_list:
+        sys.stdout.write(
+            "The %s license template contains the following variables "
+            "and defaults:\n" % (args.template_path or license_name)
+        )
+        for v in var_list:
+            if v in context:
+                sys.stdout.write(f"  {v} = {context[v]}\n")
+            else:
+                sys.stdout.write(f"  {v}\n")
+    else:
+        sys.stdout.write(
+            f"The {args.template_path or license_name} license template "
+            "contains no variables.\n"
+        )
+
+    sys.exit(0)
+
+
+def generate_header(
+    args: argparse.Namespace, license_name: str, lang: str
+) -> None:
+    """Generate a file header for the given license and language."""
+    if args.template_path:
+        template = load_file_template(args.template_path)
+    else:
+        try:
+            template = load_package_template(license_name, header=True)
+        except OSError:
+            sys.stderr.write(
+                "Sorry, no source headers are available for "
+                f"{args.license}.\n"
+            )
+            sys.exit(1)
+
+    content = generate_license(template, get_context(args))
+    out = format_license(content, lang)
+    out.seek(0)
+    sys.stdout.write(out.getvalue())
+    out.close()  # free content memory (paranoic memory stuff)
+    sys.exit(0)
+
+
+def get_lang(args: argparse.Namespace) -> str:
+    """Check the specified language is supported."""
+    lang = args.language
+    if lang and lang not in LANGS:
+        sys.stderr.write(
+            "I do not know about a language ending with "
+            f"extension {lang}.\n"
+            "Please send a pull request adding this language to\n"
+            "https://github.com/seapagan/lice2. Thanks!\n"
+        )
+        sys.exit(1)
+    return lang
+
+
 def main() -> None:
     """Main program loop."""
     args = get_args()
@@ -339,70 +409,17 @@ def main() -> None:
     license_name = args.license or DEFAULT_LICENSE
 
     # language
-    lang = args.language
-    if lang and lang not in LANGS:
-        sys.stderr.write(
-            "I do not know about a language ending with "
-            f"extension {lang}.\n"
-            "Please send a pull request adding this language to\n"
-            "https://github.com/licenses/lice. Thanks!\n"
-        )
-        sys.exit(1)
+    lang = get_lang(args)
 
     # generate header if requested
     if args.header:
-        if args.template_path:
-            template = load_file_template(args.template_path)
-        else:
-            try:
-                template = load_package_template(license_name, header=True)
-            except OSError:
-                sys.stderr.write(
-                    "Sorry, no source headers are available for "
-                    f"{args.license}.\n"
-                )
-                sys.exit(1)
-
-        content = generate_license(template, get_context(args))
-        out = format_license(content, lang)
-        out.seek(0)
-        sys.stdout.write(out.getvalue())
-        out.close()  # free content memory (paranoic memory stuff)
-        sys.exit(0)
+        generate_header(args, license_name, lang)
 
     # list template vars if requested
-
     if args.list_vars:
-        context = get_context(args)
-
-        if args.template_path:
-            template = load_file_template(args.template_path)
-        else:
-            template = load_package_template(license_name)
-
-        var_list = extract_vars(template)
-
-        if var_list:
-            sys.stdout.write(
-                "The %s license template contains the following variables "
-                "and defaults:\n" % (args.template_path or license_name)
-            )
-            for v in var_list:
-                if v in context:
-                    sys.stdout.write(f"  {v} = {context[v]}\n")
-                else:
-                    sys.stdout.write(f"  {v}\n")
-        else:
-            sys.stdout.write(
-                "The {} license template contains no variables.\n".format(
-                    args.template_path or license_name
-                )
-            )
-
-        sys.exit(0)
+        list_vars(args, license_name)
 
     # list available licenses and their template variables
-
     if args.list_licenses:
         for license_name in LICENSES:
             template = load_package_template(license_name)
@@ -413,14 +430,12 @@ def main() -> None:
         sys.exit(0)
 
     # list available source formatting languages
-
     if args.list_languages:
         for lang in sorted(LANGS.keys()):
             sys.stdout.write(f"{lang}\n")
         sys.exit(0)
 
     # create context
-
     if args.template_path:
         template = load_file_template(args.template_path)
     else:
