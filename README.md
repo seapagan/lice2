@@ -27,6 +27,11 @@ In addition, future plans are to
 - Update the existing test suite to full coverage, its at about 39% right now.
 - Integrate with 'codacy' for code-quality and test coverage checks.
 
+> [!IMPORTANT]
+> This library is now only compatible with Python 3.9 and above. If you wish to
+> use an older version, use the original 'lice' package.
+
+
 ## Installation
 
 Installation is standard. If you are using `pipx` (recommended) install it as:
