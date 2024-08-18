@@ -13,7 +13,6 @@ Lice generates license files. No more hunting down licenses from other projects.
 > quite large, and no-one is merging PR's on the original project. Otherwise,
 > the Git history is identical to the original.
 
-
 This version fixes the compatibility issue and updates the tooling :
 
 - It now uses [Poetry](https://python-poetry.org/) for dependency management
@@ -37,6 +36,7 @@ pipx install lice2
 ```
 
 Otherwise use `pip` as standard:
+
 ```console
 pip install lice2
 ```
@@ -79,7 +79,7 @@ Redistribution and use in source and binary forms, with or without modification,
 ```
 
 Generate a BSD-3 license, formatted for python source file:
- 
+
 ```console
 $ lice -l py
 
@@ -92,7 +92,7 @@ $ lice -l py
 ```
 
 Generate a python source file with a BSD-3 license commented in the header:
- 
+
 ```console
 $ lice -l py -f test
 $ ls
@@ -122,7 +122,7 @@ $ lice -f test.c && cat test.c
 
 If organization is not specified, lice will first attempt to use `git config` to
 find your name. If not found, it will use the value of the $USER environment
-variable. If the project name is not specified, the name of the current 
+variable. If the project name is not specified, the name of the current
 directory is used. Year will default to the current year.
 
 You can see what variables are available to you for any of the licenses:
@@ -136,7 +136,7 @@ The mit license template contains the following variables:
 
 ## I want XXXXXXXXX license in here!
 
-Great! Is it a license that is commonly used? If so, open an issue or, if you 
+Great! Is it a license that is commonly used? If so, open an issue or, if you
 are feeling generous, fork and submit a pull request.
 
 ## Usage
@@ -169,42 +169,42 @@ are feeling generous, fork and submit a pull request.
 
 ## Changelog
 
-**0.6**
+### 0.6
 
-* Add PowerShell support (thanks to `danijeljw <https://github.com/danijeljw>`_)
-* Add Rust support (thanks to `alex179ohm <https://github.com/alex179ohm>`_)
-* Bugfixes (thanks to `ganziqim <https://github.com/ganziqim>`_)
-* Added support for Python 3.7 and 3.8, removed support for Python 3.4
+- Add PowerShell support (thanks to `danijeljw <https://github.com/danijeljw>`_)
+- Add Rust support (thanks to `alex179ohm <https://github.com/alex179ohm>`_)
+- Bugfixes (thanks to `ganziqim <https://github.com/ganziqim>`_)
+- Added support for Python 3.7 and 3.8, removed support for Python 3.4
 
 Tested against Python 2.7, 3.5, 3.6, 3.7, and 3.8.
 
-**0.5**
+### 0.5
 
-* Add support for SCM alias for lisp-style comments (thanks to `ejmr <https://github.com/ejmr>`_)
-* Additional support for WTFPL and GPL2 licenses (thanks to `ejmr <https://github.com/ejmr>`_)
-* Support for Python 3.4 and 3.5 (thanks to `ejmr <https://github.com/ejmr>`_)
+- Add support for SCM alias for lisp-style comments (thanks to `ejmr <https://github.com/ejmr>`_)
+- Additional support for WTFPL and GPL2 licenses (thanks to `ejmr <https://github.com/ejmr>`_)
+- Support for Python 3.4 and 3.5 (thanks to `ejmr <https://github.com/ejmr>`_)
 
-**0.4**
+### 0.4
 
-* Use ASCII instead of Unicode for templates (thanks to `tabletcorry <https://github.com/tabletcorry>`_)
-* Add Academic Free License ("AFL") v. 3.0 (thanks to `brianray <https://github.com/brianray>`_)
-* Add ISC (thanks to `masklinn <https://github.com/masklinn>`_)
-* Add tox support for testing (thanks to `lukaszb <https://github.com/lukaszb>`_)
-* Show defaults when listing template variables
+- Use ASCII instead of Unicode for templates (thanks to `tabletcorry <https://github.com/tabletcorry>`_)
+- Add Academic Free License ("AFL") v. 3.0 (thanks to `brianray <https://github.com/brianray>`_)
+- Add ISC (thanks to `masklinn <https://github.com/masklinn>`_)
+- Add tox support for testing (thanks to `lukaszb <https://github.com/lukaszb>`_)
+- Show defaults when listing template variables
 
-**0.3**
+### 0.3
 
-* Generate source file headers for some liceneses
-* Discover available licenses at runtime
-* Use getpass module for retrieving username
-* Better unicode support for Python 3 (thanks to `astagi <https://github.com/astagi>`_)
-* Add Creative Commons licenese (thanks to `rjnienaber <https://github.com/rjnienaber>`_)
+- Generate source file headers for some liceneses
+- Discover available licenses at runtime
+- Use getpass module for retrieving username
+- Better unicode support for Python 3 (thanks to `astagi <https://github.com/astagi>`_)
+- Add Creative Commons licenese (thanks to `rjnienaber <https://github.com/rjnienaber>`_)
 
-**0.2**
+### 0.2
 
-* Add AGPL 3 license
-* Add extra templates variables to GPL 2 and 3
+- Add AGPL 3 license
+- Add extra templates variables to GPL 2 and 3
 
-**0.1**
+### 0.1
 
-* Initial release
+- Initial release
