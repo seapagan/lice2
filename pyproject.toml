@@ -31,7 +31,8 @@ python = "^3.8"
 # linting, type-checking and security checks
 mypy = ">=1.4.1"
 pre-commit = ">=3.3.3"
-ruff = ">=0.5.1,<0.6.0"
+ruff = ">=0.6.0"
+pymarkdownlnt = ">=0.9.21"
 
 # testing
 pytest = ">=8.3.2"
@@ -41,10 +42,21 @@ pytest-randomly = ">=3.13.0"
 pytest-reverse = ">=1.7.0"
 pytest-mock = ">=3.11.1"
 mock = ">=5.1.0"
+poethepoet = ">=0.27.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks]
+pre.cmd = "pre-commit run --all-files"
+pre.help = "Run pre-commit checks"
+mypy.cmd = "mypy . --strict"
+mypy.help = "Run mypy checks"
+format.help = "Format code with Ruff"
+format.cmd = "ruff format ."
+ruff.help = "Run Ruff checks"
+ruff.cmd = "ruff check --output-format=concise ."
 
 [tool.pytest.ini_options]
 addopts = ["--cov", "--cov-report", "term-missing", "--cov-report", "html"]
