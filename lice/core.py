@@ -1,4 +1,22 @@
-from pkg_resources import (resource_stream, resource_listdir)
+import sys
+from importlib import resources
+
+if sys.version_info >= (3, 9):
+    # For Python 3.9 and newer
+    def resource_stream(package, resource):
+        return resources.files(package).joinpath(resource).open("rb")
+
+    def resource_listdir(package, directory):
+        return [f.name for f in resources.files(package).joinpath(directory).iterdir()]
+else:
+    # For Python 3.7 and 3.8
+    def resource_stream(package, resource):
+        return resources.open_binary(package, resource)
+
+    def resource_listdir(package, directory):
+        return resources.contents(package)
+
+
 from io import StringIO
 import argparse
 import datetime
@@ -10,8 +28,8 @@ import getpass
 
 
 LICENSES = []
-for file in sorted(resource_listdir(__name__, '.')):
-    match = re.match(r'template-([a-z0-9_]+).txt', file)
+for file in sorted(resource_listdir(__name__, ".")):
+    match = re.match(r"template-([a-z0-9_]+).txt", file)
     if match:
         LICENSES.append(match.groups()[0])
 
@@ -75,28 +93,28 @@ LANGS = {
 }
 
 LANG_CMT = {
-    "c": [u'/*', u' *', u' */'],
-    "erlang": [u'%%', u'%', u'%%'],
-    "fortran": [u'C', u'C', u'C'],
-    "fortran90": [u'!*', u'!*', u'!*'],
-    "haskell": [u'{-', u'', u'-}'],
-    "html": [u'<!--', u'', u'-->'],
-    "java": [u'/**', u' *', u' */'],
-    "lisp": [u'', u';;', u''],
-    "lua": [u'--[[', u'', u'--]]'],
-    "ml": [u'(*', u'', u'*)'],
-    "perl": [u'=item', u'', u'=cut'],
-    "powershell": [u'<#', u'#', u'#>'],
-    "ruby": [u'=begin', u'', u'=end'],
-    "text": [u'', u'', u''],
-    "unix": [u'', u'#', u''],
-    "rust": [u'', u'//' u''],
+    "c": ["/*", " *", " */"],
+    "erlang": ["%%", "%", "%%"],
+    "fortran": ["C", "C", "C"],
+    "fortran90": ["!*", "!*", "!*"],
+    "haskell": ["{-", "", "-}"],
+    "html": ["<!--", "", "-->"],
+    "java": ["/**", " *", " */"],
+    "lisp": ["", ";;", ""],
+    "lua": ["--[[", "", "--]]"],
+    "ml": ["(*", "", "*)"],
+    "perl": ["=item", "", "=cut"],
+    "powershell": ["<#", "#", "#>"],
+    "ruby": ["=begin", "", "=end"],
+    "text": ["", "", ""],
+    "unix": ["", "#", ""],
+    "rust": ["", "//" ""],
 }
 
 
 def clean_path(p):
-    """ Clean a path by expanding user and environment variables and
-        ensuring absolute path.
+    """Clean a path by expanding user and environment variables and
+    ensuring absolute path.
     """
     p = os.path.expanduser(p)
     p = os.path.expandvars(p)
@@ -113,11 +131,11 @@ def get_context(args):
 
 
 def guess_organization():
-    """ Guess the organization from `git config`. If that can't be found,
-        fall back to $USER environment variable.
+    """Guess the organization from `git config`. If that can't be found,
+    fall back to $USER environment variable.
     """
     try:
-        stdout = subprocess.check_output('git config --get user.name'.split())
+        stdout = subprocess.check_output("git config --get user.name".split())
         org = stdout.strip().decode("UTF-8")
     except:
         org = getpass.getuser()
@@ -128,8 +146,7 @@ def guess_organization():
 
 
 def load_file_template(path):
-    """ Load template from the specified filesystem path.
-    """
+    """Load template from the specified filesystem path."""
     template = StringIO()
     if not os.path.exists(path):
         raise ValueError("path does not exist: %s" % path)
@@ -140,10 +157,9 @@ def load_file_template(path):
 
 
 def load_package_template(license, header=False):
-    """ Load license template distributed with package.
-    """
+    """Load license template distributed with package."""
     content = StringIO()
-    filename = 'template-%s-header.txt' if header else 'template-%s.txt'
+    filename = "template-%s-header.txt" if header else "template-%s.txt"
     with resource_stream(__name__, filename % license) as licfile:
         for line in licfile:
             content.write(line.decode("utf-8"))  # write utf-8 string
@@ -151,8 +167,8 @@ def load_package_template(license, header=False):
 
 
 def extract_vars(template):
-    """ Extract variables from template. Variables are enclosed in
-        double curly braces.
+    """Extract variables from template. Variables are enclosed in
+    double curly braces.
     """
     keys = set()
     for match in re.finditer(r"\{\{ (?P<key>\w+) \}\}", template.getvalue()):
@@ -161,8 +177,8 @@ def extract_vars(template):
 
 
 def generate_license(template, context):
-    """ Generate a license by extracting variables from the template and
-        replacing them with the corresponding values in the given context.
+    """Generate a license by extracting variables from the template and
+    replacing them with the corresponding values in the given context.
     """
     out = StringIO()
     content = template.getvalue()
@@ -176,25 +192,25 @@ def generate_license(template, context):
 
 
 def format_license(template, lang):
-    """ Format the StringIO template object for specified lang string:
-        return StringIO object formatted
+    """Format the StringIO template object for specified lang string:
+    return StringIO object formatted
     """
     if not lang:
-        lang = 'txt'
+        lang = "txt"
     out = StringIO()
     template.seek(0)  # from the start of the buffer
-    out.write(LANG_CMT[LANGS[lang]][0] + u'\n')
+    out.write(LANG_CMT[LANGS[lang]][0] + "\n")
     for line in template.readlines():
-        out.write(LANG_CMT[LANGS[lang]][1] + u' ')
+        out.write(LANG_CMT[LANGS[lang]][1] + " ")
         out.write(line)
-    out.write(LANG_CMT[LANGS[lang]][2] + u'\n')
+    out.write(LANG_CMT[LANGS[lang]][2] + "\n")
     template.close()  # force garbage collector
     return out
 
 
 def get_suffix(name):
     """Check if file name have valid suffix for formatting.
-       if have suffix return it else return False.
+    if have suffix return it else return False.
     """
     a = name.count(".")
     if a:
@@ -207,49 +223,83 @@ def get_suffix(name):
 
 
 def main():
-
     def valid_year(string):
         if not re.match(r"^\d{4}$", string):
             raise argparse.ArgumentTypeError("Must be a four digit year")
         return string
 
-    parser = argparse.ArgumentParser(description='Generate a license')
+    parser = argparse.ArgumentParser(description="Generate a license")
 
     parser.add_argument(
-        'license', metavar='license', nargs="?", choices=LICENSES,
-        help='the license to generate, one of: %s' % ", ".join(LICENSES))
+        "license",
+        metavar="license",
+        nargs="?",
+        choices=LICENSES,
+        help="the license to generate, one of: %s" % ", ".join(LICENSES),
+    )
     parser.add_argument(
-        '--header', dest='header', action="store_true",
-        help='generate source file header for specified license')
+        "--header",
+        dest="header",
+        action="store_true",
+        help="generate source file header for specified license",
+    )
     parser.add_argument(
-        '-o', '--org', dest='organization', default=guess_organization(),
-        help='organization, defaults to .gitconfig or os.environ["USER"]')
+        "-o",
+        "--org",
+        dest="organization",
+        default=guess_organization(),
+        help='organization, defaults to .gitconfig or os.environ["USER"]',
+    )
     parser.add_argument(
-        '-p', '--proj', dest='project', default=os.getcwd().split(os.sep)[-1],
-        help='name of project, defaults to name of current directory')
+        "-p",
+        "--proj",
+        dest="project",
+        default=os.getcwd().split(os.sep)[-1],
+        help="name of project, defaults to name of current directory",
+    )
     parser.add_argument(
-        '-t', '--template', dest='template_path',
-        help='path to license template file')
+        "-t", "--template", dest="template_path", help="path to license template file"
+    )
     parser.add_argument(
-        '-y', '--year', dest='year', type=valid_year,
-        default="%i" % datetime.date.today().year, help='copyright year')
+        "-y",
+        "--year",
+        dest="year",
+        type=valid_year,
+        default="%i" % datetime.date.today().year,
+        help="copyright year",
+    )
     parser.add_argument(
-        '-l', '--language', dest='language',
-        help='format output for language source file, one of: %s [default is '
-        'not formatted (txt)]' % ', '.join(LANGS.keys()))
+        "-l",
+        "--language",
+        dest="language",
+        help="format output for language source file, one of: %s [default is "
+        "not formatted (txt)]" % ", ".join(LANGS.keys()),
+    )
     parser.add_argument(
-        '-f', '--file', dest='ofile', default='stdout',
-        help='Name of the output source file (with -l, '
-        'extension can be ommitted)')
+        "-f",
+        "--file",
+        dest="ofile",
+        default="stdout",
+        help="Name of the output source file (with -l, " "extension can be ommitted)",
+    )
     parser.add_argument(
-        '--vars', dest='list_vars', action="store_true",
-        help='list template variables for specified license')
+        "--vars",
+        dest="list_vars",
+        action="store_true",
+        help="list template variables for specified license",
+    )
     parser.add_argument(
-        '--licenses', dest='list_licenses', action="store_true",
-        help='list available license templates and their parameters')
+        "--licenses",
+        dest="list_licenses",
+        action="store_true",
+        help="list available license templates and their parameters",
+    )
     parser.add_argument(
-        '--languages', dest='list_languages', action="store_true",
-        help='list available source code formatting languages')
+        "--languages",
+        dest="list_languages",
+        action="store_true",
+        help="list available source code formatting languages",
+    )
 
     args = parser.parse_args()
 
@@ -261,16 +311,17 @@ def main():
 
     lang = args.language
     if lang and lang not in LANGS.keys():
-        sys.stderr.write("I do not know about a language ending with "
-                         "extension %s.\n"
-                         "Please send a pull request adding this language to\n"
-                         "https://github.com/licenses/lice. Thanks!\n" % lang)
+        sys.stderr.write(
+            "I do not know about a language ending with "
+            "extension %s.\n"
+            "Please send a pull request adding this language to\n"
+            "https://github.com/licenses/lice. Thanks!\n" % lang
+        )
         sys.exit(1)
 
     # generate header if requested
 
     if args.header:
-
         if args.template_path:
             template = load_file_template(args.template_path)
         else:
@@ -278,8 +329,8 @@ def main():
                 template = load_package_template(license, header=True)
             except IOError:
                 sys.stderr.write(
-                    "Sorry, no source headers are available for %s.\n" %
-                    args.license)
+                    "Sorry, no source headers are available for %s.\n" % args.license
+                )
                 sys.exit(1)
 
         content = generate_license(template, get_context(args))
@@ -292,7 +343,6 @@ def main():
     # list template vars if requested
 
     if args.list_vars:
-
         context = get_context(args)
 
         if args.template_path:
@@ -305,7 +355,8 @@ def main():
         if var_list:
             sys.stdout.write(
                 "The %s license template contains the following variables "
-                "and defaults:\n" % (args.template_path or license))
+                "and defaults:\n" % (args.template_path or license)
+            )
             for v in var_list:
                 if v in context:
                     sys.stdout.write("  %s = %s\n" % (v, context[v]))
@@ -313,8 +364,9 @@ def main():
                     sys.stdout.write("  %s\n" % v)
         else:
             sys.stdout.write(
-                "The %s license template contains no variables.\n" %
-                (args.template_path or license))
+                "The %s license template contains no variables.\n"
+                % (args.template_path or license)
+            )
 
         sys.exit(0)
 
@@ -364,6 +416,7 @@ def main():
         out.seek(0)
         sys.stdout.write(out.getvalue())
     out.close()  # free content memory (paranoic memory stuff)
+
 
 if __name__ == "__main__":
     main()
