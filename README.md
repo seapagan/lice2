@@ -2,11 +2,44 @@
 
 Lice generates license files. No more hunting down licenses from other projects.
 
+## Changes from the original 'Lice' project
+
+> [!NOTE]
+> This project is forked from the original
+> [lice](https://github.com/licenses/lice) project which seems to have been
+> abandoned and is not compatible with Python 3.12.
+>
+> I have created a new project rather than issue a PR because the changes are
+> quite large, and no-one is merging PR's on the original project. Otherwise,
+> the Git history is identical to the original.
+
+
+This version fixes the compatibility issue and updates the tooling :
+
+- It now uses [Poetry](https://python-poetry.org/) for dependency management
+- The code has been modernized and cleaned up, all type-hinting has been
+added
+- It passes strict linting with the latest 'Ruff'
+- GitHub actions set up for `Dependabot` and `Dependency Review`
+
+In addition, future plans are to
+
+- Convert from 'argparse' to 'Typer' for CLI handling.
+- Update the existing test suite to full coverage, its at about 39% right now.
+- Integrate with 'codacy' for code-quality and test coverage checks.
+
 ## Installation
 
-About what you'd expect:
+Installation is standard. If you are using `pipx` (recommended) install it as:
 
-    pip install lice2
+```console
+pipx install lice2
+```
+
+Otherwise use `pip` as standard:
+```console
+pip install lice2
+```
 
 ## Overview
 
