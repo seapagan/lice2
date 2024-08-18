@@ -389,7 +389,7 @@ def generate_header(
 
 def get_lang(args: argparse.Namespace) -> str:
     """Check the specified language is supported."""
-    lang = args.language
+    lang: str = args.language
     if lang and lang not in LANGS:
         sys.stderr.write(
             "I do not know about a language ending with "

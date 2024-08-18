@@ -30,7 +30,7 @@ def test_file_template() -> None:
         path = TEMPLATE_PATH / (f"template-{license_name}.txt")
         with path.open() as infile:
             content = infile.read()
-            assert content == load_file_template(path).getvalue()
+            assert content == load_file_template(str(path)).getvalue()
 
 
 def test_package_template() -> None:
