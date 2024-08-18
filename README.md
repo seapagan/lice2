@@ -6,7 +6,7 @@ Lice generates license files. No more hunting down licenses from other projects.
 
 About what you'd expect:
 
-    pip install lice
+    pip install lice2
 
 ## Overview
 

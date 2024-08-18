@@ -28,13 +28,76 @@ lice = "src:main"
 python = "^3.8"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.2"
+# linting, type-checking and security checks
+mypy = ">=1.4.1"
+pre-commit = ">=3.3.3"
+ruff = ">=0.5.1,<0.6.0"
+
+# testing
+pytest = ">=8.3.2"
 pytest-cov = ">=4,<6"
 pytest-sugar = ">=0.9.7,<1.1.0"
 pytest-randomly = ">=3.13.0"
 pytest-reverse = ">=1.7.0"
 pytest-mock = ">=3.11.1"
+mock = ">=5.1.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = ["--cov", "--cov-report", "term-missing", "--cov-report", "html"]
+filterwarnings = []
+mock_use_standalone_module = true
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*"]
+
+[tool.ruff]
+line-length = 80
+lint.select = ["ALL"] # we are being very strict!
+lint.ignore = [
+  "ANN101",
+  "ANN102",
+  "PGH003",
+  "FBT002",
+  "FBT003",
+  "B006",
+] # These rules are too strict even for us 😝
+lint.extend-ignore = [
+  "COM812",
+  "ISC001",
+] # these are ignored for ruff formatting
+
+src = ["simple_toml_settings"]
+target-version = "py38"        # minimum python version supported
+
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "double"
+
+[tool.ruff.lint.pep8-naming]
+classmethod-decorators = ["pydantic.validator", "pydantic.root_validator"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.extend-per-file-ignores]
+"src/tests/**/*.py" = [
+  "S101",   # we can (and MUST!) use 'assert' in test files.
+  "ANN001", # annotations for fixtures are sometimes a pain for test files
+  "ARG00",  # test fixtures often are not directly used
+]
+
+
+[tool.ruff.lint.isort]
+known-first-party = ["simple_toml_settings"]
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
+
+[[tool.mypy.overrides]]
+disable_error_code = ["method-assign", "no-untyped-def", "attr-defined"]
+module = "tests.*"
