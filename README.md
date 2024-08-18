@@ -4,13 +4,13 @@ Lice generates license files. No more hunting down licenses from other projects.
 
 ## Installation
 
-About what you'd expect::
+About what you'd expect:
 
     pip install lice
 
 ## Overview
 
-Generate a BSD-3 license, the default::
+Generate a BSD-3 license, the default:
 
 ```console
 $ lice
@@ -22,7 +22,7 @@ Redistribution and use in source and binary forms, with or without modification,
 ...
 ```
 
-Generate an MIT license::
+Generate an MIT license:
 
 ```console
 $ lice mit
@@ -33,7 +33,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy
 ...
 ```
 
-Generate a BSD-3 license, specifying the year and organization to be used::
+Generate a BSD-3 license, specifying the year and organization to be used:
 
 ```console
 $ lice -y 2012 -o "Sunlight Foundation"
@@ -45,7 +45,7 @@ Redistribution and use in source and binary forms, with or without modification,
 ...
 ```
 
-Generate a BSD-3 license, formatted for python source file::
+Generate a BSD-3 license, formatted for python source file:
  
 ```console
 $ lice -l py
@@ -58,7 +58,7 @@ $ lice -l py
 ...
 ```
 
-Generate a python source file with a BSD-3 license commented in the header::
+Generate a python source file with a BSD-3 license commented in the header:
  
 ```console
 $ lice -l py -f test
@@ -74,7 +74,7 @@ $ cat test.py
 ...
 ```
 
-Generate a source file (language detected by -f  extension)::
+Generate a source file (language detected by -f  extension):
 
 ```console
 $ lice -f test.c && cat test.c
@@ -92,7 +92,7 @@ find your name. If not found, it will use the value of the $USER environment
 variable. If the project name is not specified, the name of the current 
 directory is used. Year will default to the current year.
 
-You can see what variables are available to you for any of the licenses::
+You can see what variables are available to you for any of the licenses:
 
 ```console
 $ lice --vars mit
