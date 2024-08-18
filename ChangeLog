@@ -15,9 +15,7 @@
 				content.decode("utf-8") was removed
 			main (parser.add_argument [133]) -l (language) argument added
 			[20..24] LANGS and LANG_CMT added.
-		
+
 		* test.py  some tests was changed (maibe become unnecessary)
 			test_file_template [31] assertEqual changed in assertNotEqual
 			test_package_template [39] assertEqual changed in assertNotEqual
-
-
