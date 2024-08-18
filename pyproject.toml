@@ -14,7 +14,6 @@ classifiers = [
   "License :: OSI Approved :: BSD License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -25,7 +24,7 @@ classifiers = [
 lice = "src:main"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
 # linting, type-checking and security checks
@@ -84,7 +83,7 @@ lint.extend-ignore = [
 ] # these are ignored for ruff formatting
 
 src = ["src"]
-target-version = "py38"        # minimum python version supported
+target-version = "py39"        # minimum python version supported
 
 [tool.ruff.format]
 indent-style = "space"

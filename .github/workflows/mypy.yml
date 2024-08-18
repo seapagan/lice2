@@ -17,6 +17,6 @@ jobs:
           path: "."
           mypy_flags:
             "--install-types --non-interactive --config-file pyproject.toml
-            --ignore-missing-imports --strict --python-version 3.9"
+            --ignore-missing-imports --strict"
           requirements_file: "requirements-dev.txt"
-          python_version: "3.8"
+          python_version: "3.9"
