@@ -1,107 +1,114 @@
-====
-lice
-====
-
+# lice
 
 Lice generates license files. No more hunting down licenses from other projects.
 
-Installation
-------------
+## Installation
 
 About what you'd expect::
 
     pip install lice
 
-
-Overview
---------
+## Overview
 
 Generate a BSD-3 license, the default::
 
-    $ lice
-    Copyright (c) 2013, Jeremy Carbaugh
+```console
+$ lice
+Copyright (c) 2013, Jeremy Carbaugh
 
-    All rights reserved.
+All rights reserved.
 
-    Redistribution and use in source and binary forms, with or without modification,
-    ...
+Redistribution and use in source and binary forms, with or without modification,
+...
+```
 
 Generate an MIT license::
 
-    $ lice mit
-    The MIT License (MIT)
-    Copyright (c) 2013 Jeremy Carbaugh
+```console
+$ lice mit
+The MIT License (MIT)
+Copyright (c) 2013 Jeremy Carbaugh
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    ...
+Permission is hereby granted, free of charge, to any person obtaining a copy
+...
+```
 
 Generate a BSD-3 license, specifying the year and organization to be used::
 
-    $ lice -y 2012 -o "Sunlight Foundation"
-    Copyright (c) 2012, Sunlight Foundation
+```console
+$ lice -y 2012 -o "Sunlight Foundation"
+Copyright (c) 2012, Sunlight Foundation
 
-    All rights reserved.
+All rights reserved.
 
-    Redistribution and use in source and binary forms, with or without modification,
-    ...
+Redistribution and use in source and binary forms, with or without modification,
+...
+```
 
 Generate a BSD-3 license, formatted for python source file::
  
-    $ lice -l py
+```console
+$ lice -l py
 
-    # Copyright (c) 2012, Sunlight Foundation
-    #
-    # All rights reserved.
-    #
-    # Redistribution and use in source and binary forms, with or without modification,
-    ...
+# Copyright (c) 2012, Sunlight Foundation
+#
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without modification,
+...
+```
 
 Generate a python source file with a BSD-3 license commented in the header::
  
-    $ lice -l py -f test
-    $ ls
-    test.py
-    $ cat test.py
+```console
+$ lice -l py -f test
+$ ls
+test.py
+$ cat test.py
 
-    # Copyright (c) 2012, Sunlight Foundation
-    #
-    # All rights reserved.
-    #
-    # Redistribution and use in source and binary forms, with or without modification,
-    ...
+# Copyright (c) 2012, Sunlight Foundation
+#
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without modification,
+...
+```
 
 Generate a source file (language detected by -f  extension)::
 
-    $ lice -f test.c && cat test.c
-    /*
-     * Copyright (c) 2012, Sunlight Foundation
-     *
-     * All rights reserved.
-     *
-     * Redistribution and use in source and binary forms, with or without modification,
-    ...
+```console
+$ lice -f test.c && cat test.c
+/*
+ * Copyright (c) 2012, Sunlight Foundation
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ ...
+```
 
-
-If organization is not specified, lice will first attempt to use `git config` to find your name. If not found, it will use the value of the $USER environment variable. If the project name is not specified, the name of the current directory is used. Year will default to the current year.
+If organization is not specified, lice will first attempt to use `git config` to
+find your name. If not found, it will use the value of the $USER environment
+variable. If the project name is not specified, the name of the current 
+directory is used. Year will default to the current year.
 
 You can see what variables are available to you for any of the licenses::
 
-    $ lice --vars mit
-    The mit license template contains the following variables:
-      year
-      organization
+```console
+$ lice --vars mit
+The mit license template contains the following variables:
+  year
+  organization
+```
 
+## I want XXXXXXXXX license in here!
 
-I want XXXXXXXXX license in here!
----------------------------------
+Great! Is it a license that is commonly used? If so, open an issue or, if you 
+are feeling generous, fork and submit a pull request.
 
-Great! Is it a license that is commonly used? If so, open an issue or, if you are feeling generous, fork and submit a pull request.
+## Usage
 
-
-Usage
------
-::
-
+```console
     usage: lice [-h] [-o ORGANIZATION] [-p PROJECT] [-t TEMPLATE_PATH] [-y YEAR]
                 [--vars] [license]
 
@@ -125,10 +132,9 @@ Usage
                             f90, hpp, cpp, pl, txt [default is not formatted (txt)]
       -f OFILE, --file OFILE Name of the output source file (with -l, extension can be omitted)
       --vars                list template variables for specified license
+```
 
-
-Changelog
----------
+## Changelog
 
 **0.6**
 
