@@ -6,10 +6,10 @@ authors = ["Grant Ramsay <seapagan@gmail.com>"]
 license = "BSD"
 readme = "README.md"
 
-packages = [{ include = "lice", from = "."}]
+packages = [{ include = "src", from = "."}]
 
 [tool.poetry.scripts]
-lice2 = "lice:main"
+lice = "src:main"
 
 [tool.poetry.dependencies]
 python = "^3.8"

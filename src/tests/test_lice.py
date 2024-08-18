@@ -1,8 +1,8 @@
 import os
 from io import StringIO
 
-import lice
-from lice.core import (
+import src
+from src.core import (
     LICENSES,
     clean_path,
     extract_vars,
@@ -11,7 +11,7 @@ from lice.core import (
     load_package_template,
 )
 
-TEMPLATE_PATH = os.path.dirname(lice.__file__)
+TEMPLATE_PATH = os.path.dirname(src.__file__)
 
 
 def test_paths():
