@@ -1,5 +1,8 @@
+"""Test suite for the application."""
+
 import os
 from io import StringIO
+from pathlib import Path
 
 import src
 from src.core import (
@@ -11,43 +14,50 @@ from src.core import (
     load_package_template,
 )
 
-TEMPLATE_PATH = os.path.dirname(src.__file__)
+TEMPLATE_PATH = Path(src.__file__).parent
 
 
-def test_paths():
-    assert clean_path(".") == os.getcwd()
+def test_paths() -> None:
+    """Test the 'clean_path' function."""
+    assert clean_path(".") == str(Path.cwd())
     assert clean_path("$HOME") == os.environ["HOME"]
     assert clean_path("~") == os.environ["HOME"]
 
 
-def test_file_template():
-    for license in LICENSES:
-        path = os.path.join(TEMPLATE_PATH, "template-%s.txt" % license)
-        with open(path) as infile:
+def test_file_template() -> None:
+    """Test we can load templates properly."""
+    for license_name in LICENSES:
+        path = TEMPLATE_PATH / (f"template-{license_name}.txt")
+        with path.open() as infile:
             content = infile.read()
             assert content == load_file_template(path).getvalue()
 
 
-def test_package_template():
-    for license in LICENSES:
-        path = os.path.join(TEMPLATE_PATH, "template-%s.txt" % license)
-        with open(path) as infile:
-            assert infile.read() == load_package_template(license).getvalue()
+def test_package_template() -> None:
+    """Test the 'load_package_template' function."""
+    for license_name in LICENSES:
+        path = TEMPLATE_PATH / (f"template-{license_name}.txt")
+        with path.open() as infile:
+            assert (
+                infile.read() == load_package_template(license_name).getvalue()
+            )
 
 
-def test_extract_vars():
+def test_extract_vars() -> None:
+    """Test the 'extract_vars' function."""
     template = StringIO()
-    for license in LICENSES:
+    for _ in LICENSES:
         template.write("Oh hey, {{ this }} is a {{ template }} test.")
         var_list = extract_vars(template)
         assert var_list == ["template", "this"]
 
 
-def test_license():
+def test_generate_license() -> None:
+    """Test the 'generate_license' function."""
     context = {"year": "1981", "project": "lice", "organization": "Awesome Co."}
 
-    for license in LICENSES:
-        template = load_package_template(license)
+    for license_name in LICENSES:
+        template = load_package_template(license_name)
         content = template.getvalue()
 
         content = content.replace("{{ year }}", context["year"])
@@ -58,20 +68,23 @@ def test_license():
         template.close()  # discard memory
 
 
-def test_license_header():
+def test_license_header() -> None:
+    """Test the license header is correct."""
     context = {"year": "1981", "project": "lice", "organization": "Awesome Co."}
 
-    for license in LICENSES:
-        try:
-            template = load_package_template(license, header=True)
+    try:
+        for license_name in LICENSES:
+            template = load_package_template(license_name, header=True)
             content = template.getvalue()
 
             content = content.replace("{{ year }}", context["year"])
             content = content.replace("{{ project }}", context["project"])
-            content = content.replace("{{ organization }}", context["organization"])
+            content = content.replace(
+                "{{ organization }}", context["organization"]
+            )
 
             assert content == generate_license(template, context).getvalue()
             template.close()  # discard memory
 
-        except IOError:
-            pass  # it's okay to not find templates
+    except OSError:
+        pass  # it's okay to not find templates
