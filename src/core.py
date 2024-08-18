@@ -1,4 +1,5 @@
 """Main core of the application."""
+# mypy: python_version=3.9
 
 from __future__ import annotations
 
