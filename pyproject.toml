@@ -71,7 +71,7 @@ lint.extend-ignore = [
   "ISC001",
 ] # these are ignored for ruff formatting
 
-src = ["simple_toml_settings"]
+src = ["src"]
 target-version = "py38"        # minimum python version supported
 
 [tool.ruff.format]
