@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "lice2"
+version = "0.7.0"
+description = "Generate license files for your projects"
+authors = ["Grant Ramsay <seapagan@gmail.com>"]
+license = "BSD"
+readme = "README.md"
+
+packages = [{ include = "lice", from = "."}]
+
+[tool.poetry.scripts]
+lice2 = "lice:main"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
