@@ -64,8 +64,8 @@ DEFAULT_LICENSE = "bsd3"
 # associate your language and source file suffix with your new comment type
 # how explained above.
 # EXAMPLE:
-# LANG_CMT = {"c":[u'/*', u'*', u'*/']}
-# LANGS = {"cpp":"c"}
+# LANG_CMT = {"c":[u'/*', u'*', u'*/']}  # noqa: ERA001
+# LANGS = {"cpp":"c"}  # noqa: ERA001
 # (for more examples see LANG_CMT and langs dicts below)
 # NOTE: unicode (u) in comment strings is required.
 
@@ -123,7 +123,7 @@ LANG_CMT = {
 }
 
 
-def clean_path(p) -> str:
+def clean_path(p: str) -> str:
     """Clean a path.
 
     Expand user and environment variables anensuring absolute path.
@@ -170,11 +170,13 @@ def load_file_template(path: str) -> StringIO:
     return template
 
 
-def load_package_template(license, header=False):
+def load_package_template(
+    license_name: str, *, header: bool = False
+) -> StringIO:
     """Load license template distributed with package."""
     content = StringIO()
     filename = "template-%s-header.txt" if header else "template-%s.txt"
-    with resource_stream(__name__, filename % license) as licfile:
+    with resource_stream(__name__, filename % license_name) as licfile:
         for line in licfile:
             content.write(line.decode("utf-8"))  # write utf-8 string
     return content
@@ -240,8 +242,8 @@ def get_suffix(name: str) -> Union[str, bool]:
     return False
 
 
-def main() -> None:
-    """Main program loop."""
+def get_args() -> argparse.Namespace:
+    """Set up the arg parsing and return it."""
 
     def valid_year(string: str) -> str:
         if not re.match(r"^\d{4}$", string):
@@ -326,7 +328,12 @@ def main() -> None:
         help="list available source code formatting languages",
     )
 
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main() -> None:
+    """Main program loop."""
+    args = get_args()
 
     # do license stuff
     license_name = args.license or DEFAULT_LICENSE
