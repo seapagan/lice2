@@ -33,6 +33,7 @@ lice = "lice2.core:main"
 [tool.poetry.dependencies]
 python = "^3.9"
 rich = "^13.7.1"
+simple-toml-settings = "^0.7.0"
 
 [tool.poetry.group.dev.dependencies]
 # linting, type-checking and security checks

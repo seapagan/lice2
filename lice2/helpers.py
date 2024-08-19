@@ -16,6 +16,7 @@ from rich.table import Table
 from rich.text import Text
 
 from lice2 import resource_stream
+from lice2.config import settings
 from lice2.constants import LANG_CMT, LANGS, LICENSES
 
 
@@ -29,10 +30,14 @@ def clean_path(p: str) -> str:
 
 
 def guess_organization() -> str:
-    """Guess the organization from `git config`.
+    """First, try to get fom the settings file.
 
+    If this is blank, guess the organization from `git config`.
     If that can't be found, fall back to $USER environment variable.
     """
+    if settings.organization:
+        return settings.organization
+
     try:
         stdout = subprocess.check_output("git config --get user.name".split())  # noqa: S603
         org = stdout.strip().decode("UTF-8")
@@ -235,3 +240,18 @@ def generate_header(
     sys.stdout.write(out.getvalue())
     out.close()  # free content memory (paranoic memory stuff)
     sys.exit(0)
+
+
+def get_license_name(args: argparse.Namespace) -> str:
+    """Check the given license name is valid.
+
+    This would be caught on the CLI, but not if there is a typo in the config
+    file.
+    """
+    license_name = args.license or settings.default_license
+    if license_name not in LICENSES:
+        sys.exit(
+            f"License '{license_name}' not found - perhaps the config file "
+            "has a typo?\nRun 'lice --licenses' to see available licenses"
+        )
+    return license_name

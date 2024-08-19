@@ -1,6 +1,14 @@
-# lice
+# lice <!-- omit in toc -->
 
 Lice generates license files. No more hunting down licenses from other projects.
+
+- [Changes from the original 'Lice' project](#changes-from-the-original-lice-project)
+- [Installation](#installation)
+- [Overview](#overview)
+- [I want XXXXXXXXX license in here!](#i-want-xxxxxxxxx-license-in-here)
+- [Usage](#usage)
+- [Config File](#config-file)
+- [Changelog](#changelog)
 
 ## Changes from the original 'Lice' project
 
@@ -171,6 +179,23 @@ are feeling generous, fork and submit a pull request.
       -f OFILE, --file OFILE Name of the output source file (with -l, extension can be omitted)
       --vars                list template variables for specified license
 ```
+
+## Config File
+
+The app will look for a config file in `~/.config/lice/config.toml`. This file
+can be used to set default values for the license and organization. The file
+will be created with defaults if it does not exist.
+
+```toml
+[lice]
+default_license = "mit"
+organization = "Grant Ramsay"
+schema_version = "1"
+```
+
+The `schema_version` is used to ensure that the config file is compatible with
+the current version of lice. If the schema version in the config file is not
+compatible with the current version of lice, the app will exit with an error.
 
 ## Changelog
 
