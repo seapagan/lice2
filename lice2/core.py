@@ -175,7 +175,9 @@ def load_package_template(
     """Load license template distributed with package."""
     content = StringIO()
     filename = "template-%s-header.txt" if header else "template-%s.txt"
-    with resource_stream(__name__, filename % license_name) as licfile:
+    with resource_stream(
+        __name__, f"templates/{filename % license_name}"
+    ) as licfile:
         for line in licfile:
             content.write(line.decode("utf-8"))  # write utf-8 string
     return content

@@ -8,6 +8,6 @@ def main() -> None:
 
     This is the legacy code, I'll probably refactor it later out of the init.
     """
-    from src.core import main
+    from lice2.core import main
 
     main()
