@@ -21,7 +21,7 @@ classifiers = [
 ]
 
 [tool.poetry.scripts]
-lice = "lice2:main"
+lice = "lice2.core:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -105,7 +105,7 @@ convention = "google"
 
 
 [tool.ruff.lint.isort]
-known-first-party = ["simple_toml_settings"]
+known-first-party = ["lice2"]
 
 [tool.ruff.lint.pyupgrade]
 keep-runtime-typing = true
