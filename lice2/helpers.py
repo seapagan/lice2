@@ -16,6 +16,7 @@ from rich.table import Table
 from rich.text import Text
 
 from lice2 import resource_stream
+from lice2.config import settings
 from lice2.constants import LANG_CMT, LANGS, LICENSES
 
 
@@ -29,10 +30,14 @@ def clean_path(p: str) -> str:
 
 
 def guess_organization() -> str:
-    """Guess the organization from `git config`.
+    """First, try to get fom the settings file.
 
+    If this is blank, guess the organization from `git config`.
     If that can't be found, fall back to $USER environment variable.
     """
+    if settings.organization:
+        return settings.organization
+
     try:
         stdout = subprocess.check_output("git config --get user.name".split())  # noqa: S603
         org = stdout.strip().decode("UTF-8")
