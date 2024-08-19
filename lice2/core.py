@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from lice2.cli import get_args
-from lice2.constants import DEFAULT_LICENSE
+from lice2.config import settings
 from lice2.helpers import (
     format_license,
     generate_header,
@@ -27,7 +27,7 @@ def main() -> None:
     args = get_args()
 
     # do license stuff
-    license_name = args.license or DEFAULT_LICENSE
+    license_name = args.license or settings.default_license
 
     # language
     lang = get_lang(args)
