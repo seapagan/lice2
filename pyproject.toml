@@ -8,6 +8,8 @@ readme = "README.md"
 
 packages = [{ include = "lice2", from = "." }]
 
+repository = "https://github.com/seapagan/lice2"
+
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
@@ -19,6 +21,11 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
 ]
+
+[tool.poetry.urls]
+"Pull Requests" = "https://github.com/seapagan/lice2/pulls"
+"Bug Tracker" = "https://github.com/seapagan/lice2/issues"
+"Changelog" = "https://github.com/seapagan/lice2/blob/main/CHANGELOG.md"
 
 [tool.poetry.scripts]
 lice = "lice2.core:main"
