@@ -25,6 +25,7 @@ lice = "lice2:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+rich = "^13.7.1"
 
 [tool.poetry.group.dev.dependencies]
 # linting, type-checking and security checks
