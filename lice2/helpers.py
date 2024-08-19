@@ -240,3 +240,18 @@ def generate_header(
     sys.stdout.write(out.getvalue())
     out.close()  # free content memory (paranoic memory stuff)
     sys.exit(0)
+
+
+def get_license_name(args: argparse.Namespace) -> str:
+    """Check the given license name is valid.
+
+    This would be caught on the CLI, but not if there is a typo in the config
+    file.
+    """
+    license_name = args.license or settings.default_license
+    if license_name not in LICENSES:
+        sys.exit(
+            f"License '{license_name}' not found - perhaps the config file "
+            "has a typo?\nRun 'lice --licenses' to see available licenses"
+        )
+    return license_name

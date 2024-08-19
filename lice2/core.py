@@ -6,13 +6,13 @@ import sys
 from pathlib import Path
 
 from lice2.cli import get_args
-from lice2.config import settings
 from lice2.helpers import (
     format_license,
     generate_header,
     generate_license,
     get_context,
     get_lang,
+    get_license_name,
     get_suffix,
     list_languages,
     list_licences,
@@ -26,8 +26,16 @@ def main() -> None:
     """Main program loop."""
     args = get_args()
 
+    # list available licenses and their template variables
+    if args.list_licenses:
+        list_licences()
+
+    # list available source formatting languages
+    if args.list_languages:
+        list_languages()
+
     # do license stuff
-    license_name = args.license or settings.default_license
+    license_name = get_license_name(args)
 
     # language
     lang = get_lang(args)
@@ -39,14 +47,6 @@ def main() -> None:
     # list template vars if requested
     if args.list_vars:
         list_vars(args, license_name)
-
-    # list available licenses and their template variables
-    if args.list_licenses:
-        list_licences()
-
-    # list available source formatting languages
-    if args.list_languages:
-        list_languages()
 
     # create context
     if args.template_path:
