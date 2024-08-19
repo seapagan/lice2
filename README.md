@@ -174,42 +174,5 @@ are feeling generous, fork and submit a pull request.
 
 ## Changelog
 
-### 0.6
-
-- Add PowerShell support (thanks to `danijeljw <https://github.com/danijeljw>`_)
-- Add Rust support (thanks to `alex179ohm <https://github.com/alex179ohm>`_)
-- Bugfixes (thanks to `ganziqim <https://github.com/ganziqim>`_)
-- Added support for Python 3.7 and 3.8, removed support for Python 3.4
-
-Tested against Python 2.7, 3.5, 3.6, 3.7, and 3.8.
-
-### 0.5
-
-- Add support for SCM alias for lisp-style comments (thanks to `ejmr <https://github.com/ejmr>`_)
-- Additional support for WTFPL and GPL2 licenses (thanks to `ejmr <https://github.com/ejmr>`_)
-- Support for Python 3.4 and 3.5 (thanks to `ejmr <https://github.com/ejmr>`_)
-
-### 0.4
-
-- Use ASCII instead of Unicode for templates (thanks to `tabletcorry <https://github.com/tabletcorry>`_)
-- Add Academic Free License ("AFL") v. 3.0 (thanks to `brianray <https://github.com/brianray>`_)
-- Add ISC (thanks to `masklinn <https://github.com/masklinn>`_)
-- Add tox support for testing (thanks to `lukaszb <https://github.com/lukaszb>`_)
-- Show defaults when listing template variables
-
-### 0.3
-
-- Generate source file headers for some liceneses
-- Discover available licenses at runtime
-- Use getpass module for retrieving username
-- Better unicode support for Python 3 (thanks to `astagi <https://github.com/astagi>`_)
-- Add Creative Commons licenese (thanks to `rjnienaber <https://github.com/rjnienaber>`_)
-
-### 0.2
-
-- Add AGPL 3 license
-- Add extra templates variables to GPL 2 and 3
-
-### 0.1
-
-- Initial release
+See the [CHANGELOG.md](CHANGELOG.md) file for details for this fork, and the
+[OLD_CHANGELOG.md](OLD_CHANGELOG.md) file for the original project.
