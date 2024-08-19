@@ -15,6 +15,10 @@ from io import StringIO
 from pathlib import Path
 from typing import IO, Union
 
+from rich.console import Console
+from rich.table import Table
+from rich.text import Text
+
 try:
     from pkg_resources import resource_listdir, resource_stream  # type: ignore
 except ImportError:
@@ -122,7 +126,7 @@ LANG_CMT = {
     "ruby": ["=begin", "", "=end"],
     "text": ["", "", ""],
     "unix": ["", "#", ""],
-    "rust": ["", "//" ""],
+    "rust": ["", "//", ""],
 }
 
 
@@ -403,6 +407,36 @@ def get_lang(args: argparse.Namespace) -> str:
     return lang
 
 
+def list_licences() -> None:
+    """List available licenses and their template variables."""
+    table = Table(title="Available Licenses")
+    table.add_column("License Name")
+    table.add_column("Variables")
+    for license_name in LICENSES:
+        template = load_package_template(license_name)
+        var_list = extract_vars(template)
+        table.add_row(license_name, ", ".join(var_list))
+        # sys.stdout.write("{} : {}\n".format(license_name, ",
+        # ".join(var_list)))
+
+    console = Console()
+    console.print(table)
+
+    sys.exit(0)
+
+
+def list_languages() -> None:
+    """List available source code formatting languages."""
+    console = Console(width=80)
+    languages = sorted(LANGS.keys())
+    text = Text(", ".join(languages))
+    console.print(
+        "The following source code formatting languages are supported:\n"
+    )
+    console.print(text)
+    sys.exit(0)
+
+
 def main() -> None:
     """Main program loop."""
     args = get_args()
@@ -423,19 +457,11 @@ def main() -> None:
 
     # list available licenses and their template variables
     if args.list_licenses:
-        for license_name in LICENSES:
-            template = load_package_template(license_name)
-            var_list = extract_vars(template)
-            sys.stdout.write(
-                "{} : {}\n".format(license_name, ", ".join(var_list))
-            )
-        sys.exit(0)
+        list_licences()
 
     # list available source formatting languages
     if args.list_languages:
-        for lang in sorted(LANGS.keys()):
-            sys.stdout.write(f"{lang}\n")
-        sys.exit(0)
+        list_languages()
 
     # create context
     if args.template_path:
