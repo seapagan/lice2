@@ -43,18 +43,18 @@ repos:
   - repo: https://github.com/python-poetry/poetry-plugin-export
     rev: "1.8.0"
     hooks:
-      # - id: poetry-export
-      #   name: "export production dependencies"
-      #   args:
-      #     [
-      #       "--without-hashes",
-      #       "-f",
-      #       "requirements.txt",
-      #       "-o",
-      #       "requirements.txt",
-      #       "--without",
-      #       "dev",
-      #     ]
+      - id: poetry-export
+        name: "export production dependencies"
+        args:
+          [
+            "--without-hashes",
+            "-f",
+            "requirements.txt",
+            "-o",
+            "requirements.txt",
+            "--without",
+            "dev",
+          ]
       - id: poetry-export
         name: "export development dependencies"
         args:

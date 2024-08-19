@@ -8,3 +8,4 @@ build
 .tox
 .coverage
 .vscode/
+.changelog_generator.toml
