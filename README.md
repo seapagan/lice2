@@ -33,7 +33,8 @@ In addition, future plans are to
 
 ## Installation
 
-Installation is standard. If you are using `pipx` (recommended) install it as:
+Installation is standard. If you are using [pipx](https://pipx.pypa.io/)
+(recommended) install it as:
 
 ```console
 pipx install lice2
