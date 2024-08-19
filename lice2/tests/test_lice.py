@@ -5,8 +5,8 @@ from io import StringIO
 from pathlib import Path
 
 import lice2
-from lice2.core import (
-    LICENSES,
+from lice2.constants import LICENSES
+from lice2.helpers import (
     clean_path,
     extract_vars,
     generate_license,
