@@ -30,6 +30,6 @@ except ImportError:
         ]
 
 
-__version__ = "0.7"
+__version__ = "0.8.0"
 
 __all__ = ["resource_listdir", "resource_stream"]
