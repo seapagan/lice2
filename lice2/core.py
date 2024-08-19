@@ -33,17 +33,17 @@ except ImportError:
         package_or_requirement: resources.Package, resource_name: str
     ) -> list[str]:
         """Emulate the 'resource_listdir' method."""
-        resource_qualname = f"{package_or_requirement}.{resource_name}".rstrip(
-            "."
-        )
+        resource_qualname = f"{package_or_requirement}".rstrip(".")
         return [
             r.name
-            for r in importlib.resources.files(resource_qualname).iterdir()
+            for r in importlib.resources.files(resource_qualname)
+            .joinpath(resource_name)
+            .iterdir()
         ]
 
 
 LICENSES: list[str] = []
-for file in sorted(resource_listdir(__name__, ".")):
+for file in sorted(resource_listdir(__name__, "templates")):
     match = re.match(r"template-([a-z0-9_]+).txt", file)
     if match:
         LICENSES.append(match.groups()[0])
@@ -175,7 +175,9 @@ def load_package_template(
     """Load license template distributed with package."""
     content = StringIO()
     filename = "template-%s-header.txt" if header else "template-%s.txt"
-    with resource_stream(__name__, filename % license_name) as licfile:
+    with resource_stream(
+        __name__, f"templates/{filename % license_name}"
+    ) as licfile:
         for line in licfile:
             content.write(line.decode("utf-8"))  # write utf-8 string
     return content

@@ -6,7 +6,7 @@ authors = ["Grant Ramsay <seapagan@gmail.com>"]
 license = "BSD"
 readme = "README.md"
 
-packages = [{ include = "src", from = "."}]
+packages = [{ include = "lice2", from = "." }]
 
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -21,7 +21,7 @@ classifiers = [
 ]
 
 [tool.poetry.scripts]
-lice = "src:main"
+lice = "lice2:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -63,7 +63,7 @@ filterwarnings = []
 mock_use_standalone_module = true
 
 [tool.coverage.run]
-source = ["src"]
+source = ["lice2"]
 omit = ["*/tests/*"]
 
 [tool.ruff]
@@ -82,8 +82,8 @@ lint.extend-ignore = [
   "ISC001",
 ] # these are ignored for ruff formatting
 
-src = ["src"]
-target-version = "py39"        # minimum python version supported
+src = ["lice2"]
+target-version = "py39" # minimum python version supported
 
 [tool.ruff.format]
 indent-style = "space"
@@ -96,7 +96,7 @@ classmethod-decorators = ["pydantic.validator", "pydantic.root_validator"]
 convention = "google"
 
 [tool.ruff.lint.extend-per-file-ignores]
-"src/tests/**/*.py" = [
+"lice2/tests/**/*.py" = [
   "S101",   # we can (and MUST!) use 'assert' in test files.
   "ANN001", # annotations for fixtures are sometimes a pain for test files
   "ARG00",  # test fixtures often are not directly used

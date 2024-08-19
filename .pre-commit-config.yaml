@@ -19,13 +19,13 @@ repos:
       - id: ruff-format
         name: "format with ruff"
 
-  - repo: https://github.com/jackdewinter/pymarkdown
-    rev: v0.9.22
-    hooks:
-      - id: pymarkdown
-        name: "check markdown"
-        exclude: ^.github/|CHANGELOG|README
-        args: [-d, "MD046", scan]
+  # - repo: https://github.com/jackdewinter/pymarkdown
+  #   rev: v0.9.22
+  #   hooks:
+  #     - id: pymarkdown
+  #       name: "check markdown"
+  #       exclude: ^.github/|CHANGELOG|README
+  #       args: [-d, "MD046", scan]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: "v1.11.1" # Use the sha / tag you want to point at
@@ -54,7 +54,7 @@ repos:
       #       "requirements.txt",
       #       "--without",
       #       "dev",
-     #     ]
+      #     ]
       - id: poetry-export
         name: "export development dependencies"
         args:

@@ -4,8 +4,8 @@ import os
 from io import StringIO
 from pathlib import Path
 
-import src
-from src.core import (
+import lice2
+from lice2.core import (
     LICENSES,
     clean_path,
     extract_vars,
@@ -14,7 +14,7 @@ from src.core import (
     load_package_template,
 )
 
-TEMPLATE_PATH = Path(src.__file__).parent
+TEMPLATE_PATH = Path(lice2.__file__).parent / "templates"
 
 
 def test_paths() -> None:
