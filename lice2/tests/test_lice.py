@@ -14,7 +14,7 @@ from lice2.core import (
     load_package_template,
 )
 
-TEMPLATE_PATH = Path(lice2.__file__).parent
+TEMPLATE_PATH = Path(lice2.__file__).parent / "templates"
 
 
 def test_paths() -> None:
