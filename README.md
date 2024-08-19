@@ -7,7 +7,7 @@ Lice generates license files. No more hunting down licenses from other projects.
 - [Overview](#overview)
 - [I want XXXXXXXXX license in here!](#i-want-xxxxxxxxx-license-in-here)
 - [Usage](#usage)
-- [Config File](#config-file)
+- [Config File \[development only\]](#config-file-development-only)
 - [Changelog](#changelog)
 
 ## Changes from the original 'Lice' project
@@ -180,7 +180,11 @@ are feeling generous, fork and submit a pull request.
       --vars                list template variables for specified license
 ```
 
-## Config File
+## Config File [development only]
+
+> [!WARNING]
+> This feature is only in the development version of lice, and is not yet
+> released to PyPI.
 
 The app will look for a config file in `~/.config/lice/config.toml`. This file
 can be used to set default values for the license and organization. The file
