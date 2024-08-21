@@ -41,7 +41,8 @@ def check_default_license() -> str:
 
         console.print()
         console.print(panel)
-    return "bsd3"
+        settings.default_license = "bsd3"
+    return settings.default_license
 
 
 settings = Settings.get_instance(
