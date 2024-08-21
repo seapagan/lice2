@@ -237,7 +237,7 @@ def generate_header(args: SimpleNamespace, lang: str) -> None:
     out.seek(0)
     sys.stdout.write(out.getvalue())
     out.close()  # free content memory (paranoic memory stuff)
-    raise typer.Exit(1)
+    raise typer.Exit(0)
 
 
 def validate_year(string: str) -> str:
