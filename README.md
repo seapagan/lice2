@@ -7,7 +7,7 @@ Lice generates license files. No more hunting down licenses from other projects.
 - [Overview](#overview)
 - [I want XXXXXXXXX license in here!](#i-want-xxxxxxxxx-license-in-here)
 - [Usage](#usage)
-- [Config File \[development only\]](#config-file-development-only)
+- [Config File](#config-file)
 - [Changelog](#changelog)
 
 ## Changes from the original 'Lice' project
@@ -26,18 +26,18 @@ This version fixes the compatibility issue and updates the tooling :
 - It now uses [Poetry](https://python-poetry.org/) for dependency management
 - The code has been modernized and cleaned up, all type-hinting has been
 added
-- It passes strict linting with the latest 'Ruff'
-- GitHub actions set up for `Dependabot` and `Dependency Review`
+- Converted from 'argparse' to 'Typer' for CLI handling [dev version only]
+- It passes strict linting with the latest 'Ruff' and 'mypy'
+- GitHub actions set up for linting, `Dependabot` and `Dependency Review`
 
-In addition, future plans are to
+In addition, future plans are to:
 
-- Convert from 'argparse' to 'Typer' for CLI handling.
 - Update the existing test suite to full coverage, its at about 39% right now.
 - Integrate with 'codacy' for code-quality and test coverage checks.
 
 > [!IMPORTANT]
-> This library is now only compatible with Python 3.9 and above. If you wish to
-> use an older version, use the original 'lice' package.
+> This appllication is now only compatible with Python 3.9 and above. If you
+> wish to use an older version, use the original 'lice' package.
 
 ## Installation
 
@@ -154,33 +154,48 @@ are feeling generous, fork and submit a pull request.
 
 ## Usage
 
+You can get help on the command line with `lice --help`:
+
 ```console
-    usage: lice [-h] [-o ORGANIZATION] [-p PROJECT] [-t TEMPLATE_PATH] [-y YEAR]
-                [--vars] [license]
+$ lice --help
 
-    positional arguments:
-      license               the license to generate, one of: agpl3, apache, bsd2,
-                            bsd3, cddl, cc0, epl, gpl2, gpl3, lgpl, mit, mpl
+ Usage: lice [OPTIONS] [license]
 
-    optional arguments:
-      -h, --help            show this help message and exit
-      -o ORGANIZATION, --org ORGANIZATION
-                            organization, defaults to .gitconfig or
-                            os.environ["USER"]
-      -p PROJECT, --proj PROJECT
-                            name of project, defaults to name of current directory
-      -t TEMPLATE_PATH, --template TEMPLATE_PATH
-                            path to license template file
-      -y YEAR, --year YEAR  copyright year
-      -l LANGUAGE, --language LANGUAGE
-                            format output for language source file, one of: js, f,
-                            css, c, m, java, py, cc, h, html, lua, erl, rb, sh,
-                            f90, hpp, cpp, pl, txt [default is not formatted (txt)]
-      -f OFILE, --file OFILE Name of the output source file (with -l, extension can be omitted)
-      --vars                list template variables for specified license
+ Generates a license template with context variables, and can optionally write this to a file.
+
+╭─ Arguments ───────────────────────────────────────────────────────────────────────────────────────╮
+│   license_name      [license]  the license to generate, one of: afl3, agpl3, apache, bsd2, bsd3,  │
+│                                cc0, cc_by, cc_by_nc, cc_by_nc_nd, cc_by_nc_sa, cc_by_nd,          │
+│                                cc_by_sa, cddl, epl, gpl2, gpl3, isc, lgpl, mit, mpl, wtfpl, zlib  │
+│                                [default: bsd3]                                                    │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────╮
+│ --header                            generate source file header for specified license             │
+│ --org                 -o      TEXT  organization, defaults to .gitconfig or os.environ["USER"]    │
+│                                     [default: <as above>]                                         │
+│ --proj                -p      TEXT  name of project, defaults to name of current directory        │
+│                                     [default: <current folder>]                                   │
+│ --template            -t      TEXT  path to license template file [default: None]                 │
+│ --year                -y      TEXT  copyright year [default: <current year>]                      │
+│ --language            -l      TEXT  format output for language source file, one of: agda, c, cc,  │
+│                                     clj, cpp, css, el, erl, f, f90, h, hpp, hs, html, idr, java,  │
+│                                     js, lisp, lua, m, ml, php, pl, py, ps, rb, scm, sh, txt, rs   │
+│                                     [default: txt]                                                │
+│ --file                -f      TEXT  Name of the output source file (with -l, extension can be     │
+│                                     ommitted)                                                     │
+│                                     [default: stdout]                                             │
+│ --vars                              list template variables for specified license                 │
+│ --licenses                          list available license templates and their parameters         │
+│ --languages                         list available source code formatting languages               │
+│ --install-completion                Install completion for the current shell.                     │
+│ --show-completion                   Show completion for the current shell, to copy it or          │
+│                                     customize the installation.                                   │
+│ --help                -h            Show this message and exit.                                   │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────╯
+
 ```
 
-## Config File [development only]
+## Config File
 
 > [!WARNING]
 > This feature is only in the development version of lice, and is not yet
@@ -200,6 +215,9 @@ schema_version = "1"
 The `schema_version` is used to ensure that the config file is compatible with
 the current version of lice. If the schema version in the config file is not
 compatible with the current version of lice, the app will exit with an error.
+
+The 'default_license' is checked at run-time, and if it is not valid then it
+falls back to the BSD-3 license.
 
 ## Changelog
 
