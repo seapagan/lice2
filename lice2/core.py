@@ -38,6 +38,7 @@ app = typer.Typer()
         "Generates a license template with context variables, and can "
         "optionally write this to a file."
     ),
+    context_settings={"help_option_names": ["-h", "--help"]},
 )
 def main(  # noqa: PLR0913
     license_name: Annotated[
