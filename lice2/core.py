@@ -44,7 +44,7 @@ def main(  # noqa: PLR0913
     license_name: Annotated[
         str,
         typer.Argument(
-            help=f"the license to generate, one of: {', '.join(LICENSES)}",
+            help=f"The license to generate, one of: {', '.join(LICENSES)}",
             callback=validate_license,
             metavar="[license]",
         ),
@@ -52,7 +52,7 @@ def main(  # noqa: PLR0913
     header: Annotated[
         bool,
         typer.Option(
-            "--header", help="generate source file header for specified license"
+            "--header", help="Generate source file header for specified license"
         ),
     ] = False,
     organization: Annotated[
@@ -60,7 +60,7 @@ def main(  # noqa: PLR0913
         typer.Option(
             "--org",
             "-o",
-            help='organization, defaults to .gitconfig or os.environ["USER"]',
+            help='Organization, defaults to .gitconfig or os.environ["USER"]',
         ),
     ] = guess_organization(),
     project: Annotated[
@@ -68,7 +68,7 @@ def main(  # noqa: PLR0913
         typer.Option(
             "--proj",
             "-p",
-            help="name of project, defaults to name of current directory",
+            help="Name of project, defaults to name of current directory",
         ),
     ] = Path.cwd().name,
     template_path: Annotated[
@@ -76,13 +76,13 @@ def main(  # noqa: PLR0913
         typer.Option(
             "--template",
             "-t",
-            help="path to license template file",
+            help="Path to license template file",
         ),
     ] = None,
     year: Annotated[
         Optional[str],
         typer.Option(
-            "--year", "-y", help="copyright year", callback=validate_year
+            "--year", "-y", help="Copyright year", callback=validate_year
         ),
     ] = "%i" % datetime.now().date().year,  # noqa: DTZ005
     language: Annotated[
@@ -91,7 +91,7 @@ def main(  # noqa: PLR0913
             "--language",
             "-l",
             help=(
-                "format output for language source file, one of: "
+                "Format output for language source file, one of: "
                 f"{', '.join(LANGS.keys())} "
                 f"[dim]{escape('[default: txt]')}[/dim]"
             ),
@@ -113,21 +113,21 @@ def main(  # noqa: PLR0913
         Optional[bool],
         typer.Option(
             "--vars",
-            help="list template variables for specified license",
+            help="List template variables for specified license",
         ),
     ] = None,
     show_licenses: Annotated[
         bool,
         typer.Option(
             "--licenses",
-            help="list available license templates and their parameters",
+            help="List available license templates and their parameters",
         ),
     ] = False,
     show_languages: Annotated[
         bool,
         typer.Option(
             "--languages",
-            help="list available source code formatting languages",
+            help="List available source code formatting languages",
         ),
     ] = False,
 ) -> None:
