@@ -9,6 +9,7 @@ from types import SimpleNamespace
 from typing import Annotated, Optional
 
 import typer
+from rich.markup import escape  # noqa: TCH002
 
 from lice2.config import check_default_license
 from lice2.constants import LANGS, LICENSES  # noqa: TCH001
@@ -29,7 +30,7 @@ from lice2.helpers import (
     validate_year,
 )
 
-app = typer.Typer()
+app = typer.Typer(rich_markup_mode="rich")
 
 
 @app.command(
@@ -47,7 +48,6 @@ def main(  # noqa: PLR0913
             callback=validate_license,
             metavar="[license]",
         ),
-        # ] = settings.default_license,
     ] = check_default_license(),
     header: Annotated[
         bool,
@@ -92,8 +92,10 @@ def main(  # noqa: PLR0913
             "-l",
             help=(
                 "format output for language source file, one of: "
-                f"{', '.join(LANGS.keys())} [default is not formatted (txt)]"
+                f"{', '.join(LANGS.keys())} "
+                f"[dim]{escape('[default: txt]')}[/dim]"
             ),
+            show_default=False,
         ),
     ] = None,
     ofile: Annotated[
