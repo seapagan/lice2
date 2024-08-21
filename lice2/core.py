@@ -10,7 +10,7 @@ from typing import Annotated, Optional
 
 import typer
 
-from lice2.config import settings
+from lice2.config import check_default_license
 from lice2.constants import LANGS, LICENSES  # noqa: TCH001
 from lice2.helpers import (
     format_license,
@@ -18,7 +18,6 @@ from lice2.helpers import (
     generate_license,
     get_context,
     get_lang,
-    get_license_name,
     get_suffix,
     guess_organization,
     list_languages,
@@ -42,13 +41,14 @@ app = typer.Typer()
 )
 def main(  # noqa: PLR0913
     license_name: Annotated[
-        Optional[str],
+        str,
         typer.Argument(
             help=f"the license to generate, one of: {', '.join(LICENSES)}",
             callback=validate_license,
             metavar="[license]",
         ),
-    ] = settings.default_license,
+        # ] = settings.default_license,
+    ] = check_default_license(),
     header: Annotated[
         bool,
         typer.Option(
@@ -159,15 +159,12 @@ def main(  # noqa: PLR0913
     if args.list_languages:
         list_languages()
 
-    # do license stuff
-    license_name = get_license_name(args)
-
     # language
     lang = get_lang(args)
 
     # generate header if requested
     if header:
-        generate_header(args, license_name, lang)
+        generate_header(args, lang)
 
     # list template vars if requested
     if args.list_vars:

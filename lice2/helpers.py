@@ -218,15 +218,13 @@ def list_vars(args: SimpleNamespace, license_name: str) -> None:
     raise typer.Exit(0)
 
 
-def generate_header(
-    args: SimpleNamespace, license_name: str, lang: str
-) -> None:
+def generate_header(args: SimpleNamespace, lang: str) -> None:
     """Generate a file header for the given license and language."""
     if args.template_path:
         template = load_file_template(args.template_path)
     else:
         try:
-            template = load_package_template(license_name, header=True)
+            template = load_package_template(args.license, header=True)
         except OSError:
             sys.stderr.write(
                 "Sorry, no source headers are available for "
@@ -242,22 +240,6 @@ def generate_header(
     raise typer.Exit(1)
 
 
-def get_license_name(args: SimpleNamespace) -> str:
-    """Check the given license name is valid.
-
-    This would be caught on the CLI, but not if there is a typo in the config
-    file.
-    """
-    license_name = args.license or settings.default_license
-    if license_name not in LICENSES:
-        message = (
-            f"License '{license_name}' not found - perhaps the config file "
-            "has a typo?\nRun 'lice --licenses' to see available licenses"
-        )
-        raise typer.Exit(message)
-    return license_name
-
-
 def validate_year(string: str) -> str:
     """Validate the year is a four-digit number."""
     if not re.match(r"^\d{4}$", string):
@@ -270,8 +252,8 @@ def validate_license(license_name: str) -> str:
     """Validate the license is in the list of available licenses."""
     if license_name not in LICENSES:
         message = (
-            f"License '{license_name}' not found - please run 'lice --licenses'"
-            " to get a list of available licenses."
+            f"License '{license_name}' not found - please run 'lice "
+            "--licenses' to get a list of available licenses."
         )
         raise typer.BadParameter(message)
     return license_name
