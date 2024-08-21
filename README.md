@@ -4,6 +4,7 @@ Lice generates license files. No more hunting down licenses from other projects.
 
 - [Changes from the original 'Lice' project](#changes-from-the-original-lice-project)
 - [Installation](#installation)
+  - [Autocompletion](#autocompletion)
 - [Overview](#overview)
 - [I want XXXXXXXXX license in here!](#i-want-xxxxxxxxx-license-in-here)
 - [Usage](#usage)
@@ -52,6 +53,14 @@ Otherwise use `pip` as standard:
 
 ```console
 pip install lice2
+```
+
+### Autocompletion
+
+To enable autocompletion for lice options, run the following command:
+
+```console
+lice --install-completion
 ```
 
 ## Overview

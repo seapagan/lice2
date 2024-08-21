@@ -35,7 +35,7 @@ app = typer.Typer(rich_markup_mode="rich")
 
 @app.command(
     help=(
-        "Generates a license template with context variables, and can "
+        "Generates a license template with context variables, and "
         "optionally write this to a file."
     ),
     context_settings={"help_option_names": ["-h", "--help"]},
