@@ -28,7 +28,7 @@ classifiers = [
 "Changelog" = "https://github.com/seapagan/lice2/blob/main/CHANGELOG.md"
 
 [tool.poetry.scripts]
-lice = "lice2.core:run"
+lice = "lice2.core:app"
 
 [tool.poetry.dependencies]
 python = "^3.9"

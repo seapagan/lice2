@@ -30,13 +30,22 @@ from lice2.helpers import (
     validate_year,
 )
 
+app = typer.Typer()
 
+
+@app.command(
+    help=(
+        "Generates a license template with context variables, and can "
+        "optionally write this to a file."
+    ),
+)
 def main(  # noqa: PLR0913
     license_name: Annotated[
         Optional[str],
         typer.Argument(
             help=f"the license to generate, one of: {', '.join(LICENSES)}",
             callback=validate_license,
+            metavar="[license]",
         ),
     ] = settings.default_license,
     header: Annotated[
@@ -119,7 +128,11 @@ def main(  # noqa: PLR0913
         ),
     ] = False,
 ) -> None:
-    """Generate a license file."""
+    """Generate a license file.
+
+    Can generate a license file, a source file header, or list available
+    licenses, template variables, and source code formatting.
+    """
     # get the args into a dict to avoid refactoring all the code...
     args_base: dict[str, str | bool | None] = {
         "license": license_name,
@@ -187,10 +200,5 @@ def main(  # noqa: PLR0913
     out.close()  # free content memory (paranoic memory stuff)
 
 
-def run() -> None:
-    """Run the main program loop."""
-    typer.run(main)
-
-
 if __name__ == "__main__":
-    run()
+    app()
