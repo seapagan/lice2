@@ -3,7 +3,7 @@
 This is an auto-generated log of all the changes that have been made to the
 project since release 0.7.0.
 
-For the origigal changelog, please refer to the [OLD_CHANGELOG.md](OLD_CHANGELOG.md).
+For the original changelog, please refer to the [OLD_CHANGELOG.md](OLD_CHANGELOG.md).
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 **New Features**
 
+- Convert CLI from 'argparse' to 'typer' ([#8](https://github.com/seapagan/lice2/pull/8)) by [seapagan](https://github.com/seapagan)
 - Add config file functionality ([#7](https://github.com/seapagan/lice2/pull/7)) by [seapagan](https://github.com/seapagan)
 
 [`Full Changelog`](https://github.com/seapagan/lice2/compare/0.8.0...HEAD) | [`Diff`](https://github.com/seapagan/lice2/compare/0.8.0...HEAD.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.8.0...HEAD.patch)
