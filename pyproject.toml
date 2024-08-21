@@ -44,6 +44,7 @@ ruff = ">=0.6.0"
 pymarkdownlnt = ">=0.9.21"
 
 # testing
+pyfakefs = "^5.6.0"
 pytest = ">=8.3.2"
 pytest-cov = ">=4,<6"
 pytest-sugar = ">=0.9.7,<1.1.0"
