@@ -62,7 +62,7 @@ def get_lang(args: SimpleNamespace) -> str:
     if lang and lang not in LANGS:
         sys.stderr.write(
             "I do not know about a language ending with "
-            f"extension {lang}.\n"
+            f"extension '{lang}'.\n"
             "Please send a pull request adding this language to\n"
             "https://github.com/seapagan/lice2. Thanks!\n"
         )
