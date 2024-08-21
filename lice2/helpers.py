@@ -1,6 +1,5 @@
 """Helper functions for LICE2."""
 
-import argparse
 import getpass
 import os
 import re
@@ -9,8 +8,10 @@ import sys
 from contextlib import closing
 from io import StringIO
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Union
 
+import typer
 from rich.console import Console
 from rich.table import Table
 from rich.text import Text
@@ -46,7 +47,7 @@ def guess_organization() -> str:
     return org
 
 
-def get_context(args: argparse.Namespace) -> dict[str, str]:
+def get_context(args: SimpleNamespace) -> dict[str, str]:
     """Return the context vars from the provided args."""
     return {
         "year": args.year,
@@ -55,7 +56,7 @@ def get_context(args: argparse.Namespace) -> dict[str, str]:
     }
 
 
-def get_lang(args: argparse.Namespace) -> str:
+def get_lang(args: SimpleNamespace) -> str:
     """Check the specified language is supported."""
     lang: str = args.language
     if lang and lang not in LANGS:
@@ -65,11 +66,11 @@ def get_lang(args: argparse.Namespace) -> str:
             "Please send a pull request adding this language to\n"
             "https://github.com/seapagan/lice2. Thanks!\n"
         )
-        sys.exit(1)
+        raise typer.Exit(1)
     return lang
 
 
-def list_licences() -> None:
+def list_licenses() -> None:
     """List available licenses and their template variables."""
     table = Table(title="Available Licenses")
     table.add_column("License Name")
@@ -78,13 +79,11 @@ def list_licences() -> None:
         template = load_package_template(license_name)
         var_list = extract_vars(template)
         table.add_row(license_name, ", ".join(var_list))
-        # sys.stdout.write("{} : {}\n".format(license_name, ",
-        # ".join(var_list)))
 
     console = Console()
     console.print(table)
 
-    sys.exit(0)
+    raise typer.Exit(0)
 
 
 def list_languages() -> None:
@@ -96,7 +95,8 @@ def list_languages() -> None:
         "The following source code formatting languages are supported:\n"
     )
     console.print(text)
-    sys.exit(0)
+
+    raise typer.Exit(0)
 
 
 def load_file_template(path: str) -> StringIO:
@@ -188,7 +188,7 @@ def get_suffix(name: str) -> Union[str, None]:
     return None
 
 
-def list_vars(args: argparse.Namespace, license_name: str) -> None:
+def list_vars(args: SimpleNamespace, license_name: str) -> None:
     """List the variables for the given template."""
     context = get_context(args)
 
@@ -215,11 +215,11 @@ def list_vars(args: argparse.Namespace, license_name: str) -> None:
             "contains no variables.\n"
         )
 
-    sys.exit(0)
+    raise typer.Exit(0)
 
 
 def generate_header(
-    args: argparse.Namespace, license_name: str, lang: str
+    args: SimpleNamespace, license_name: str, lang: str
 ) -> None:
     """Generate a file header for the given license and language."""
     if args.template_path:
@@ -232,17 +232,17 @@ def generate_header(
                 "Sorry, no source headers are available for "
                 f"{args.license}.\n"
             )
-            sys.exit(1)
+            raise typer.Exit(1) from None
 
     content = generate_license(template, get_context(args))
     out = format_license(content, lang)
     out.seek(0)
     sys.stdout.write(out.getvalue())
     out.close()  # free content memory (paranoic memory stuff)
-    sys.exit(0)
+    raise typer.Exit(1)
 
 
-def get_license_name(args: argparse.Namespace) -> str:
+def get_license_name(args: SimpleNamespace) -> str:
     """Check the given license name is valid.
 
     This would be caught on the CLI, but not if there is a typo in the config
@@ -250,8 +250,28 @@ def get_license_name(args: argparse.Namespace) -> str:
     """
     license_name = args.license or settings.default_license
     if license_name not in LICENSES:
-        sys.exit(
+        message = (
             f"License '{license_name}' not found - perhaps the config file "
             "has a typo?\nRun 'lice --licenses' to see available licenses"
         )
+        raise typer.Exit(message)
+    return license_name
+
+
+def validate_year(string: str) -> str:
+    """Validate the year is a four-digit number."""
+    if not re.match(r"^\d{4}$", string):
+        message = "Must be a four-digit year"
+        raise typer.BadParameter(message)
+    return string
+
+
+def validate_license(license_name: str) -> str:
+    """Validate the license is in the list of available licenses."""
+    if license_name not in LICENSES:
+        message = (
+            f"License '{license_name}' not found - please run 'lice --licenses'"
+            " to get a list of available licenses."
+        )
+        raise typer.BadParameter(message)
     return license_name

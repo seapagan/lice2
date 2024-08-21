@@ -28,12 +28,13 @@ classifiers = [
 "Changelog" = "https://github.com/seapagan/lice2/blob/main/CHANGELOG.md"
 
 [tool.poetry.scripts]
-lice = "lice2.core:main"
+lice = "lice2.core:run"
 
 [tool.poetry.dependencies]
 python = "^3.9"
 rich = "^13.7.1"
 simple-toml-settings = "^0.7.0"
+typer = "^0.12.4"
 
 [tool.poetry.group.dev.dependencies]
 # linting, type-checking and security checks

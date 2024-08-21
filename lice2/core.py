@@ -3,9 +3,15 @@
 from __future__ import annotations
 
 import sys
+from datetime import datetime
 from pathlib import Path
+from types import SimpleNamespace
+from typing import Annotated, Optional
 
-from lice2.cli import get_args
+import typer
+
+from lice2.config import settings
+from lice2.constants import LANGS, LICENSES  # noqa: TCH001
 from lice2.helpers import (
     format_license,
     generate_header,
@@ -14,21 +20,126 @@ from lice2.helpers import (
     get_lang,
     get_license_name,
     get_suffix,
+    guess_organization,
     list_languages,
-    list_licences,
+    list_licenses,
     list_vars,
     load_file_template,
     load_package_template,
+    validate_license,
+    validate_year,
 )
 
 
-def main() -> None:
-    """Main program loop."""
-    args = get_args()
+def main(  # noqa: PLR0913
+    license_name: Annotated[
+        Optional[str],
+        typer.Argument(
+            help=f"the license to generate, one of: {', '.join(LICENSES)}",
+            callback=validate_license,
+        ),
+    ] = settings.default_license,
+    header: Annotated[
+        bool,
+        typer.Option(
+            "--header", help="generate source file header for specified license"
+        ),
+    ] = False,
+    organization: Annotated[
+        str,
+        typer.Option(
+            "--org",
+            "-o",
+            help='organization, defaults to .gitconfig or os.environ["USER"]',
+        ),
+    ] = guess_organization(),
+    project: Annotated[
+        str,
+        typer.Option(
+            "--proj",
+            "-p",
+            help="name of project, defaults to name of current directory",
+        ),
+    ] = Path.cwd().name,
+    template_path: Annotated[
+        Optional[str],
+        typer.Option(
+            "--template",
+            "-t",
+            help="path to license template file",
+        ),
+    ] = None,
+    year: Annotated[
+        Optional[str],
+        typer.Option(
+            "--year", "-y", help="copyright year", callback=validate_year
+        ),
+    ] = "%i" % datetime.now().date().year,  # noqa: DTZ005
+    language: Annotated[
+        Optional[str],
+        typer.Option(
+            "--language",
+            "-l",
+            help=(
+                "format output for language source file, one of: "
+                f"{', '.join(LANGS.keys())} [default is not formatted (txt)]"
+            ),
+        ),
+    ] = None,
+    ofile: Annotated[
+        Optional[str],
+        typer.Option(
+            "--file",
+            "-f",
+            help=(
+                "Name of the output source file (with -l, "
+                "extension can be ommitted)"
+            ),
+        ),
+    ] = "stdout",
+    show_vars: Annotated[
+        Optional[bool],
+        typer.Option(
+            "--vars",
+            help="list template variables for specified license",
+        ),
+    ] = None,
+    show_licenses: Annotated[
+        bool,
+        typer.Option(
+            "--licenses",
+            help="list available license templates and their parameters",
+        ),
+    ] = False,
+    show_languages: Annotated[
+        bool,
+        typer.Option(
+            "--languages",
+            help="list available source code formatting languages",
+        ),
+    ] = False,
+) -> None:
+    """Generate a license file."""
+    # get the args into a dict to avoid refactoring all the code...
+    args_base: dict[str, str | bool | None] = {
+        "license": license_name,
+        "header": header,
+        "organization": organization,
+        "project": project,
+        "template_path": template_path,
+        "year": year,
+        "language": language,
+        "ofile": ofile,
+        "list_vars": show_vars,
+        "list_licenses": show_licenses,
+        "list_languages": show_languages,
+    }
+    # convert to SimpleNamespace, so we can use dot notation
+    args = SimpleNamespace(**args_base)
 
     # list available licenses and their template variables
     if args.list_licenses:
-        list_licences()
+        list_licenses()
 
     # list available source formatting languages
     if args.list_languages:
@@ -41,7 +152,7 @@ def main() -> None:
     lang = get_lang(args)
 
     # generate header if requested
-    if args.header:
+    if header:
         generate_header(args, license_name, lang)
 
     # list template vars if requested
@@ -76,5 +187,10 @@ def main() -> None:
     out.close()  # free content memory (paranoic memory stuff)
 
 
+def run() -> None:
+    """Run the main program loop."""
+    typer.run(main)
+
+
 if __name__ == "__main__":
-    main()
+    run()
