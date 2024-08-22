@@ -17,6 +17,7 @@ from lice2.constants import LANGS, LICENSES
 from lice2.helpers import (
     clean_path,
     extract_vars,
+    format_license,
     generate_header,
     generate_license,
     get_context,
@@ -31,6 +32,7 @@ from lice2.helpers import (
     validate_license,
     validate_year,
 )
+from lice2.tests.conftest import TEMPLATE_FILE
 
 TEMPLATE_PATH = Path(lice2.__file__).parent / "templates"
 
@@ -272,6 +274,28 @@ def test_list_vars_not_in_context(
     assert "Awesome Co." not in captured.out
 
 
+def test_list_vars_from_template(
+    args: SimpleNamespace, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """Test the 'list_vars' function with a template path."""
+    args.template_path = Path.home() / "template.txt"
+
+    with pytest.raises(typer.Exit) as exc:
+        list_vars(args, "mit")
+
+    captured = capsys.readouterr()
+
+    assert exc.value.exit_code == 0
+    assert (
+        f"The {args.template_path} license template contains the following "
+        "variables and defaults:" in captured.out
+    )
+    assert "year" in captured.out
+    assert "2024" in captured.out
+    assert "organization" in captured.out
+    assert "Awesome Co." in captured.out
+
+
 def test_generate_header_none(
     args: SimpleNamespace, capsys: pytest.CaptureFixture[str]
 ) -> None:
@@ -302,6 +326,26 @@ def test_generate_header_exists(
     assert "# Licensed under the Apache License, Version 2.0" in captured.out
 
 
+def test_generate_header_from_template(
+    args: SimpleNamespace, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """Test the 'generate_header' function."""
+    args.template_path = Path.home() / "template.txt"
+
+    with pytest.raises(typer.Exit) as exc:
+        generate_header(args, "py")
+
+    captured = capsys.readouterr()
+
+    assert exc.value.exit_code == 0
+
+    assert "# This is a template file." in captured.out
+
+    assert "# Awesome Co. is the organization." in captured.out
+    assert "# my_project is the project." in captured.out
+    assert "# 2024 is the year." in captured.out
+
+
 def test_generate_license_missing_context(mocker: MockerFixture) -> None:
     """Test the 'generate_license' function with missing context."""
     # Mock the input template StringIO
@@ -317,6 +361,22 @@ def test_generate_license_missing_context(mocker: MockerFixture) -> None:
         generate_license(mock_template, {"year": "2024"})
 
     mock_out_instance.write.assert_not_called()
+
+
+def test_format_license_no_lang() -> None:
+    """Test the 'format_license' function."""
+    content = StringIO(TEMPLATE_FILE)
+    result = format_license(content, "")
+
+    # Adjust the TEMPLATE_FILE to match the expected output with a leading space
+    # on each line. This extra space is added by the 'format_license' function
+    # but may be removed in future versions as it's not really correct. This
+    # test will need to be updated if that happens.
+    adjusted_template = "\n".join(
+        " " + line for line in TEMPLATE_FILE.splitlines()
+    )
+
+    assert result.getvalue().strip() == adjusted_template.strip()
 
 
 def test_load_file_template_path_not_found() -> None:

@@ -11,6 +11,14 @@ import pytest
 if TYPE_CHECKING:
     from pyfakefs.fake_filesystem import FakeFilesystem
 
+TEMPLATE_FILE = """
+This is a template file.
+
+{{ organization }} is the organization.
+{{ project }} is the project.
+{{ year }} is the year.
+"""
+
 
 @pytest.fixture(autouse=True)
 def fake_config(fs: FakeFilesystem) -> FakeFilesystem:
@@ -23,6 +31,8 @@ def fake_config(fs: FakeFilesystem) -> FakeFilesystem:
         Path.home() / ".config/lice/lice.toml",
         contents="default_license = 'mit'\norganization = 'Awesome Co.'",
     )
+
+    fs.create_file(Path.home() / "template.txt", contents=TEMPLATE_FILE)
 
     # copy over the license templates so we can use them in the tests
     fs.add_real_directory(Path(__file__).parent.parent / "templates")
