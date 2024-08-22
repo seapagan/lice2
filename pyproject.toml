@@ -32,9 +32,9 @@ lice = "lice2.core:app"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-rich = "^13.7.1"
-simple-toml-settings = "^0.7.0"
-typer = "^0.12.4"
+rich = ">=13.7.1"
+simple-toml-settings = ">=0.8.0"
+typer = ">=0.12.4"
 
 [tool.poetry.group.dev.dependencies]
 # linting, type-checking and security checks
@@ -44,7 +44,7 @@ ruff = ">=0.6.0"
 pymarkdownlnt = ">=0.9.21"
 
 # testing
-pyfakefs = "^5.6.0"
+pyfakefs = ">=5.6.0"
 pytest = ">=8.3.2"
 pytest-cov = ">=4,<6"
 pytest-sugar = ">=0.9.7,<1.1.0"
@@ -55,7 +55,7 @@ mock = ">=5.1.0"
 poethepoet = ">=0.27.0"
 
 # changelog generation
-github-changelog-md = "^0.9.5"
+github-changelog-md = ">=0.9.5"
 
 [build-system]
 requires = ["poetry-core"]

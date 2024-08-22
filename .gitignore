@@ -9,3 +9,4 @@ build
 .coverage
 .vscode/
 .changelog_generator.toml
+.python-version
