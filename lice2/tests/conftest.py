@@ -2,9 +2,31 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 
 import pytest
+
+if TYPE_CHECKING:
+    from pyfakefs.fake_filesystem import FakeFilesystem
+
+
+@pytest.fixture(autouse=True)
+def fake_config(fs: FakeFilesystem) -> FakeFilesystem:
+    """Fixture to setup the fake filesystem for the tests.
+
+    This stops any tests interacting with the real filesystem.
+    """
+    # 'fs' is the fake filesystem object
+    fs.create_file(
+        Path.home() / ".config/lice/lice.toml",
+        contents="default_license = 'mit'\norganization = 'Awesome Co.'",
+    )
+
+    # copy over the license templates so we can use them in the tests
+    fs.add_real_directory(Path(__file__).parent.parent / "templates")
+    return fs
 
 
 @pytest.fixture
