@@ -1,4 +1,4 @@
 # Future Ideas for the project
 
-- Upgrade the test suite to full coverage.
-- Auyomatically send output to the clipboard.
+- Automatically send output to the clipboard.
+- Create a documentation site, using 'MkDocs'.
