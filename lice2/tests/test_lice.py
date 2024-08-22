@@ -9,8 +9,10 @@ from types import SimpleNamespace
 
 import pytest
 import typer
+from pytest_mock import MockerFixture
 
 import lice2
+from lice2.config import check_default_license
 from lice2.constants import LANGS, LICENSES
 from lice2.helpers import (
     clean_path,
@@ -211,7 +213,9 @@ def test_validate_license() -> None:
     assert "License 'bad' not found" in exc.value.message
 
 
-def test_list_vars_mit(args, capsys: pytest.CaptureFixture[str]) -> None:
+def test_list_vars_mit(
+    args: SimpleNamespace, capsys: pytest.CaptureFixture[str]
+) -> None:
     """Test the 'list_vars' function for a function with context vars."""
     with pytest.raises(typer.Exit) as exc:
         list_vars(args, "mit")
@@ -227,7 +231,9 @@ def test_list_vars_mit(args, capsys: pytest.CaptureFixture[str]) -> None:
     assert "organization" in captured.out
 
 
-def test_list_vars_gpl3(args, capsys: pytest.CaptureFixture[str]) -> None:
+def test_list_vars_gpl3(
+    args: SimpleNamespace, capsys: pytest.CaptureFixture[str]
+) -> None:
     """Test the 'list_vars' function for license with NO context vars."""
     with pytest.raises(typer.Exit) as exc:
         list_vars(args, "gpl3")
@@ -239,7 +245,9 @@ def test_list_vars_gpl3(args, capsys: pytest.CaptureFixture[str]) -> None:
 
 
 def test_list_vars_not_in_context(
-    args, capsys: pytest.CaptureFixture[str], mocker
+    args: SimpleNamespace,
+    capsys: pytest.CaptureFixture[str],
+    mocker: MockerFixture,
 ) -> None:
     """Test the 'list_vars' function with a variable NOT in the context.
 
@@ -264,7 +272,9 @@ def test_list_vars_not_in_context(
     assert "Awesome Co." not in captured.out
 
 
-def test_generate_header_none(args, capsys: pytest.CaptureFixture[str]) -> None:
+def test_generate_header_none(
+    args: SimpleNamespace, capsys: pytest.CaptureFixture[str]
+) -> None:
     """Test the 'generate_header' function."""
     with pytest.raises(typer.Exit) as exc:
         generate_header(args, "py")
@@ -276,7 +286,7 @@ def test_generate_header_none(args, capsys: pytest.CaptureFixture[str]) -> None:
 
 
 def test_generate_header_exists(
-    args, capsys: pytest.CaptureFixture[str]
+    args: SimpleNamespace, capsys: pytest.CaptureFixture[str]
 ) -> None:
     """Test the 'generate_header' function."""
     args.license = "apache"
@@ -292,7 +302,7 @@ def test_generate_header_exists(
     assert "# Licensed under the Apache License, Version 2.0" in captured.out
 
 
-def test_generate_license_missing_context(args, mocker) -> None:
+def test_generate_license_missing_context(mocker: MockerFixture) -> None:
     """Test the 'generate_license' function with missing context."""
     # Mock the input template StringIO
     mock_template = io.StringIO(
@@ -315,7 +325,7 @@ def test_load_file_template_path_not_found() -> None:
         load_file_template("bad/path/to/template.txt")
 
 
-def test_guess_organization_from_config(mocker) -> None:
+def test_guess_organization_from_config(mocker: MockerFixture) -> None:
     """Test the 'guess_organization' function.
 
     Testing when the organization is read from the config file.
@@ -325,7 +335,7 @@ def test_guess_organization_from_config(mocker) -> None:
     assert result == "Awesome Co."
 
 
-def test_guess_organization_from_git(mocker) -> None:
+def test_guess_organization_from_git(mocker: MockerFixture) -> None:
     """Test the 'guess_organization' function.
 
     Testing when the organization is read from git.
@@ -344,7 +354,7 @@ def test_guess_organization_from_git(mocker) -> None:
     assert result == "Mocked Git User"
 
 
-def test_guess_organization_from_user(mocker) -> None:
+def test_guess_organization_from_user(mocker: MockerFixture) -> None:
     """Test the 'guess_organization' function.
 
     Testing when the organization is read from the $USER environment variable.
@@ -367,3 +377,25 @@ def test_guess_organization_from_user(mocker) -> None:
 
     # Assert that the function falls back to the username
     assert result == "Mocked User"
+
+
+def test_bad_default_license(
+    mocker: MockerFixture, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """Test when the config file has a bad default license.
+
+    It should return bsd3 instead, and not raise an exception.
+    It should also print a warning message.
+    """
+    mocker.patch("lice2.config.settings", default_license="bad")
+
+    result = check_default_license()
+
+    captured = capsys.readouterr()
+
+    assert result == "bsd3"
+
+    assert (
+        "Invalid default license 'bad' in the configuration file"
+        in captured.out
+    )
