@@ -62,7 +62,7 @@ def get_lang(args: SimpleNamespace) -> str:
     if lang and lang not in LANGS:
         sys.stderr.write(
             "I do not know about a language ending with "
-            f"extension {lang}.\n"
+            f"extension '{lang}'.\n"
             "Please send a pull request adding this language to\n"
             "https://github.com/seapagan/lice2. Thanks!\n"
         )
@@ -237,7 +237,7 @@ def generate_header(args: SimpleNamespace, lang: str) -> None:
     out.seek(0)
     sys.stdout.write(out.getvalue())
     out.close()  # free content memory (paranoic memory stuff)
-    raise typer.Exit(1)
+    raise typer.Exit(0)
 
 
 def validate_year(string: str) -> str:

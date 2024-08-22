@@ -201,4 +201,4 @@ def main(  # noqa: PLR0913
 
 
 if __name__ == "__main__":
-    app()
+    app()  # pragma: no cover

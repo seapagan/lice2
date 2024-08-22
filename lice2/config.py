@@ -46,5 +46,9 @@ def check_default_license() -> str:
 
 
 settings = Settings.get_instance(
-    "lice", xdg_config=True, auto_create=True, schema_version="1"
+    "lice",
+    xdg_config=True,
+    auto_create=False,
+    allow_missing_file=True,
+    schema_version="1",
 )

@@ -6,15 +6,12 @@ from typing import IO
 try:
     from pkg_resources import resource_listdir, resource_stream  # type: ignore
 except ImportError:
-    import importlib.resources
 
     def resource_stream(
         package_or_requirement: resources.Package, resource_name: str
     ) -> IO[bytes]:
         """Emulate the 'resource_stream' method."""
-        ref = importlib.resources.files(package_or_requirement).joinpath(
-            resource_name
-        )
+        ref = resources.files(package_or_requirement).joinpath(resource_name)
         return ref.open("rb")
 
     def resource_listdir(
@@ -24,7 +21,7 @@ except ImportError:
         resource_qualname = f"{package_or_requirement}".rstrip(".")
         return [
             r.name
-            for r in importlib.resources.files(resource_qualname)
+            for r in resources.files(resource_qualname)
             .joinpath(resource_name)
             .iterdir()
         ]
