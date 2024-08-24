@@ -5,7 +5,7 @@ Thank you for your interest in contributing to Lice2! We welcome
 all contributions, big or small.
 
 If you are not sure where to start, please take a look at the [open
-issues](https://github.com/seapagan/simple-toml-settings/issues). If you have an
+issues](https://github.com/seapagan/lice2/issues). If you have an
 idea for a new feature or would like to report a bug, please open a new issue.
 
 We also welcome contributions to the documentation. If you find any errors or
@@ -26,7 +26,7 @@ Mac OS X. For Windows, you can use the
 [here](https://github.com/pyenv-win/pyenv-win#installation ) for installation
 instructions.
 
-- This project requires **Python 3.8** or higher.
+- This project requires **Python 3.9** or higher.
 
 - We also use [Poetry](https://python-poetry.org/) to manage our dependencies. You
 should have this installed as well. You can install Poetry by following the
@@ -169,7 +169,7 @@ These are to help with developing and updating the documentation.
 
 ## Guidelines
 
-Here are some guidelines to follow when contributing to Py-Maker:
+Here are some guidelines to follow when contributing to Lice2:
 
 - Do not update the version number in the `pyproject.toml` file. This will be
   done by the maintainers when a new release is made.
@@ -187,7 +187,7 @@ Here are some guidelines to follow when contributing to Py-Maker:
 - Make sure your code passes all tests before submitting a pull request.
 - Document your code using
   [docstrings](https://www.python.org/dev/peps/pep-0257/).
-- Use [GitHub issues](https://github.com/seapagan/simple-toml-settings/issues)
+- Use [GitHub issues](https://github.com/seapagan/lice2/issues)
   to report bugs or suggest new features.
 
 ## Contact
