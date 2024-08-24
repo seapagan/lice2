@@ -10,3 +10,4 @@ build
 .vscode/
 .changelog_generator.toml
 .python-version
+site/

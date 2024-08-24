@@ -8,7 +8,7 @@ For the original changelog, please refer to the [OLD_CHANGELOG.md](OLD_CHANGELOG
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased](https://github.com/seapagan/lice2/tree/HEAD)
+## [0.9.0](https://github.com/seapagan/lice2/releases/tag/0.9.0) (August 24, 2024)
 
 **New Features**
 
@@ -17,9 +17,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 **Testing**
 
-- WIP on improving tests ([#9](https://github.com/seapagan/lice2/pull/9)) by [seapagan](https://github.com/seapagan)
+- Improve test coverage ([#9](https://github.com/seapagan/lice2/pull/9)) by [seapagan](https://github.com/seapagan)
 
-[`Full Changelog`](https://github.com/seapagan/lice2/compare/0.8.0...HEAD) | [`Diff`](https://github.com/seapagan/lice2/compare/0.8.0...HEAD.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.8.0...HEAD.patch)
+**Documentation**
+
+- Create a docs website for the project ([#11](https://github.com/seapagan/lice2/pull/11)) by [seapagan](https://github.com/seapagan)
+
+[`Full Changelog`](https://github.com/seapagan/lice2/compare/0.8.0...0.9.0) | [`Diff`](https://github.com/seapagan/lice2/compare/0.8.0...0.9.0.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.8.0...0.9.0.patch)
 
 ## [0.8.0](https://github.com/seapagan/lice2/releases/tag/0.8.0) (August 19, 2024)
 
