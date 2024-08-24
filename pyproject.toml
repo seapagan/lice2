@@ -46,6 +46,7 @@ pymarkdownlnt = ">=0.9.21"
 # testing
 pyfakefs = ">=5.6.0"
 pytest = ">=8.3.2"
+pytest-clarity = "^1.0.1"
 pytest-cov = ">=4,<6"
 pytest-sugar = ">=0.9.7,<1.1.0"
 pytest-randomly = ">=3.13.0"
@@ -54,9 +55,16 @@ pytest-mock = ">=3.11.1"
 mock = ">=5.1.0"
 poethepoet = ">=0.27.0"
 
+# documentation
+github-changelog-md = ">=0.3,<1.0.0"
+mkdocs = "^1.4.3"
+mkdocs-autorefs = ">=0.5,<1.1"
+mkdocs-material = "^9.1.19"
+mkdocs-minify-plugin = ">=0.7,<0.9"
+pymdown-extensions = "^10.1"
+pygments = "^2.15.1"
+
 # changelog generation
-github-changelog-md = ">=0.9.5"
-pytest-clarity = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]
