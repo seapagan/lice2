@@ -31,6 +31,7 @@ This version fixes the compatibility issue and updates the tooling :
 - The code has been modernized and cleaned up, all type-hinting has been
 added
 - It passes strict linting with the latest 'Ruff' and 'mypy'
+- Added a documentation site.
 - GitHub actions set up for linting, `Dependabot` and `Dependency Review`
 
 In addition, future plans can be seen in the [TODO.md](TODO.md) file.
@@ -79,6 +80,9 @@ lice --install-completion
 ```
 
 ## Overview
+
+Full usage information is available on the documentation site at
+<https://seapagan.github.io/lice2>
 
 Generate a BSD-3 license, the default:
 
