@@ -49,6 +49,12 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Installation: installation.md
+  - Overview: overview.md
+  - Usage: usage.md
+  - Configuration: configuration.md
+  - Contributing: contributing.md
+  - Future Plans: future_plans.md
 
 extra_css:
   - css/extra.css
