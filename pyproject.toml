@@ -35,6 +35,7 @@ python = "^3.9"
 rich = ">=13.7.1"
 simple-toml-settings = ">=0.8.0"
 typer = ">=0.12.4"
+jinja2 = "^3.1.4"
 
 [tool.poetry.group.dev.dependencies]
 # linting, type-checking and security checks
