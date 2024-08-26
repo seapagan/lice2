@@ -54,6 +54,7 @@ nav:
   - Usage: usage.md
   - Configuration: configuration.md
   - Contributing: contributing.md
+  - Changelog: changelog.md
   - Future Plans: future_plans.md
 
 extra_css:
