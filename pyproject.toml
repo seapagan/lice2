@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lice2"
-version = "0.9.0"
+version = "0.10.0"
 description = "Generate license files for your projects"
 authors = ["Grant Ramsay <seapagan@gmail.com>"]
 license = "BSD"
@@ -9,6 +9,7 @@ readme = "README.md"
 packages = [{ include = "lice2", from = "." }]
 
 repository = "https://github.com/seapagan/lice2"
+homepage = "https://seapagan.github.io/lice2/"
 
 classifiers = [
   "Development Status :: 4 - Beta",

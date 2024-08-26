@@ -8,6 +8,14 @@ For the original changelog, please refer to the [OLD_CHANGELOG.md](OLD_CHANGELOG
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.10.0](https://github.com/seapagan/lice2/releases/tag/0.10.0) (August 26, 2024)
+
+**Bug Fixes**
+
+- Fix extra spaces and CR in output ([#14](https://github.com/seapagan/lice2/pull/14)) by [seapagan](https://github.com/seapagan)
+
+[`Full Changelog`](https://github.com/seapagan/lice2/compare/0.9.0...0.10.0) | [`Diff`](https://github.com/seapagan/lice2/compare/0.9.0...0.10.0.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.9.0...0.10.0.patch)
+
 ## [0.9.0](https://github.com/seapagan/lice2/releases/tag/0.9.0) (August 24, 2024)
 
 **New Features**
