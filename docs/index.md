@@ -32,7 +32,7 @@ In addition, future plans can be seen in the [Future Plans](future_plans.md)
 page.
 
 !!! warning "Python Compatibility"
-    This appllication is now only compatible with Python 3.9 and above. If you
+    This application is now only compatible with Python 3.9 and above. If you
     wish to use an older version, use the original 'lice' package.
 
     However, I'ts the **development** dependencies that are causing the

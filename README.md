@@ -234,10 +234,6 @@ $ lice --help
 
 ## Config File
 
-> [!WARNING]
-> This feature is only in the development version of lice, and is not yet
-> released to PyPI.
-
 The app will look for a config file in `~/.config/lice/config.toml`. This file
 can be used to set default values for the license and organization. The file
 will be created with defaults if it does not exist.
