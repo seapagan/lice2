@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lice2"
-version = "0.10.0"
+version = "0.10.1"
 description = "Generate license files for your projects"
 authors = ["Grant Ramsay <seapagan@gmail.com>"]
 license = "BSD"

@@ -8,6 +8,11 @@ For the original changelog, please refer to the [OLD_CHANGELOG.md](OLD_CHANGELOG
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.10.1](https://github.com/seapagan/lice2/releases/tag/0.10.1) (August 26, 2024)
+
+Purely a documentation fix so that the updated README gets to PyPI
+[`Full Changelog`](https://github.com/seapagan/lice2/compare/0.10.0...0.10.1) | [`Diff`](https://github.com/seapagan/lice2/compare/0.10.0...0.10.1.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.10.0...0.10.1.patch)
+
 ## [0.10.0](https://github.com/seapagan/lice2/releases/tag/0.10.0) (August 26, 2024)
 
 **Bug Fixes**
