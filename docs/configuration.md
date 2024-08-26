@@ -15,12 +15,18 @@ The TOML file should look like this:
 [lice]
 default_license = "mit"
 organization = "Your Organization"
+legacy = true
 ```
 
-Currently there are only two options that can be set:
+Currently there are only three options that can be set:
 
 - `default_license` - This is the default license that will be used if no
-  license is specified on the command line.
+  license is specified on the command line. If this option is not set, it will
+  default to `bsd3`.
 - `organization` - This is the organization name that will be used in the
   license by default. If this is set, it will not try to get the organization
   name from `git config` or the `$USER` environment variable.
+- `legacy` - This is a boolean value that will set the default style license
+  generation to the old style with extra spaces and newlines. If this option is
+  not set, it will default to `false`. See the [--legacy
+  option](usage.md#-legacy-option) for more information.

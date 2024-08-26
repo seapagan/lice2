@@ -11,7 +11,7 @@ from typing import Annotated, Optional
 import typer
 from rich.markup import escape  # noqa: TCH002
 
-from lice2.config import check_default_license
+from lice2.config import check_default_license, settings
 from lice2.constants import LANGS, LICENSES  # noqa: TCH001
 from lice2.helpers import (
     format_license,
@@ -153,7 +153,7 @@ def main(  # noqa: PLR0913
         "year": year,
         "language": language,
         "ofile": ofile,
-        "legacy": legacy,
+        "legacy": legacy or settings.legacy,
         "list_vars": show_vars,
         "list_licenses": show_licenses,
         "list_languages": show_languages,
