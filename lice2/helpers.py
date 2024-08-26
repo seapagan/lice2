@@ -198,7 +198,7 @@ def format_license(
         out.write(prefix)
         for line in template:
             # ensure no extra whitespace is added for blank lines
-            out.write(comment if line.strip() else comment.strip())
+            out.write(comment if line.strip() else comment.rstrip())
             out.write(line)
         out.write(postfix)
 

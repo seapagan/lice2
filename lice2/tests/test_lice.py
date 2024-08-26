@@ -389,6 +389,16 @@ def test_format_license_no_lang() -> None:
     assert result.getvalue() == TEMPLATE_FILE
 
 
+def test_format_license_empty_lines() -> None:
+    """Test the 'format_license' function with empty lines."""
+    content = StringIO("\n\nThis is a test.\n")
+    result = format_license(content, "py")
+
+    expected = "#\n#\n# This is a test.\n"
+
+    assert result.getvalue() == expected
+
+
 def test_load_file_template_path_not_found() -> None:
     """Test the 'load_file_template' function with a bad path."""
     with pytest.raises(ValueError, match="path does not exist"):
