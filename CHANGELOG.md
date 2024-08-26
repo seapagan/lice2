@@ -8,6 +8,22 @@ For the original changelog, please refer to the [OLD_CHANGELOG.md](OLD_CHANGELOG
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.10.2](https://github.com/seapagan/lice2/releases/tag/0.10.2) (August 26, 2024)
+
+**Closed Issues**
+
+- Formatting issue with 'c', 'java' style and languages using the same comment template ([#17](https://github.com/seapagan/lice2/issues/17)) by [seapagan](https://github.com/seapagan)
+
+**New Features**
+
+- Add markdown mapping (same as HTML) ([#19](https://github.com/seapagan/lice2/pull/19)) by [seapagan](https://github.com/seapagan)
+
+**Bug Fixes**
+
+- Fix bug "formatting issue with 'c', 'java' style" ([#18](https://github.com/seapagan/lice2/pull/18)) by [seapagan](https://github.com/seapagan)
+
+[`Full Changelog`](https://github.com/seapagan/lice2/compare/0.10.1...0.10.2) | [`Diff`](https://github.com/seapagan/lice2/compare/0.10.1...0.10.2.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.10.1...0.10.2.patch)
+
 ## [0.10.1](https://github.com/seapagan/lice2/releases/tag/0.10.1) (August 26, 2024)
 
 Purely a documentation fix so that the updated README gets to PyPI
