@@ -15,16 +15,15 @@ from lice2 import resource_listdir
 # lua  : --- --
 
 # if you want add a new comment type just add an item to LANG_CMT:
-# "comment_name":[u'string', u'string', u'string']
+# "comment_name":['string', 'string', 'string']
 # where the first string open multiline comment, second string comment every
 # license's line and the last string close multiline comment,
 # associate your language and source file suffix with your new comment type
 # how explained above.
 # EXAMPLE:
-# LANG_CMT = {"c":[u'/*', u'*', u'*/']}  # noqa: ERA001
+# LANG_CMT = {"c":['/*', '*', '*/']}  # noqa: ERA001
 # LANGS = {"cpp":"c"}  # noqa: ERA001
 # (for more examples see LANG_CMT and langs dicts below)
-# NOTE: unicode (u) in comment strings is required.
 
 LANGS = {
     "agda": "haskell",
@@ -47,16 +46,17 @@ LANGS = {
     "lisp": "lisp",
     "lua": "lua",
     "m": "c",
+    "md": "html",
     "ml": "ml",
     "php": "c",
     "pl": "perl",
     "py": "unix",
     "ps": "powershell",
     "rb": "ruby",
+    "rs": "rust",
     "scm": "lisp",
     "sh": "unix",
     "txt": "text",
-    "rs": "rust",
 }
 
 LANG_CMT = {
