@@ -129,7 +129,7 @@ lice mit -f "LICENSE.txt"
 
 In the original `lice`, the licenses were generated with a leading space on each
 line and extra newlines at start and end. This was considered a bug by at least
-several users, so it was fixed in version 0.9.1. However, if you want to
+several users, so it was fixed in version `0.10.0`. However, if you want to
 generate a license with the old style, you can use the `--legacy` option.
 
 ```console
