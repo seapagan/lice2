@@ -125,6 +125,25 @@ lice mit -f "LICENSE.txt"
     If you specify a language with the `-l` option, the extension will be
     automatically added to the file name so you don't need to include it.
 
+### `--legacy` option
+
+In the original `lice`, the licenses were generated with a leading space on each
+line and extra newlines at start and end. This was considered a bug by at least
+several users, so it was fixed in version 0.9.1. However, if you want to
+generate a license with the old style, you can use the `--legacy` option.
+
+```console
+lice mit --legacy
+```
+
+If you want to use the old style by default, you can set the `legacy` key in the
+configuration file to `true`.
+
+```toml
+[lice]
+legacy = true
+```
+
 ### `--vars` option
 
 This will list the variables that can be used in the specified license.

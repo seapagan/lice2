@@ -141,20 +141,47 @@ def generate_license(template: StringIO, context: dict[str, str]) -> StringIO:
 
     We extract variables from the template and replace them with the
     corresponding values in the given context.
+
+    This could be done with a template engine like 'Jinja2, but we're keeping it
+    simple.
     """
     out = StringIO()
-    content = template.getvalue()
-    for key in extract_vars(template):
-        if key not in context:
-            message = f"{key} is missing from the template context"
-            raise ValueError(message)
-        content = content.replace(f"{{{{ {key} }}}}", context[key])
-    template.close()  # free template memory (when is garbage collected?)
-    out.write(content)
+    with closing(template):
+        content = template.getvalue()
+        for key in extract_vars(template):
+            if key not in context:
+                message = f"{key} is missing from the template context"
+                raise ValueError(message)
+            content = content.replace(f"{{{{ {key} }}}}", context[key])
+        out.write(content)
     return out
 
 
-def format_license(template: StringIO, lang: str) -> StringIO:
+def get_comments(lang: str, *, legacy: bool) -> tuple[str, str, str]:
+    """Adjust the comment strings for the given language.
+
+    The way it was done previously, extra whitespace was added to the start of
+    the comment lines if the comment was a block comment. This tries to fix
+    that.
+    """
+    prefix, comment, postfix = LANG_CMT[LANGS[lang]]
+    if legacy:
+        return (
+            f"{prefix}\n",
+            f"{comment} ",
+            f"{postfix}\n",
+        )
+
+    if comment:
+        comment = f"{comment} "
+    prefix = f"{prefix}\n" if prefix else ""
+    postfix = f"{postfix}\n" if postfix else ""
+    return prefix, comment, postfix
+
+
+def format_license(
+    template: StringIO, lang: str, *, legacy: bool = False
+) -> StringIO:
     """Format the StringIO template object for specified lang string.
 
     Return StringIO object formatted
@@ -162,15 +189,18 @@ def format_license(template: StringIO, lang: str) -> StringIO:
     if not lang:
         lang = "txt"
 
+    prefix, comment, postfix = get_comments(lang, legacy=legacy)
+
     out = StringIO()
 
     with closing(template):
         template.seek(0)  # from the start of the buffer
-        out.write(LANG_CMT[LANGS[lang]][0] + "\n")
+        out.write(prefix)
         for line in template:
-            out.write(LANG_CMT[LANGS[lang]][1] + " ")
+            # ensure no extra whitespace is added for blank lines
+            out.write(comment if line.strip() else comment.strip())
             out.write(line)
-        out.write(LANG_CMT[LANGS[lang]][2] + "\n")
+        out.write(postfix)
 
     return out
 
@@ -232,11 +262,11 @@ def generate_header(args: SimpleNamespace, lang: str) -> None:
             )
             raise typer.Exit(1) from None
 
-    content = generate_license(template, get_context(args))
-    out = format_license(content, lang)
-    out.seek(0)
-    sys.stdout.write(out.getvalue())
-    out.close()  # free content memory (paranoic memory stuff)
+    with closing(template):
+        content = generate_license(template, get_context(args))
+        out = format_license(content, lang, legacy=args.legacy)
+        out.seek(0)
+        sys.stdout.write(out.getvalue())
     raise typer.Exit(0)
 
 

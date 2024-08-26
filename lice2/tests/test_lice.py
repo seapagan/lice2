@@ -363,20 +363,30 @@ def test_generate_license_missing_context(mocker: MockerFixture) -> None:
     mock_out_instance.write.assert_not_called()
 
 
+def test_format_license_no_lang_legacy(fake_config) -> None:
+    """Test the 'format_license' function with no lang and legacy=True."""
+    content = StringIO(TEMPLATE_FILE)
+    result = format_license(content, "", legacy=True)
+
+    # Adjust the TEMPLATE_FILE to match the expected output with a leading space
+    # on each line and leading/post <CR>. This extra space is added when the
+    # '--legacy' flag is used, to maintain compatibility with the original lice
+    # if required.
+    adjusted_template = (
+        "\n"
+        + ("\n".join(" " + line for line in TEMPLATE_FILE.splitlines()) + "\n")
+        + "\n"
+    )
+
+    assert result.getvalue() == adjusted_template
+
+
 def test_format_license_no_lang() -> None:
     """Test the 'format_license' function."""
     content = StringIO(TEMPLATE_FILE)
     result = format_license(content, "")
 
-    # Adjust the TEMPLATE_FILE to match the expected output with a leading space
-    # on each line. This extra space is added by the 'format_license' function
-    # but may be removed in future versions as it's not really correct. This
-    # test will need to be updated if that happens.
-    adjusted_template = "\n".join(
-        " " + line for line in TEMPLATE_FILE.splitlines()
-    )
-
-    assert result.getvalue().strip() == adjusted_template.strip()
+    assert result.getvalue() == TEMPLATE_FILE
 
 
 def test_load_file_template_path_not_found() -> None:

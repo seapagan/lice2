@@ -11,7 +11,7 @@ from typing import Annotated, Optional
 import typer
 from rich.markup import escape  # noqa: TCH002
 
-from lice2.config import check_default_license
+from lice2.config import check_default_license, settings
 from lice2.constants import LANGS, LICENSES  # noqa: TCH001
 from lice2.helpers import (
     format_license,
@@ -130,6 +130,13 @@ def main(  # noqa: PLR0913
             help="List available source code formatting languages",
         ),
     ] = False,
+    legacy: Annotated[
+        bool,
+        typer.Option(
+            "--legacy",
+            help="Use legacy method to generate license",
+        ),
+    ] = False,
 ) -> None:
     """Generate a license file.
 
@@ -146,6 +153,7 @@ def main(  # noqa: PLR0913
         "year": year,
         "language": language,
         "ofile": ofile,
+        "legacy": legacy or settings.legacy,
         "list_vars": show_vars,
         "list_licenses": show_licenses,
         "list_languages": show_languages,
@@ -184,17 +192,19 @@ def main(  # noqa: PLR0913
         ext = get_suffix(args.ofile)
         if ext:
             output = args.ofile
-            out = format_license(content, ext)  # format license by file suffix
+            out = format_license(
+                content, ext, legacy=args.legacy
+            )  # format license by file suffix
         else:
             output = f"{args.ofile}.{lang}" if lang else args.ofile
-            out = format_license(content, lang)
+            out = format_license(content, lang, legacy=args.legacy)
 
         out.seek(0)
         with Path(output).open(mode="w") as f:
             f.write(out.getvalue())
         f.close()
     else:
-        out = format_license(content, lang)
+        out = format_license(content, lang, legacy=args.legacy)
         out.seek(0)
         sys.stdout.write(out.getvalue())
     out.close()  # free content memory (paranoic memory stuff)
