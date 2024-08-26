@@ -157,7 +157,7 @@ def generate_license(template: StringIO, context: dict[str, str]) -> StringIO:
     return out
 
 
-def get_comments(lang: str) -> tuple[str, str, str]:
+def get_comments(lang: str, *, legacy: bool) -> tuple[str, str, str]:
     """Adjust the comment strings for the given language.
 
     The way it was done previously, extra whitespace was added to the start of
@@ -165,6 +165,13 @@ def get_comments(lang: str) -> tuple[str, str, str]:
     that.
     """
     prefix, comment, postfix = LANG_CMT[LANGS[lang]]
+    if legacy:
+        return (
+            f"{prefix}\n",
+            f"{comment} ",
+            f"{postfix}\n",
+        )
+
     if comment:
         comment = f"{comment} "
     prefix = f"{prefix}\n" if prefix else ""
@@ -172,7 +179,9 @@ def get_comments(lang: str) -> tuple[str, str, str]:
     return prefix, comment, postfix
 
 
-def format_license(template: StringIO, lang: str) -> StringIO:
+def format_license(
+    template: StringIO, lang: str, *, legacy: bool = False
+) -> StringIO:
     """Format the StringIO template object for specified lang string.
 
     Return StringIO object formatted
@@ -180,7 +189,7 @@ def format_license(template: StringIO, lang: str) -> StringIO:
     if not lang:
         lang = "txt"
 
-    prefix, comment, postfix = get_comments(lang)
+    prefix, comment, postfix = get_comments(lang, legacy=legacy)
 
     out = StringIO()
 
@@ -189,7 +198,7 @@ def format_license(template: StringIO, lang: str) -> StringIO:
         out.write(prefix)
         for line in template:
             # ensure no extra whitespace is added for blank lines
-            out.write(comment) if line.strip() else out.write(comment.strip())
+            out.write(comment if line.strip() else comment.strip())
             out.write(line)
         out.write(postfix)
 
@@ -255,7 +264,7 @@ def generate_header(args: SimpleNamespace, lang: str) -> None:
 
     with closing(template):
         content = generate_license(template, get_context(args))
-        out = format_license(content, lang)
+        out = format_license(content, lang, legacy=args.legacy)
         out.seek(0)
         sys.stdout.write(out.getvalue())
     raise typer.Exit(0)

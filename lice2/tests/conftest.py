@@ -11,9 +11,7 @@ import pytest
 if TYPE_CHECKING:
     from pyfakefs.fake_filesystem import FakeFilesystem
 
-TEMPLATE_FILE = """
-This is a template file.
-
+TEMPLATE_FILE = """This is a template file.
 {{ organization }} is the organization.
 {{ project }} is the project.
 {{ year }} is the year.
@@ -51,6 +49,7 @@ def args() -> SimpleNamespace:
         "year": "2024",
         "language": None,
         "ofile": None,
+        "legacy": False,
         "list_vars": False,
         "list_licenses": False,
         "list_languages": False,
