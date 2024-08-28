@@ -40,7 +40,7 @@ app = typer.Typer(rich_markup_mode="rich")
     ),
     context_settings={"help_option_names": ["-h", "--help"]},
 )
-def main(  # noqa: PLR0913
+def main(  # noqa: PLR0912, PLR0913
     license_name: Annotated[
         str,
         typer.Argument(
@@ -109,6 +109,14 @@ def main(  # noqa: PLR0913
             ),
         ),
     ] = "stdout",
+    clipboard: Annotated[
+        bool,
+        typer.Option(
+            "--clipboard",
+            "-c",
+            help="Copy the generated license to the clipboard",
+        ),
+    ] = False,
     show_vars: Annotated[
         Optional[bool],
         typer.Option(
@@ -153,6 +161,7 @@ def main(  # noqa: PLR0913
         "year": year,
         "language": language,
         "ofile": ofile,
+        "clipboard": clipboard or settings.clipboard,
         "legacy": legacy or settings.legacy,
         "list_vars": show_vars,
         "list_licenses": show_licenses,
@@ -202,11 +211,27 @@ def main(  # noqa: PLR0913
         out.seek(0)
         with Path(output).open(mode="w") as f:
             f.write(out.getvalue())
-        f.close()
     else:
         out = format_license(content, lang, legacy=args.legacy)
         out.seek(0)
-        sys.stdout.write(out.getvalue())
+        if not args.clipboard:
+            sys.stdout.write(out.getvalue())
+        else:
+            try:
+                import pyperclip
+
+                pyperclip.copy(out.getvalue())
+                typer.secho(
+                    "License text copied to clipboard",
+                    fg=typer.colors.BRIGHT_GREEN,
+                )
+            except pyperclip.PyperclipException as exc:
+                typer.secho(
+                    f"Error copying to clipboard: {exc}",
+                    fg=typer.colors.BRIGHT_RED,
+                )
+                raise typer.Exit(2) from None
+
     out.close()  # free content memory (paranoic memory stuff)
 
 

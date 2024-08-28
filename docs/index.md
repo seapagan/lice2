@@ -15,18 +15,19 @@ This version fixes the compatibility issue with Python 3.12, and adds some new
 features:
 
 - It now uses [Poetry](https://python-poetry.org/){:target="_blank"} for
-  dependency management
-- Can read from a config file for default values
-- Converted from 'argparse' to 'Typer' for CLI handling
+  dependency management.
+- Can read from a config file for default values.
+- Can optionally copy the license to the clipboard automatically.
+- Converted from 'argparse' to 'Typer' for CLI handling.
 - Fixes the issue where extra spaces and newlines were added to the generated
   license text. This was considered a bug by at least several users, so it was
   fixed in version `0.10.0`. However, if you want to generate a license with the
   old style, you can use the `--legacy` option or set the `legacy` key in the
-  configuration file to `true`
+  configuration file to `true`.
 - The code has been modernized and cleaned up, all type-hinting has been
-added
-- It passes strict linting with the latest 'Ruff' and 'mypy'
-- GitHub actions set up for linting, `Dependabot` and `Dependency Review`
+  added.
+- It passes strict linting with the latest 'Ruff' and 'mypy'.
+- GitHub actions set up for linting, `Dependabot` and `Dependency Review`.
 
 In addition, future plans can be seen in the [Future Plans](future_plans.md)
 page.

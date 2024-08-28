@@ -9,6 +9,7 @@ from types import SimpleNamespace
 
 import pytest
 import typer
+from pyperclip import PyperclipException
 from pytest_mock import MockerFixture
 
 import lice2
@@ -344,6 +345,42 @@ def test_generate_header_from_template(
     assert "# Awesome Co. is the organization." in captured.out
     assert "# my_project is the project." in captured.out
     assert "# 2024 is the year." in captured.out
+
+
+def test_generate_header_to_clipboard(
+    args: SimpleNamespace, mocker: MockerFixture
+) -> None:
+    """Test the 'generate_header' function with clipboard=True."""
+    args.license = "apache"
+    args.clipboard = True
+
+    mock_pyperclip = mocker.patch("pyperclip.copy")
+
+    with pytest.raises(typer.Exit) as exc:
+        generate_header(args, "py")
+
+    assert exc.value.exit_code == 0
+    mock_pyperclip.assert_called_once()
+
+
+def test_generate_header_to_clipboard_fail(
+    args: SimpleNamespace,
+    mocker: MockerFixture,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """Test the 'generate_header' function with pyperclip exeception."""
+    args.license = "apache"
+    args.clipboard = True
+
+    mocker.patch("pyperclip.copy", side_effect=PyperclipException)
+
+    with pytest.raises(typer.Exit) as exc:
+        generate_header(args, "py")
+
+    assert exc.value.exit_code == 2  # noqa: PLR2004
+
+    captured = capsys.readouterr()
+    assert "Error copying to clipboard" in captured.out
 
 
 def test_generate_license_missing_context(mocker: MockerFixture) -> None:
