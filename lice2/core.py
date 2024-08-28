@@ -230,6 +230,7 @@ def main(  # noqa: PLR0912, PLR0913
                     f"Error copying to clipboard: {exc}",
                     fg=typer.colors.BRIGHT_RED,
                 )
+                raise typer.Exit(2) from None
 
     out.close()  # free content memory (paranoic memory stuff)
 

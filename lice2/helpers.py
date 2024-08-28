@@ -282,6 +282,7 @@ def generate_header(args: SimpleNamespace, lang: str) -> None:
                     f"Error copying to clipboard: {exc}",
                     fg=typer.colors.BRIGHT_RED,
                 )
+                raise typer.Exit(2) from None
     raise typer.Exit(0)
 
 

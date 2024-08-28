@@ -2,6 +2,7 @@
 
 from io import StringIO
 
+from pyperclip import PyperclipException
 from pytest_mock import MockerFixture
 from typer.testing import CliRunner
 
@@ -87,3 +88,23 @@ def test_cli_write_to_file_without_extension(mocker: MockerFixture) -> None:
     mock_open.assert_called_with(mode="w")
     mock_open().write.assert_called_once()
     mock_open().close.assert_called()
+
+
+def test_cli_write_to_clipboard(mocker: MockerFixture) -> None:
+    """Test the CLI write to clipboard option."""
+    mock_clipboard = mocker.patch("pyperclip.copy")
+
+    result = runner.invoke(app, ["--clipboard"])
+
+    assert result.exit_code == 0
+    mock_clipboard.assert_called_once()
+
+
+def test_cli_write_to_clipboard_error(mocker: MockerFixture) -> None:
+    """Test the CLI write to clipboard option with an error."""
+    mocker.patch("pyperclip.copy", side_effect=PyperclipException)
+
+    result = runner.invoke(app, ["--clipboard"])
+
+    assert result.exit_code == 2  # noqa: PLR2004
+    assert "Error copying to clipboard" in result.output

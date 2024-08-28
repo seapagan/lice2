@@ -49,6 +49,7 @@ def args() -> SimpleNamespace:
         "year": "2024",
         "language": None,
         "ofile": None,
+        "clipboard": False,
         "legacy": False,
         "list_vars": False,
         "list_licenses": False,
