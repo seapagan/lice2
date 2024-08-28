@@ -26,18 +26,19 @@ Lice generates license files. No more hunting down licenses from other projects.
 This version fixes the compatibility issue with Python 3.12, and adds some new
 features:
 
-- It now uses [Poetry](https://python-poetry.org/) for dependency management
-- Can read from a config file for default values
-- Converted from 'argparse' to 'Typer' for CLI handling
+- It now uses [Poetry](https://python-poetry.org/) for dependency management.
+- Can read from a config file for default values.
+- Can optionally copy the license to the clipboard automatically.
+- Converted from 'argparse' to 'Typer' for CLI handling.
 - Fixes the issue where extra spaces and newlines were added to the generated
   license text. This was considered a bug by at least several users, so it was
   fixed in version `0.10.0`. However, if you want to generate a license with the
   old style, you can use the `--legacy` option or set the `legacy` key in the
-  configuration file to `true`
+  configuration file to `true`.
 - The code has been modernized and cleaned up, all type-hinting has been
-added
-- It passes strict linting with the latest 'Ruff' and 'mypy'
-- GitHub actions set up for linting, `Dependabot` and `Dependency Review`
+  added.
+- It passes strict linting with the latest 'Ruff' and 'mypy'.
+- GitHub actions set up for linting, `Dependabot` and `Dependency Review`.
 
 In addition, future plans can be seen in the [TODO.md](TODO.md) file.
 
@@ -221,6 +222,7 @@ $ lice --help
 │ --file                -f      TEXT  Name of the output source file (with -l, extension can be     │
 │                                     ommitted)                                                     │
 │                                     [default: stdout]                                             │
+| --clipboard           -c            Copy the generated license to the clipboard                   |
 │ --vars                              List template variables for specified license                 │
 │ --licenses                          List available license templates and their parameters         │
 │ --languages                         List available source code formatting languages               │
@@ -242,12 +244,8 @@ will be created with defaults if it does not exist.
 [lice]
 default_license = "mit"
 organization = "Grant Ramsay"
-schema_version = "1"
+clipboard = false
 ```
-
-The `schema_version` is used to ensure that the config file is compatible with
-the current version of lice. If the schema version in the config file is not
-compatible with the current version of lice, the app will exit with an error.
 
 The 'default_license' is checked at run-time, and if it is not valid then it
 falls back to the BSD-3 license.

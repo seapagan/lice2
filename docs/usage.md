@@ -125,6 +125,27 @@ lice mit -f "LICENSE.txt"
     If you specify a language with the `-l` option, the extension will be
     automatically added to the file name so you don't need to include it.
 
+### `--clipboard` / `-c` option
+
+This will automatically copy the generated license to the clipboard.
+
+```console
+lice mit -c
+```
+
+In this case the license will not be written to the standard output.
+
+If you are writing to a file with the `-f` option, the clipboard option will
+be ignored. This is only implemented for the normal license output to the
+terminal  and the `--header` option.
+
+!!! warning
+    This option may initially fail on some Linux systems, as it requires the
+    `xclip` or `xsel` command to be installed. You can install one of these with
+    your package manager. It should work out of the box on macOS or Windows. The
+    program will give you an informative error message if it fails on how to
+    install the required program.
+
 ### `--legacy` option
 
 In the original `lice`, the licenses were generated with a leading space on each
