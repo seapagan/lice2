@@ -266,7 +266,22 @@ def generate_header(args: SimpleNamespace, lang: str) -> None:
         content = generate_license(template, get_context(args))
         out = format_license(content, lang, legacy=args.legacy)
         out.seek(0)
-        sys.stdout.write(out.getvalue())
+        if not args.clipboard:
+            sys.stdout.write(out.getvalue())
+        else:
+            try:
+                import pyperclip
+
+                pyperclip.copy(out.getvalue())
+                typer.secho(
+                    "License text copied to clipboard",
+                    fg=typer.colors.BRIGHT_GREEN,
+                )
+            except pyperclip.PyperclipException as exc:
+                typer.secho(
+                    f"Error copying to clipboard: {exc}",
+                    fg=typer.colors.BRIGHT_RED,
+                )
     raise typer.Exit(0)
 
 

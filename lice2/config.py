@@ -13,6 +13,7 @@ class Settings(TOMLSettings):
     default_license: str = "bsd3"
     organization: str = ""
     legacy: bool = False
+    clipboard: bool = False
 
 
 def check_default_license() -> str:
