@@ -8,6 +8,22 @@ For the original changelog, please refer to the [OLD_CHANGELOG.md](OLD_CHANGELOG
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.11.0](https://github.com/seapagan/lice2/releases/tag/0.11.0) (August 28, 2024)
+
+**New Features**
+
+- Add option to copy directly to clipboard ([#27](https://github.com/seapagan/lice2/pull/27)) by [seapagan](https://github.com/seapagan)
+
+**Dependency Updates**
+
+- Bump rich from 13.7.1 to 13.8.0 ([#26](https://github.com/seapagan/lice2/pull/26)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump ruff from 0.6.1 to 0.6.2 ([#25](https://github.com/seapagan/lice2/pull/25)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump mypy from 1.11.1 to 1.11.2 ([#24](https://github.com/seapagan/lice2/pull/24)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump mkdocs-autorefs from 1.0.1 to 1.1.0 ([#23](https://github.com/seapagan/lice2/pull/23)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump typer from 0.12.4 to 0.12.5 ([#22](https://github.com/seapagan/lice2/pull/22)) by [dependabot[bot]](https://github.com/apps/dependabot)
+
+[`Full Changelog`](https://github.com/seapagan/lice2/compare/0.10.2...0.11.0) | [`Diff`](https://github.com/seapagan/lice2/compare/0.10.2...0.11.0.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.10.2...0.11.0.patch)
+
 ## [0.10.2](https://github.com/seapagan/lice2/releases/tag/0.10.2) (August 26, 2024)
 
 **Closed Issues**
