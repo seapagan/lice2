@@ -237,8 +237,7 @@ $ lice --help
 ## Config File
 
 The app will look for a config file in `~/.config/lice/config.toml`. This file
-can be used to set default values for the license and organization. The file
-will be created with defaults if it does not exist.
+can be used to set default values for the license and organization.
 
 ```toml
 [lice]
