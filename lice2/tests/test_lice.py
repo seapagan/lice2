@@ -9,6 +9,7 @@ from types import SimpleNamespace
 
 import pytest
 import typer
+from pyfakefs.fake_filesystem import FakeFilesystem
 from pyperclip import PyperclipException
 from pytest_mock import MockerFixture
 
@@ -400,7 +401,7 @@ def test_generate_license_missing_context(mocker: MockerFixture) -> None:
     mock_out_instance.write.assert_not_called()
 
 
-def test_format_license_no_lang_legacy(fake_config) -> None:
+def test_format_license_no_lang_legacy(fake_config: FakeFilesystem) -> None:
     """Test the 'format_license' function with no lang and legacy=True."""
     content = StringIO(TEMPLATE_FILE)
     result = format_license(content, "", legacy=True)
