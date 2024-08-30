@@ -149,7 +149,10 @@ def main(  # noqa: PLR0912, PLR0913
         ),
     ] = False,
     version: Annotated[
-        bool, typer.Option("--version", "-v", is_eager=True)
+        bool,
+        typer.Option(
+            "--version", "-v", is_eager=True, help="Show version info"
+        ),
     ] = False,
 ) -> None:
     """Generate a license file.
