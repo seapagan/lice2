@@ -108,3 +108,12 @@ def test_cli_write_to_clipboard_error(mocker: MockerFixture) -> None:
 
     assert result.exit_code == 2  # noqa: PLR2004
     assert "Error copying to clipboard" in result.output
+
+
+def test_cli_version_command() -> None:
+    """Test the CLI version command."""
+    result = runner.invoke(app, ["--version"])
+
+    assert result.exit_code == 0
+    assert "Lice2" in result.output
+    assert "Version" in result.output
