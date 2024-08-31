@@ -540,6 +540,11 @@ def test_get_metadata_is_valid_json(
 
     assert exc.value.exit_code == 0
 
+    json_keys = json_result.keys()
+
+    for key in ["organization", "project", "licenses", "languages"]:
+        assert key in json_keys
+
     assert json_result["organization"] == "Awesome Co."
     assert json_result["project"] == "my_project"
     assert licenses in captured.out
