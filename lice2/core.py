@@ -22,6 +22,7 @@ from lice2.helpers import (
     generate_license,
     get_context,
     get_lang,
+    get_metadata,
     get_suffix,
     guess_organization,
     list_languages,
@@ -43,7 +44,7 @@ app = typer.Typer(rich_markup_mode="rich")
     ),
     context_settings={"help_option_names": ["-h", "--help"]},
 )
-def main(  # noqa: PLR0912, PLR0913
+def main(  # noqa: C901, PLR0912, PLR0913
     license_name: Annotated[
         str,
         typer.Argument(
@@ -108,7 +109,7 @@ def main(  # noqa: PLR0912, PLR0913
             "-f",
             help=(
                 "Name of the output source file (with -l, "
-                "extension can be ommitted)"
+                "extension can be omitted)"
             ),
         ),
     ] = "stdout",
@@ -154,6 +155,16 @@ def main(  # noqa: PLR0912, PLR0913
             "--version", "-v", is_eager=True, help="Show version info"
         ),
     ] = False,
+    metadata: Annotated[
+        bool,
+        typer.Option(
+            "--metadata",
+            help=(
+                "Output a JSON string listing all available licenses and "
+                "languages This allows easy integration into other tools."
+            ),
+        ),
+    ] = False,
 ) -> None:
     """Generate a license file.
 
@@ -188,6 +199,13 @@ def main(  # noqa: PLR0912, PLR0913
     # convert to SimpleNamespace, so we can use dot notation
     args = SimpleNamespace(**args_base)
 
+    # get the language if set
+    lang = get_lang(args)
+
+    # output metadata as JSON if requested
+    if metadata:
+        get_metadata(args)
+
     # list available licenses and their template variables
     if args.list_licenses:
         list_licenses()
@@ -195,9 +213,6 @@ def main(  # noqa: PLR0912, PLR0913
     # list available source formatting languages
     if args.list_languages:
         list_languages()
-
-    # language
-    lang = get_lang(args)
 
     # generate header if requested
     if header:
