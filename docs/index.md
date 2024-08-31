@@ -28,6 +28,8 @@ features:
   added.
 - It passes strict linting with the latest 'Ruff' and 'mypy'.
 - GitHub actions set up for linting, `Dependabot` and `Dependency Review`.
+- Can output a list of licenses and languages in JSON format for integration
+  with other tools.
 
 In addition, future plans can be seen in the [Future Plans](future_plans.md)
 page.

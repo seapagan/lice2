@@ -10,6 +10,7 @@ Lice generates license files. No more hunting down licenses from other projects.
 - [I want XXXXXXXXX license in here!](#i-want-xxxxxxxxx-license-in-here)
 - [Usage](#usage)
 - [Config File](#config-file)
+- [Integration with other tools](#integration-with-other-tools)
 - [Changelog](#changelog)
 
 ## Changes from the original 'Lice' project
@@ -39,6 +40,8 @@ features:
   added.
 - It passes strict linting with the latest 'Ruff' and 'mypy'.
 - GitHub actions set up for linting, `Dependabot` and `Dependency Review`.
+- Can output a list of licenses and languages in JSON format for integration
+  with other tools.
 
 In addition, future plans can be seen in the [TODO.md](TODO.md) file.
 
@@ -237,17 +240,39 @@ $ lice --help
 ## Config File
 
 The app will look for a config file in `~/.config/lice/config.toml`. This file
-can be used to set default values for the license and organization.
+can be used to set default values for the license and organization. See the
+documentation website for more information.
 
 ```toml
 [lice]
 default_license = "mit"
 organization = "Grant Ramsay"
 clipboard = false
+legacy = false
 ```
 
 The 'default_license' is checked at run-time, and if it is not valid then it
 falls back to the BSD-3 license.
+
+## Integration with other tools
+
+**This is currently only available in the dev version.**
+
+This tool can output a list of availailable licenses and languages in JSON
+format. This can be used to integrate with other tools. For example, to get a
+list of licenses in JSON format:
+
+```console
+lice --metadata
+```
+
+The output will have 4 keys: `licenses`, `languages`, `organization` and
+`project` which another tool can use to populate a list of licenses and
+languages in a GUI for example. The first two keys are simple lists of strings
+that can be parsed.
+
+Future versions will have an actual python api that can be imported in other
+python projects to generate licenses from within the project.
 
 ## Changelog
 

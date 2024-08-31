@@ -3,10 +3,18 @@
 This is an auto-generated log of all the changes that have been made to the
 project since release 0.7.0.
 
-For the original changelog, please refer to the [OLD_CHANGELOG.md](OLD_CHANGELOG.md).
+For the original changelog, please refer to the "OLD_CHANGELOG.md" file in the repository.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [Unreleased](https://github.com/seapagan/lice2/tree/HEAD)
+
+**New Features**
+
+- Add '--version' flag to the CLI ([#29](https://github.com/seapagan/lice2/pull/29)) by [seapagan](https://github.com/seapagan)
+
+[`Full Changelog`](https://github.com/seapagan/lice2/compare/0.11.0...HEAD) | [`Diff`](https://github.com/seapagan/lice2/compare/0.11.0...HEAD.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.11.0...HEAD.patch)
 
 ## [0.11.0](https://github.com/seapagan/lice2/releases/tag/0.11.0) (August 28, 2024)
 

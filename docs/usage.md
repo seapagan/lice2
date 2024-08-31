@@ -91,7 +91,8 @@ lice -t "./path/to/template.txt"
 
 ### `--year` / `-y` option
 
-This will allow you to specify a year to be used in the license.
+This will allow you to specify a year to be used in the license. If you don't
+specify a year, it will default to the current year.
 
 ```console
 lice -y 2024
@@ -188,6 +189,23 @@ This will list all the available source code formatting languages.
 ```console
 lice --languages
 ```
+
+### `--metadata` option
+
+This will output a JSON object containing a list of all the licenses and
+languages available.
+
+```console
+lice --metadata
+```
+
+The output will have 4 keys: `licenses`, `languages`, `organization` and
+`project` which another tool can use to populate a list of licenses and
+languages in a GUI for example. The first two keys are simple lists of strings
+that can be parsed.
+
+Future versions will have an actual python api that can be imported in other
+python projects to generate licenses from within the project.
 
 ### `--install-completion` option
 
