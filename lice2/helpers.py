@@ -1,6 +1,7 @@
 """Helper functions for LICE2."""
 
 import getpass
+import json
 import os
 import re
 import subprocess
@@ -321,3 +322,22 @@ def copy_to_clipboard(out: StringIO) -> None:
             fg=typer.colors.BRIGHT_RED,
         )
         raise typer.Exit(2) from None
+
+
+def get_metadata(args: SimpleNamespace) -> str:
+    """Return metadata for the package as a JSON string."""
+    licenses = LICENSES
+    languages = list(LANGS.keys())
+    organization = args.organization
+    project = args.project
+
+    metadata = {
+        "languages": languages,
+        "licenses": licenses,
+        "organization": organization,
+        "project": project,
+    }
+
+    sys.stdout.write(json.dumps(metadata) + "\n")
+
+    raise typer.Exit(0)
