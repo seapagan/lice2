@@ -117,3 +117,14 @@ def test_cli_version_command() -> None:
     assert result.exit_code == 0
     assert "Lice2" in result.output
     assert "Version" in result.output
+
+
+def test_metadata_command() -> None:
+    """Test the CLI metadata command.
+
+    We already test the actual JSON output in the unit tests, so we just check
+    that the command runs successfully here.
+    """
+    result = runner.invoke(app, ["--metadata"])
+
+    assert result.exit_code == 0

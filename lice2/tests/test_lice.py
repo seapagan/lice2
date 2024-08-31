@@ -1,6 +1,7 @@
 """Test suite for the application."""
 
 import io
+import json
 import os
 import subprocess
 from io import StringIO
@@ -24,6 +25,7 @@ from lice2.helpers import (
     generate_license,
     get_context,
     get_lang,
+    get_metadata,
     get_suffix,
     guess_organization,
     list_languages,
@@ -517,3 +519,28 @@ def test_bad_default_license(
         "Invalid default license 'bad' in the configuration file"
         in captured.out
     )
+
+
+def test_get_metadata_is_valid_json(
+    args, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """Test the 'get_metadata' function."""
+    licenses = json.dumps(LICENSES)
+    languages = json.dumps(list(LANGS.keys()))
+
+    with pytest.raises(typer.Exit) as exc:
+        get_metadata(args)
+
+    captured = capsys.readouterr()
+
+    try:
+        json_result = json.loads(captured.out)
+    except json.JSONDecodeError:
+        pytest.fail("The output is not valid JSON.")
+
+    assert exc.value.exit_code == 0
+
+    assert json_result["organization"] == "Awesome Co."
+    assert json_result["project"] == "my_project"
+    assert licenses in captured.out
+    assert languages in captured.out
