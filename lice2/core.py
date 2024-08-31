@@ -9,11 +9,14 @@ from types import SimpleNamespace
 from typing import Annotated, Optional
 
 import typer
+from rich import print as rprint
 from rich.markup import escape  # noqa: TCH002
 
+from lice2 import __version__
 from lice2.config import check_default_license, settings
 from lice2.constants import LANGS, LICENSES  # noqa: TCH001
 from lice2.helpers import (
+    copy_to_clipboard,
     format_license,
     generate_header,
     generate_license,
@@ -145,12 +148,27 @@ def main(  # noqa: PLR0912, PLR0913
             help="Use legacy method to generate license",
         ),
     ] = False,
+    version: Annotated[
+        bool,
+        typer.Option(
+            "--version", "-v", is_eager=True, help="Show version info"
+        ),
+    ] = False,
 ) -> None:
     """Generate a license file.
 
     Can generate a license file, a source file header, or list available
     licenses, template variables, and source code formatting.
     """
+    # deal with the '--version' flag first
+    if version:
+        rprint(
+            "\n[green]Lice2 - Generate license files for your projects."
+            f"\n[/green]Version: {__version__} "
+            "\u00a9 2013-2024\n"
+        )
+        raise typer.Exit(0)
+
     # get the args into a dict to avoid refactoring all the code...
     args_base: dict[str, str | bool | None] = {
         "license": license_name,
@@ -217,22 +235,9 @@ def main(  # noqa: PLR0912, PLR0913
         if not args.clipboard:
             sys.stdout.write(out.getvalue())
         else:
-            try:
-                import pyperclip
+            copy_to_clipboard(out)
 
-                pyperclip.copy(out.getvalue())
-                typer.secho(
-                    "License text copied to clipboard",
-                    fg=typer.colors.BRIGHT_GREEN,
-                )
-            except pyperclip.PyperclipException as exc:
-                typer.secho(
-                    f"Error copying to clipboard: {exc}",
-                    fg=typer.colors.BRIGHT_RED,
-                )
-                raise typer.Exit(2) from None
-
-    out.close()  # free content memory (paranoic memory stuff)
+    out.close()
 
 
 if __name__ == "__main__":

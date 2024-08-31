@@ -1,7 +1,10 @@
 """Package initialisation."""
 
 from importlib import resources
+from pathlib import Path
 from typing import IO
+
+from single_source import get_version
 
 try:
     from pkg_resources import resource_listdir, resource_stream  # type: ignore
@@ -27,6 +30,6 @@ except ImportError:
         ]
 
 
-__version__ = "0.8.0"
+__version__ = get_version(__name__, Path(__file__).parent.parent)
 
 __all__ = ["resource_listdir", "resource_stream"]

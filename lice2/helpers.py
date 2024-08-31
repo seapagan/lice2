@@ -303,3 +303,21 @@ def validate_license(license_name: str) -> str:
         )
         raise typer.BadParameter(message)
     return license_name
+
+
+def copy_to_clipboard(out: StringIO) -> None:
+    """Try to copy to clipboard, exit with error if not possible."""
+    try:
+        import pyperclip
+
+        pyperclip.copy(out.getvalue())
+        typer.secho(
+            "License text copied to clipboard",
+            fg=typer.colors.BRIGHT_GREEN,
+        )
+    except pyperclip.PyperclipException as exc:
+        typer.secho(
+            f"Error copying to clipboard: {exc}",
+            fg=typer.colors.BRIGHT_RED,
+        )
+        raise typer.Exit(2) from None
