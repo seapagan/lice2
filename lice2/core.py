@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import sys
-from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Annotated, Optional
@@ -22,6 +21,7 @@ from lice2.helpers import (
     generate_license,
     get_context,
     get_lang,
+    get_local_year,
     get_metadata,
     get_suffix,
     guess_organization,
@@ -88,7 +88,7 @@ def main(  # noqa: C901, PLR0912, PLR0913
         typer.Option(
             "--year", "-y", help="Copyright year", callback=validate_year
         ),
-    ] = "%i" % datetime.now().date().year,  # noqa: DTZ005
+    ] = get_local_year(),
     language: Annotated[
         Optional[str],
         typer.Option(
