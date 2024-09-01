@@ -63,11 +63,15 @@ class TestAPI:
         bad_year = "202"
         with pytest.raises(InvalidYearError) as exc_info:
             raise InvalidYearError(bad_year)
-        assert (
-            str(exc_info.value)
-            == "Year '202' is not a valid year (must be 4 digits)."
-        )
+        assert "Year '202' is not a valid year" in str(exc_info.value)
         assert exc_info.value.year == bad_year
+
+    def test_year_not_string_error(self) -> None:
+        """Test that InvalidYearError is raised correctly."""
+        bad_year = 2024
+        with pytest.raises(InvalidYearError) as exc_info:
+            raise InvalidYearError(bad_year)
+        assert "Year '2024' is not a valid year" in str(exc_info.value)
 
     def test_license_not_found_error(self) -> None:
         """Test that LicenseNotFoundError is raised correctly."""

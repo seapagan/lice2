@@ -38,8 +38,8 @@ class Lice:
         """
         self.organization = organization
         self.project = project
-        if len(year) != 4:  # noqa: PLR2004
-            message = f"Year '{year}' is not a valid year (must be 4 digits)."
+        if not isinstance(year, str) or len(year) != 4:  # noqa: PLR2004
+            message = f"Year '{year}' is not a valid year."
             raise InvalidYearError(message)
         self.year = year
 

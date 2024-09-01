@@ -1,5 +1,7 @@
 """Define custom exceptions for the API."""
 
+from __future__ import annotations
+
 
 class LiceError(Exception):
     """Base class for all exceptions in the Lice API."""
@@ -49,7 +51,7 @@ class HeaderNotFoundError(LiceError):
 class InvalidYearError(LiceError):
     """Raised when an invalid year is supplied."""
 
-    def __init__(self, year: str) -> None:
+    def __init__(self, year: str | int) -> None:
         """Initialize the InvalidYearError exception.
 
         Args:
@@ -57,5 +59,6 @@ class InvalidYearError(LiceError):
         """
         self.year = year
         super().__init__(
-            f"Year '{self.year}' is not a valid year (must be 4 digits)."
+            f"Year '{self.year}' is not a valid year (must be a 4 digit "
+            "string)."
         )
