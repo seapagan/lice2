@@ -40,6 +40,6 @@ page.
     This application is now only compatible with Python 3.9 and above. If you
     wish to use an older version, use the original 'lice' package.
 
-    However, I'ts the **development** dependencies that are causing the
+    However, It's the **development** dependencies that are causing the
     incompatibility, so I'll look at reducing the **Production** version in
     future releases while still requiring Python 3.9 or above for development.
