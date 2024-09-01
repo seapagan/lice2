@@ -41,10 +41,16 @@ class Lice:
         """
         self.organization = organization
         self.project = project
+
+        try:
+            # make sure the year can be a valid integer
+            _ = int(year)
+        except ValueError:
+            raise InvalidYearError(year) from None
+
         self.year = str(year)
         if len(self.year) != 4:  # noqa: PLR2004
-            message = f"Year '{year}' is not a valid year."
-            raise InvalidYearError(message)
+            raise InvalidYearError(year) from None
 
     def get_licenses(self) -> list[str]:
         """Return a list of all licenses in the system.
@@ -106,7 +112,7 @@ class Lice:
     def get_header(self, license_name: str, language: str = "") -> str:
         """Return the header of the given license suitable for source files.
 
-        If the #language is specified, the header will be formatted as a
+        If the language is specified, the header will be formatted as a
         commented block for that language. If not, the header will be returned
         as a plain text block.
 

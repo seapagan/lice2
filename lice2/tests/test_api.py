@@ -31,12 +31,29 @@ class TestAPI:
         assert lice.organization == "Awesome Co."
         assert lice.project == "my_project"
 
+    def test_lice_instance_no_args(self) -> None:
+        """Test that creating a Lice instance with no args fails."""
+        with pytest.raises(
+            TypeError, match="missing 2 required positional arguments"
+        ):
+            Lice()  # type: ignore[call-arg]
+
     def test_lice_instance_invalid_year(self) -> None:
         """Test that creating a Lice instance with an invalid year fails."""
         with pytest.raises(InvalidYearError) as exc_info:
             Lice(organization="Awesome Co.", project="my_project", year="202")
 
         assert "'202' is not a valid year" in str(exc_info.value)
+
+    def test_lice_instance_very_bad_year(self) -> None:
+        """Test that creating a Lice instance with a very bad year fails.
+
+        This is basically anything that cannot be converted to an integer.
+        """
+        with pytest.raises(InvalidYearError) as exc_info:
+            Lice(organization="Awesome Co.", project="my_project", year="bad1")
+
+        assert "'bad1' is not a valid year" in str(exc_info.value)
 
     def test_lice_instance_integer_year(self) -> None:
         """Test that creating a Lice instance with an integer year works."""
