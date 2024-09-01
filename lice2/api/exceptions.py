@@ -44,3 +44,18 @@ class HeaderNotFoundError(LiceError):
         super().__init__(
             f"License '{self.license_name}' does not have any headers."
         )
+
+
+class InvalidYearError(LiceError):
+    """Raised when an invalid year is supplied."""
+
+    def __init__(self, year: str) -> None:
+        """Initialize the InvalidYearError exception.
+
+        Args:
+            year: The year that was not valid.
+        """
+        self.year = year
+        super().__init__(
+            f"Year '{self.year}' is not a valid year (must be 4 digits)."
+        )

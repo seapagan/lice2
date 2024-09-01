@@ -5,6 +5,7 @@ import pytest
 from lice2.api import Lice
 from lice2.api.exceptions import (
     HeaderNotFoundError,
+    InvalidYearError,
     LanguageNotFoundError,
     LicenseNotFoundError,
 )
@@ -30,6 +31,13 @@ class TestAPI:
         assert lice.organization == "Awesome Co."
         assert lice.project == "my_project"
 
+    def test_lice_instance_invalid_year(self) -> None:
+        """Test that creating a Lice instance with an invalid year fails."""
+        with pytest.raises(InvalidYearError) as exc_info:
+            Lice(organization="Awesome Co.", project="my_project", year="202")
+
+        assert "'202' is not a valid year" in str(exc_info.value)
+
     def test_license_not_found_error_no_arg(self) -> None:
         """Test that raising LicenseNotFoundError without an argument fails."""
         with pytest.raises(TypeError):
@@ -44,6 +52,22 @@ class TestAPI:
         """Test that raising HeaderNotFoundError without an argument fails."""
         with pytest.raises(TypeError):
             raise HeaderNotFoundError  # type: ignore[call-arg]
+
+    def test_invalid_year_error_no_arg(self) -> None:
+        """Test that raising InvalidYearError without an argument fails."""
+        with pytest.raises(TypeError):
+            raise InvalidYearError  # type: ignore[call-arg]
+
+    def test_invalid_year_error(self) -> None:
+        """Test that InvalidYearError is raised correctly."""
+        bad_year = "202"
+        with pytest.raises(InvalidYearError) as exc_info:
+            raise InvalidYearError(bad_year)
+        assert (
+            str(exc_info.value)
+            == "Year '202' is not a valid year (must be 4 digits)."
+        )
+        assert exc_info.value.year == bad_year
 
     def test_license_not_found_error(self) -> None:
         """Test that LicenseNotFoundError is raised correctly."""
