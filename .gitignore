@@ -11,3 +11,4 @@ build
 .changelog_generator.toml
 .python-version
 site/
+api-test.py

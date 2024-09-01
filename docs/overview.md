@@ -100,6 +100,22 @@ The mit license template contains the following variables:
   organization
 ```
 
+## Integrating into your own project
+
+You can integrate lice in your own project to generate licenses. Here is an
+example:
+
+```python
+from lice2.api import Lice
+
+lice = Lice(organization="Awesome Organization", project="Awesome Project")
+license_text = lice.get_license("mit")
+print(license_text)
+```
+
+There are a few more methods available in the API, see the
+[Integration](integration.md) page for more information.
+
 ## I want XXXXXXXXX license in here!
 
 Great! Is it a license that is commonly used? If so, open an issue or, if you

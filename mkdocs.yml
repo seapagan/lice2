@@ -53,6 +53,7 @@ nav:
   - Overview: overview.md
   - Usage: usage.md
   - Configuration: configuration.md
+  - Integration: integration.md
   - Contributing: contributing.md
   - Changelog: changelog.md
   - Future Plans: future_plans.md

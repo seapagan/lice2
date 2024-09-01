@@ -10,6 +10,7 @@ Lice generates license files. No more hunting down licenses from other projects.
 - [I want XXXXXXXXX license in here!](#i-want-xxxxxxxxx-license-in-here)
 - [Usage](#usage)
 - [Config File](#config-file)
+- [Integrate into your projects](#integrate-into-your-projects)
 - [Integration with other tools](#integration-with-other-tools)
 - [Changelog](#changelog)
 
@@ -27,10 +28,12 @@ Lice generates license files. No more hunting down licenses from other projects.
 This version fixes the compatibility issue with Python 3.12, and adds some new
 features:
 
-- It now uses [Poetry](https://python-poetry.org/) for dependency management.
+- It has an API that can be imported into your Python projects to allow you to
+  generate licenses directly from within your own project.
 - Can read from a config file for default values.
 - Can optionally copy the license to the clipboard automatically.
 - Converted from 'argparse' to 'Typer' for CLI handling.
+- It now uses [Poetry](https://python-poetry.org/) for dependency management.
 - Fixes the issue where extra spaces and newlines were added to the generated
   license text. This was considered a bug by at least several users, so it was
   fixed in version `0.10.0`. However, if you want to generate a license with the
@@ -254,13 +257,31 @@ legacy = false
 The 'default_license' is checked at run-time, and if it is not valid then it
 falls back to the BSD-3 license.
 
+## Integrate into your projects
+
+**This is currently only available in the dev version.**
+
+Lice now includes an API that can be imported into your Python projects! This
+allows you to generate licenses from within your project. Here is an example:
+
+```python
+from lice2.api import Lice
+
+lice = Lice(organization="Awesome Organization", project="Awesome Project")
+license_text = lice.get_license("mit")
+print(license_text)
+```
+
+There are a few other methods available in the API, see the documentation for
+more information.
+
 ## Integration with other tools
 
 **This is currently only available in the dev version.**
 
 This tool can output a list of availailable licenses and languages in JSON
-format. This can be used to integrate with other tools. For example, to get a
-list of licenses in JSON format:
+format. This can be used to integrate with other non-Python tools. For example,
+to get a list of licenses in JSON format:
 
 ```console
 lice --metadata
@@ -271,8 +292,7 @@ The output will have 4 keys: `licenses`, `languages`, `organization` and
 languages in a GUI for example. The first two keys are simple lists of strings
 that can be parsed.
 
-Future versions will have an actual python api that can be imported in other
-python projects to generate licenses from within the project.
+For more fine-grained control, you can use the API above (but only in Python)
 
 ## Changelog
 

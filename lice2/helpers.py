@@ -7,6 +7,7 @@ import re
 import subprocess
 import sys
 from contextlib import closing
+from datetime import datetime
 from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
@@ -341,3 +342,8 @@ def get_metadata(args: SimpleNamespace) -> str:
     sys.stdout.write(json.dumps(metadata) + "\n")
 
     raise typer.Exit(0)
+
+
+def get_local_year() -> str:
+    """Return the current year using the local timezone."""
+    return f"{datetime.now().astimezone().year}"

@@ -522,7 +522,7 @@ def test_bad_default_license(
 
 
 def test_get_metadata_is_valid_json(
-    args, capsys: pytest.CaptureFixture[str]
+    args: SimpleNamespace, capsys: pytest.CaptureFixture[str]
 ) -> None:
     """Test the 'get_metadata' function."""
     licenses = json.dumps(LICENSES)
