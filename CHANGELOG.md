@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 **New Features**
 
+- Add an API so that lice can be used inside other applications ([#31](https://github.com/seapagan/lice2/pull/31)) by [seapagan](https://github.com/seapagan)
 - Provide an optional JSON output, listing licenses and languages for easier integration into other tools like a GUI ([#30](https://github.com/seapagan/lice2/pull/30)) by [seapagan](https://github.com/seapagan)
 - Add '--version' flag to the CLI ([#29](https://github.com/seapagan/lice2/pull/29)) by [seapagan](https://github.com/seapagan)
 
