@@ -14,11 +14,13 @@ Lice generates license files. No more hunting down licenses from other projects.
 This version fixes the compatibility issue with Python 3.12, and adds some new
 features:
 
-- It now uses [Poetry](https://python-poetry.org/){:target="_blank"} for
-  dependency management.
+- It has an API that can be imported into your Python projects to allow you to
+  generate licenses directly from within your own project.
 - Can read from a config file for default values.
 - Can optionally copy the license to the clipboard automatically.
 - Converted from 'argparse' to 'Typer' for CLI handling.
+- It now uses [Poetry](https://python-poetry.org/){:target="_blank"} for
+  dependency management.
 - Fixes the issue where extra spaces and newlines were added to the generated
   license text. This was considered a bug by at least several users, so it was
   fixed in version `0.10.0`. However, if you want to generate a license with the
