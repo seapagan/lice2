@@ -59,6 +59,5 @@ class InvalidYearError(LiceError):
         """
         self.year = year
         super().__init__(
-            f"Year '{self.year}' is not a valid year (must be a 4 digit "
-            "string)."
+            f"Year '{self.year}' is not a valid year (must be 4 digits)."
         )

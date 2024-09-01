@@ -38,6 +38,11 @@ class TestAPI:
 
         assert "'202' is not a valid year" in str(exc_info.value)
 
+    def test_lice_instance_integer_year(self) -> None:
+        """Test that creating a Lice instance with an integer year works."""
+        lice = Lice(organization="Awesome Co.", project="my_project", year=1314)
+        assert lice.year == "1314"
+
     def test_license_not_found_error_no_arg(self) -> None:
         """Test that raising LicenseNotFoundError without an argument fails."""
         with pytest.raises(TypeError):
@@ -65,13 +70,6 @@ class TestAPI:
             raise InvalidYearError(bad_year)
         assert "Year '202' is not a valid year" in str(exc_info.value)
         assert exc_info.value.year == bad_year
-
-    def test_year_not_string_error(self) -> None:
-        """Test that InvalidYearError is raised correctly."""
-        bad_year = 2024
-        with pytest.raises(InvalidYearError) as exc_info:
-            raise InvalidYearError(bad_year)
-        assert "Year '2024' is not a valid year" in str(exc_info.value)
 
     def test_license_not_found_error(self) -> None:
         """Test that LicenseNotFoundError is raised correctly."""

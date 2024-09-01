@@ -1,5 +1,7 @@
 """This defines an API that other Python code can use to interact with LICE2."""
 
+from __future__ import annotations
+
 from lice2.api.exceptions import (
     HeaderNotFoundError,
     InvalidYearError,
@@ -22,7 +24,7 @@ class Lice:
         self,
         organization: str,
         project: str,
-        year: str = get_local_year(),
+        year: str | int = get_local_year(),
     ) -> None:
         """Initialize the Lice object.
 
@@ -30,6 +32,7 @@ class Lice:
             organization: The name of the organization that owns the project.
             project: The name of the project.
             year: The year to use in the license. Defaults to the current year.
+                (can be a string or an integer)
 
         Note that not all licenses will use the 'project' field.
 
@@ -38,10 +41,10 @@ class Lice:
         """
         self.organization = organization
         self.project = project
-        if not isinstance(year, str) or len(year) != 4:  # noqa: PLR2004
+        self.year = str(year)
+        if len(self.year) != 4:  # noqa: PLR2004
             message = f"Year '{year}' is not a valid year."
             raise InvalidYearError(message)
-        self.year = year
 
     def get_licenses(self) -> list[str]:
         """Return a list of all licenses in the system.
