@@ -1,6 +1,11 @@
 """This defines an API that other Python code can use to interact with LICE2."""
 
-from lice2.api.exceptions import LanguageNotFoundError, LicenseNotFoundError
+from lice2.api.exceptions import (
+    HeaderNotFoundError,
+    InvalidYearError,
+    LanguageNotFoundError,
+    LicenseNotFoundError,
+)
 from lice2.constants import LANGS, LICENSES
 from lice2.helpers import (
     format_license,
@@ -33,6 +38,9 @@ class Lice:
         """
         self.organization = organization
         self.project = project
+        if len(year) != 4:  # noqa: PLR2004
+            message = f"Year '{year}' is not a valid year (must be 4 digits)."
+            raise InvalidYearError(message)
         self.year = year
 
     def get_licenses(self) -> list[str]:
@@ -83,6 +91,42 @@ class Lice:
             template = load_package_template(license_name)
         except FileNotFoundError:
             raise LicenseNotFoundError(license_name) from None
+
+        content = generate_license(template, args)
+
+        try:
+            out = format_license(content, language)
+        except KeyError:
+            raise LanguageNotFoundError(language) from None
+        return out.getvalue()
+
+    def get_header(self, license_name: str, language: str = "") -> str:
+        """Return the header of the given license suitable for source files.
+
+        If the #language is specified, the header will be formatted as a
+        commented block for that language. If not, the header will be returned
+        as a plain text block.
+
+        Note: Not all licenses have headers, if the license does not have a
+        header, this method will raise a HeaderNotFoundError.
+
+        Args:
+            license_name: The name of the license to retrieve.
+            language: The language to format the header for.
+
+        Example:
+            >>> lice = Lice(organization="Awesome Co.", project="my_project")
+            >>> header_txt = Lice.get_header("mit", "py")
+        """
+        args = {
+            "year": self.year,
+            "organization": self.organization,
+            "project": self.project,
+        }
+        try:
+            template = load_package_template(license_name, header=True)
+        except FileNotFoundError:
+            raise HeaderNotFoundError(license_name) from None
 
         content = generate_license(template, args)
 

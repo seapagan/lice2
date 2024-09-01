@@ -145,3 +145,33 @@ class TestAPI:
             lice.get_license("mit", language="unknown_language")
         assert str(exc_info.value) == "Language 'unknown_language' is unknown."
         assert exc_info.value.language_name == "unknown_language"
+
+    def test_get_license_header(self, lice: Lice) -> None:
+        """Test we can get a license header."""
+        header = lice.get_header("gpl3")
+
+        assert "This program is free software:" in header
+        assert "GNU General Public License" in header
+
+    def test_get_license_header_language(self, lice: Lice) -> None:
+        """Test we can get a license header for a specific language."""
+        header = lice.get_header("gpl3", language="py")
+
+        assert "This program is free software:" in header
+        assert "GNU General Public License" in header
+        for line in header.splitlines():
+            assert line.startswith("#")
+
+    def test_get_license_header_not_exists(self, lice: Lice) -> None:
+        """Test that get_license_header raises an exception for no header."""
+        with pytest.raises(HeaderNotFoundError) as exc_info:
+            lice.get_header("mit")
+        assert str(exc_info.value) == "License 'mit' does not have any headers."
+        assert exc_info.value.license_name == "mit"
+
+    def test_get_license_header_language_unknown(self, lice: Lice) -> None:
+        """Test get_license_header raises an exception for unknown languages."""
+        with pytest.raises(LanguageNotFoundError) as exc_info:
+            lice.get_header("gpl3", language="unknown_language")
+        assert str(exc_info.value) == "Language 'unknown_language' is unknown."
+        assert exc_info.value.language_name == "unknown_language"
