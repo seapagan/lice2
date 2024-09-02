@@ -259,8 +259,6 @@ falls back to the BSD-3 license.
 
 ## Integrate into your projects
 
-**This is currently only available in the dev version.**
-
 Lice now includes an API that can be imported into your Python projects! This
 allows you to generate licenses from within your project. Here is an example:
 
@@ -276,8 +274,6 @@ There are a few other methods available in the API, see the documentation for
 more information.
 
 ## Integration with other tools
-
-**This is currently only available in the dev version.**
 
 This tool can output a list of availailable licenses and languages in JSON
 format. This can be used to integrate with other non-Python tools. For example,
