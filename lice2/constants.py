@@ -66,7 +66,7 @@ LANGS = {
     "scala": "java",
     "scm": "lisp",
     "sh": "unix",
-    "sql": "unix",
+    "sql": "c",
     "swift": "c",
     "toml": "unix",
     "ts": "c",
