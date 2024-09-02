@@ -325,7 +325,7 @@ def copy_to_clipboard(out: StringIO) -> None:
         raise typer.Exit(2) from None
 
 
-def get_metadata(args: SimpleNamespace) -> str:
+def get_metadata(args: SimpleNamespace) -> None:
     """Return metadata for the package as a JSON string."""
     licenses = LICENSES
     languages = list(LANGS.keys())

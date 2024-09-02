@@ -5,7 +5,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Annotated, Optional
+from typing import Annotated, Any, Callable, Optional
 
 import typer
 from rich import print as rprint
@@ -44,7 +44,7 @@ app = typer.Typer(rich_markup_mode="rich")
     ),
     context_settings={"help_option_names": ["-h", "--help"]},
 )
-def main(  # noqa: C901, PLR0912, PLR0913
+def main(  # noqa: PLR0913
     license_name: Annotated[
         str,
         typer.Argument(
@@ -202,25 +202,20 @@ def main(  # noqa: C901, PLR0912, PLR0913
     # get the language if set
     lang = get_lang(args)
 
-    # output metadata as JSON if requested
-    if metadata:
-        get_metadata(args)
+    actions: list[tuple[bool, Callable[..., None], list[Any]]] = [
+        (metadata, get_metadata, [args]),
+        (args.list_licenses, list_licenses, []),
+        (args.list_languages, list_languages, []),
+        (header, generate_header, [args, lang]),
+        (args.list_vars, list_vars, [args, license_name]),
+    ]
 
-    # list available licenses and their template variables
-    if args.list_licenses:
-        list_licenses()
-
-    # list available source formatting languages
-    if args.list_languages:
-        list_languages()
-
-    # generate header if requested
-    if header:
-        generate_header(args, lang)
-
-    # list template vars if requested
-    if args.list_vars:
-        list_vars(args, license_name)
+    # Iterate through the list and call the utility functions based on the
+    # conditions. All the utility functions exit the program after execution.
+    # This saves us from having to write a lot of if-else statements.
+    for condition, func, func_args in actions:
+        if condition:
+            func(*func_args)
 
     # create context
     if args.template_path:
