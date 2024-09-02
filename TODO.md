@@ -7,7 +7,6 @@
   accessed through a CLI option or a config file setting.
 - add an option to list licenses that have a header available. Maybe this could
   be done with a `--list-headers` option or `--headers --list`.
-- new languages to support - `go`, `typescript`, etc.
 - add a 'human readable' value to the internal LICENSES list so we can display
   the license name in a more human readable format. This would be especially
   useful for the `--licenses` option and the API. The issue is that this
