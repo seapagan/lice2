@@ -12,3 +12,4 @@ build
 .python-version
 site/
 api-test.py
+repopack-output.txt
