@@ -13,15 +13,6 @@ from lice2.constants import LANGS, LICENSES
 from lice2.helpers import get_local_year
 
 
-@pytest.fixture
-def lice() -> Lice:
-    """Return a Lice instance for testing."""
-    return Lice(
-        organization="Awesome Co.",
-        project="my_project",
-    )
-
-
 class TestAPI:
     """A test class for the API."""
 
