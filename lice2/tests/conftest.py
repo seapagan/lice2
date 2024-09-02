@@ -8,6 +8,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
+from lice2.api import Lice
+
 if TYPE_CHECKING:
     from pyfakefs.fake_filesystem import FakeFilesystem
 
@@ -16,6 +18,15 @@ TEMPLATE_FILE = """This is a template file.
 {{ project }} is the project.
 {{ year }} is the year.
 """
+
+
+@pytest.fixture
+def lice() -> Lice:
+    """Return a Lice instance for testing the 'api' module."""
+    return Lice(
+        organization="Awesome Co.",
+        project="my_project",
+    )
 
 
 @pytest.fixture(autouse=True)
