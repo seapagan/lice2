@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Provide an optional JSON output, listing licenses and languages for easier integration into other tools like a GUI ([#30](https://github.com/seapagan/lice2/pull/30)) by [seapagan](https://github.com/seapagan)
 - Add '--version' flag to the CLI ([#29](https://github.com/seapagan/lice2/pull/29)) by [seapagan](https://github.com/seapagan)
 
+**Testing**
+
+- Tweak some of the test layouts and contents ([#32](https://github.com/seapagan/lice2/pull/32)) by [seapagan](https://github.com/seapagan)
+
 [`Full Changelog`](https://github.com/seapagan/lice2/compare/0.11.0...HEAD) | [`Diff`](https://github.com/seapagan/lice2/compare/0.11.0...HEAD.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.11.0...HEAD.patch)
 
 ## [0.11.0](https://github.com/seapagan/lice2/releases/tag/0.11.0) (August 28, 2024)
