@@ -1,3 +1,6 @@
+---
+name: Internet Systems Consortium (ISC) License
+---
 The ISC License (ISC)
 Copyright (c) {{ year }} {{ organization }}
 

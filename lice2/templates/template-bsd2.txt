@@ -1,3 +1,6 @@
+---
+name: BSD 2-Clause "Simplified" License
+---
 Copyright (c) {{ year }}, {{ organization }}
 
 All rights reserved.

@@ -1,4 +1,6 @@
-
+---
+name: European Union Public Licence v1.2
+---
 EUROPEAN UNION PUBLIC LICENCE v. 1.2
 EUPL © {{ organization }} {{ year }}
 

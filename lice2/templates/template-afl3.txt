@@ -1,3 +1,6 @@
+---
+name: Academic Free License 3.0
+---
 {{ project }}
 Copyright (C) {{ year }}  {{ organization }}
 
