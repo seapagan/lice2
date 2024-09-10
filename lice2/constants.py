@@ -102,3 +102,5 @@ for file in sorted(resource_listdir(__name__, "templates")):
     match = re.match(r"template-([a-z0-9_]+).txt", file)
     if match:
         LICENSES.append(match.groups()[0])
+
+METADATA_PATTERN = r"^---\s*name:\s*(.+?)\s*---\n(.*)$"

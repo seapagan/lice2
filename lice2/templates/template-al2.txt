@@ -1,3 +1,6 @@
+---
+name: Artistic License 2.0
+---
 Artistic License 2.0
 
 Copyright (c) {{ year }}, {{ organization }}

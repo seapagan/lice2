@@ -33,6 +33,7 @@ from lice2.helpers import (
     list_vars,
     load_file_template,
     load_package_template,
+    strip_metadata,
     validate_license,
     validate_year,
 )
@@ -547,3 +548,20 @@ class TestLice:
         assert json_result["project"] == "my_project"
         assert licenses in captured.out
         assert languages in captured.out
+
+    def test_license_strip_metadata(self) -> None:
+        """Test that metadata header is stripped from the license."""
+        license_data = io.StringIO(
+            "---\nname: Test License\n---\nLicense text."
+        )
+
+        result = strip_metadata(license_data)
+
+        assert isinstance(result, tuple)
+        assert len(result) == 2  # noqa: PLR2004
+        assert all(isinstance(item, str) for item in result)
+
+        license_body, license_name = result
+
+        assert license_name == "Test License"
+        assert license_body == "License text."

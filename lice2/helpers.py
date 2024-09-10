@@ -1,5 +1,7 @@
 """Helper functions for LICE2."""
 
+from __future__ import annotations
+
 import getpass
 import json
 import os
@@ -10,8 +12,7 @@ from contextlib import closing
 from datetime import datetime
 from io import StringIO
 from pathlib import Path
-from types import SimpleNamespace
-from typing import Union
+from typing import TYPE_CHECKING, Union
 
 import typer
 from rich.console import Console
@@ -20,7 +21,10 @@ from rich.text import Text
 
 from lice2 import resource_stream
 from lice2.config import settings
-from lice2.constants import LANG_CMT, LANGS, LICENSES
+from lice2.constants import LANG_CMT, LANGS, LICENSES, METADATA_PATTERN
+
+if TYPE_CHECKING:
+    from types import SimpleNamespace
 
 
 def clean_path(p: str) -> str:
@@ -307,12 +311,12 @@ def validate_license(license_name: str) -> str:
     return license_name
 
 
-def copy_to_clipboard(out: StringIO) -> None:
+def copy_to_clipboard(out: str) -> None:
     """Try to copy to clipboard, exit with error if not possible."""
     try:
         import pyperclip
 
-        pyperclip.copy(out.getvalue())
+        pyperclip.copy(out)
         typer.secho(
             "License text copied to clipboard",
             fg=typer.colors.BRIGHT_GREEN,
@@ -347,3 +351,17 @@ def get_metadata(args: SimpleNamespace) -> None:
 def get_local_year() -> str:
     """Return the current year using the local timezone."""
     return f"{datetime.now().astimezone().year}"
+
+
+def strip_metadata(out: StringIO) -> tuple[str, str | None]:
+    """Strip metadata from the output."""
+    content = out.getvalue()
+    match = re.search(METADATA_PATTERN, content, re.DOTALL)
+    if match:
+        name = str(match.group(1))  # Extract the name
+        remaining_content = match.group(2)  # Extract the rest of the content
+    else:
+        name = None
+        remaining_content = content
+
+    return remaining_content, name

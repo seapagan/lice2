@@ -1,4 +1,6 @@
-
+---
+name: SIL Open Font License v1.1
+---
 Copyright (c) {{ year }}, {{ organization }},
 with Reserved Font Name <Reserved Font Name>.
 

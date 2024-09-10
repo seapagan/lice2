@@ -30,6 +30,7 @@ from lice2.helpers import (
     list_vars,
     load_file_template,
     load_package_template,
+    strip_metadata,
     validate_license,
     validate_year,
 )
@@ -237,15 +238,17 @@ def main(  # noqa: PLR0913
             out = format_license(content, lang, legacy=args.legacy)
 
         out.seek(0)
+        out_str, _ = strip_metadata(out)
         with Path(output).open(mode="w") as f:
-            f.write(out.getvalue())
+            f.write(out_str)
     else:
         out = format_license(content, lang, legacy=args.legacy)
         out.seek(0)
+        out_str, name = strip_metadata(out)
         if not args.clipboard:
-            sys.stdout.write(out.getvalue())
+            sys.stdout.write(out_str)
         else:
-            copy_to_clipboard(out)
+            copy_to_clipboard(out_str)
 
     out.close()
 

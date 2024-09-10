@@ -1,3 +1,6 @@
+---
+name: MIT Licese
+---
 The MIT License (MIT)
 Copyright (c) {{ year }} {{ organization }}
 

@@ -1,3 +1,6 @@
+---
+name: Eclipse Distribution License v1.0
+---
 Eclipse Distribution License - v 1.0
 
 Copyright (c) {{ year }}, {{ organization }}
