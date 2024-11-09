@@ -13,3 +13,4 @@ build
 site/
 api-test.py
 repopack-output.txt
+.envrc
