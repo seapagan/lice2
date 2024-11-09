@@ -31,9 +31,7 @@ jobs:
 
       - name: Run tests
         # For example, using `pytest`
-        run:
-          uv run --all-extras -p ${{ matrix.python-version }} pytest tests
-          --cov-report=xml
+        run: uv run -p ${{ matrix.python-version }} pytest --cov-report=xml
 
       - name: Run codacy-coverage-reporter
         env:
