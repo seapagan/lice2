@@ -1,8 +1,7 @@
 """Define constants for the LICE2 package."""
 
 import re
-
-from lice2 import resource_listdir
+from importlib import resources
 
 # To extend language formatting sopport with a new language, add an item in
 # LANGS dict:
@@ -97,8 +96,29 @@ LANG_CMT = {
     "unix": ["", "#", ""],
 }
 
-LICENSES: list[str] = []
-for file in sorted(resource_listdir(__name__, "templates")):
-    match = re.match(r"template-([a-z0-9_]+).txt", file)
-    if match:
-        LICENSES.append(match.groups()[0])
+
+def get_available_licenses() -> list[str]:
+    """Get a sorted list of available license names from template files.
+
+    Searches for templates in the current package's 'templates' directory
+    with pattern 'template-{name}.txt'.
+
+    Returns:
+        List of license names sorted alphabetically
+    """
+    # Get the current package name
+    package_name = __package__ if __package__ else __name__.split(".")[0]
+
+    template_path = resources.files(package_name).joinpath("templates")
+    licenses = []
+
+    for file in template_path.iterdir():
+        if file.is_file():
+            match = re.match(r"template-([a-z0-9_]+)\.txt", file.name)
+            if match:
+                licenses.append(match.groups()[0])
+
+    return sorted(licenses)
+
+
+LICENSES = get_available_licenses()
