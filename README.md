@@ -34,7 +34,7 @@ features:
 - Can read from a config file for default values.
 - Can optionally copy the license to the clipboard automatically.
 - Converted from 'argparse' to 'Typer' for CLI handling.
-- It now uses [Poetry](https://python-poetry.org/) for dependency management.
+- It now uses [uv](https://docs.astral.sh/uv/) for dependency management.
 - Fixes the issue where extra spaces and newlines were added to the generated
   license text. This was considered a bug by at least several users, so it was
   fixed in version `0.10.0`. However, if you want to generate a license with the
@@ -43,7 +43,7 @@ features:
 - The code has been modernized and cleaned up, all type-hinting has been
   added.
 - It passes strict linting with the latest 'Ruff' and 'mypy'.
-- GitHub actions set up for linting, `Dependabot` and `Dependency Review`.
+- GitHub actions set up for linting, `Renovate` and `Dependency Review`.
 - Can output a list of licenses and languages in JSON format for integration
   with other tools.
 
