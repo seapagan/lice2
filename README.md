@@ -12,6 +12,7 @@ Lice generates license files. No more hunting down licenses from other projects.
 - [Config File](#config-file)
 - [Integrate into your projects](#integrate-into-your-projects)
 - [Integration with other tools](#integration-with-other-tools)
+- [Contribute to the Development](#contribute-to-the-development)
 - [Changelog](#changelog)
 
 ## Changes from the original 'Lice' project
@@ -289,6 +290,23 @@ languages in a GUI for example. The first two keys are simple lists of strings
 that can be parsed.
 
 For more fine-grained control, you can use the API above (but only in Python)
+
+## Contribute to the Development
+
+If you want to help with development of this project or just hack on the code,
+you can clone the repository and install the development dependencies with the
+following command:
+
+```console
+uv sync
+```
+
+We use [uv](https://docs.astral.sh/uv/) to manage the virtual environment and
+dependencies. See [Contributing](CONTRIBUTING.md) and the relevant section on
+the [website](https://seapagan.github.io/lice2/) for details
+
+All contributions are welcome, and I will try to respond to issues and PR's as
+soon as possible.
 
 ## Changelog
 
