@@ -8,6 +8,25 @@ For the original changelog, please refer to the "OLD_CHANGELOG.md" file in the r
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.13.0](https://github.com/seapagan/lice2/releases/tag/0.13.0) (November 13, 2024)
+
+**New Features**
+
+- Migrate from poetry to uv for dependency and project management ([#72](https://github.com/seapagan/lice2/pull/72)) by [seapagan](https://github.com/seapagan)
+
+**Dependency Updates**
+
+- Bump ruff from 0.6.3 to 0.6.4 ([#47](https://github.com/seapagan/lice2/pull/47)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump pymarkdownlnt from 0.9.22 to 0.9.23 ([#46](https://github.com/seapagan/lice2/pull/46)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump cryptography from 43.0.0 to 43.0.1 ([#43](https://github.com/seapagan/lice2/pull/43)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump mkdocs-autorefs from 1.1.0 to 1.2.0 ([#42](https://github.com/seapagan/lice2/pull/42)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump ruff from 0.6.2 to 0.6.3 ([#41](https://github.com/seapagan/lice2/pull/41)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump mkdocs-material from 9.5.33 to 9.5.34 ([#40](https://github.com/seapagan/lice2/pull/40)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump mkdocs from 1.6.0 to 1.6.1 ([#39](https://github.com/seapagan/lice2/pull/39)) by [dependabot[bot]](https://github.com/apps/dependabot)
+- Bump poethepoet from 0.27.0 to 0.28.0 ([#38](https://github.com/seapagan/lice2/pull/38)) by [dependabot[bot]](https://github.com/apps/dependabot)
+
+[`Full Changelog`](https://github.com/seapagan/lice2/compare/0.12.0...0.13.0) | [`Diff`](https://github.com/seapagan/lice2/compare/0.12.0...0.13.0.diff) | [`Patch`](https://github.com/seapagan/lice2/compare/0.12.0...0.13.0.patch)
+
 ## [0.12.0](https://github.com/seapagan/lice2/releases/tag/0.12.0) (September 02, 2024)
 
 **New Features**
