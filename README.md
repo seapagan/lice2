@@ -12,6 +12,7 @@ Lice generates license files. No more hunting down licenses from other projects.
 - [Config File](#config-file)
 - [Integrate into your projects](#integrate-into-your-projects)
 - [Integration with other tools](#integration-with-other-tools)
+- [Contribute to the Development](#contribute-to-the-development)
 - [Changelog](#changelog)
 
 ## Changes from the original 'Lice' project
@@ -33,7 +34,7 @@ features:
 - Can read from a config file for default values.
 - Can optionally copy the license to the clipboard automatically.
 - Converted from 'argparse' to 'Typer' for CLI handling.
-- It now uses [Poetry](https://python-poetry.org/) for dependency management.
+- It now uses [uv](https://docs.astral.sh/uv/) for dependency management.
 - Fixes the issue where extra spaces and newlines were added to the generated
   license text. This was considered a bug by at least several users, so it was
   fixed in version `0.10.0`. However, if you want to generate a license with the
@@ -42,7 +43,7 @@ features:
 - The code has been modernized and cleaned up, all type-hinting has been
   added.
 - It passes strict linting with the latest 'Ruff' and 'mypy'.
-- GitHub actions set up for linting, `Dependabot` and `Dependency Review`.
+- GitHub actions set up for linting, `Renovate` and `Dependency Review`.
 - Can output a list of licenses and languages in JSON format for integration
   with other tools.
 
@@ -289,6 +290,23 @@ languages in a GUI for example. The first two keys are simple lists of strings
 that can be parsed.
 
 For more fine-grained control, you can use the API above (but only in Python)
+
+## Contribute to the Development
+
+If you want to help with development of this project or just hack on the code,
+you can clone the repository and install the development dependencies with the
+following command:
+
+```console
+uv sync
+```
+
+We use [uv](https://docs.astral.sh/uv/) to manage the virtual environment and
+dependencies. See [Contributing](CONTRIBUTING.md) and the relevant section on
+the [website](https://seapagan.github.io/lice2/) for details
+
+All contributions are welcome, and I will try to respond to issues and PR's as
+soon as possible.
 
 ## Changelog
 

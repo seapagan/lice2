@@ -8,6 +8,7 @@ import subprocess
 import sys
 from contextlib import closing
 from datetime import datetime
+from importlib import resources
 from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
@@ -18,7 +19,6 @@ from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 
-from lice2 import resource_stream
 from lice2.config import settings
 from lice2.constants import LANG_CMT, LANGS, LICENSES
 
@@ -113,17 +113,46 @@ def load_file_template(path: str) -> StringIO:
     return template
 
 
+def get_template_content(license_name: str, *, header: bool = False) -> str:
+    """Get the content of a license template as a string.
+
+    Args:
+        license_name: Name of the license template to load
+        header: If True, load the header template instead of the full license
+
+    Returns:
+        The template content as a string
+
+    Raises:
+        FileNotFoundError: If the template doesn't exist
+    """
+    filename = (
+        f"template-{license_name}-header.txt"
+        if header
+        else f"template-{license_name}.txt"
+    )
+    package_name = __package__ or __name__.split(".")[0]
+    template_file = resources.files(package_name) / "templates" / filename
+    return template_file.read_text(encoding="utf-8")
+
+
 def load_package_template(
     license_name: str, *, header: bool = False
 ) -> StringIO:
-    """Load license template distributed with package."""
+    """Load license template distributed with package.
+
+    Args:
+        license_name: Name of the license template to load
+        header: If True, load the header template instead of the full license
+
+    Returns:
+        StringIO object containing the template content
+
+    Raises:
+        FileNotFoundError: If the template doesn't exist
+    """
     content = StringIO()
-    filename = "template-%s-header.txt" if header else "template-%s.txt"
-    with resource_stream(
-        __name__, f"templates/{filename % license_name}"
-    ) as licfile:
-        for line in licfile:
-            content.write(line.decode("utf-8"))  # write utf-8 string
+    content.write(get_template_content(license_name, header=header))
     return content
 
 

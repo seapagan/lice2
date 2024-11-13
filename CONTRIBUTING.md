@@ -24,14 +24,25 @@ Python installations, the
 Mac OS X. For Windows, you can use the
 [pyenv-win](https://github.com/pyenv-win/pyenv-win) port. See
 [here](https://github.com/pyenv-win/pyenv-win#installation ) for installation
-instructions.
+instructions. If you use `uv` (recommended and described below), it can install
+Python for you, much quicker and easier than using `pyenv`.
 
 - This project requires **Python 3.9** or higher.
 
-- We also use [Poetry](https://python-poetry.org/) to manage our dependencies. You
-should have this installed as well. You can install Poetry by following the
-instructions on the [Poetry
-website](https://python-poetry.org/docs/#installation).
+- We use [uv](https://docs.astral.sh/uv/) to manage our dependencies. You should
+have this installed as well. You can install `uv` by following the instructions
+on their [website](https://docs.astral.sh/uv/getting-started/installation/).
+
+`uv` can be used to actually install Python, even if you do not have it
+installed locally (either by system, pyenv or similar).
+
+For example, to install Python 3.12 using `uv`, you can run the following command:
+
+```console
+uv python install 3.12
+```
+
+If you already have a Python version installed, uv will use this.
 
 ## Getting Started
 
@@ -54,13 +65,16 @@ To get started, follow these steps:
 Run the following command to install the required dependencies:
 
 ```console
-poetry install
+uv sync
 ```
+
+The `.venv` folder is already in the `.gitignore` file so will not be committed
+to the repository. This is where the virtual environment will be created.
 
 You then need to activate the virtual environment:
 
 ```console
-poetry shell
+source .venv/bin/activate
 ```
 
 From here you can start working on the project. If you are using an IDE such as
