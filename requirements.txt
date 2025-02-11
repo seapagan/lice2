@@ -5,7 +5,7 @@ cffi==1.17.1
 charset-normalizer==3.4.0
 click==8.1.7
 colorama==0.4.6 ; platform_system == 'Windows'
-cryptography==44.0.1
+cryptography==43.0.3
 deprecated==1.2.14
 github-changelog-md==0.9.5
 idna==3.10
