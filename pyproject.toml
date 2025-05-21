@@ -2,7 +2,10 @@
 name = "lice2"
 version = "0.13.0"
 description = "Generate license files for your projects"
-authors = [{ name = "Grant Ramsay", email = "grant@gnramsay.com" }]
+authors = [
+  { name = "Jeremy Carbaugh", email = "jcarbaugh@gmail.com" },
+  { name = "Grant Ramsay", email = "grant@gnramsay.com" },
+]
 license = "BSD-3-Clause"
 readme = "README.md"
 requires-python = ">=3.9"
