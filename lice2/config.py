@@ -30,8 +30,8 @@ def check_default_license() -> str:
             f"[red]Invalid default license '[b]{settings.default_license}"
             "'[/b] in the configuration file, falling back to '[b]bsd3[/b]', "
             "unless specified otherwise on the command line.\n\nCheck that [b]"
-            f"{settings.get_settings_folder()/settings.settings_file_name}[/b]'"
-            " has a valid value for [b]'default_license'[/b]."
+            f"{settings.get_settings_folder() / settings.settings_file_name}"
+            "[/b]' has a valid value for [b]'default_license'[/b]."
         )
         panel = Panel(
             error_text,

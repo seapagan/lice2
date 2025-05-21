@@ -92,8 +92,7 @@ def main(  # noqa: PLR0913
         "--file",
         "-f",
         help=(
-            "Name of the output source file (with -l, "
-            "extension can be omitted)"
+            "Name of the output source file (with -l, extension can be omitted)"
         ),
     ),
     *,

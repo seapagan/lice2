@@ -42,7 +42,9 @@ def guess_organization() -> str:
         return settings.organization
 
     try:
-        stdout = subprocess.check_output("git config --get user.name".split())  # noqa: S603
+        stdout = subprocess.check_output(  # noqa: S603
+            ["git", "config", "--get", "user.name"]  # noqa: S607
+        )
         org = stdout.strip().decode("UTF-8")
     except subprocess.CalledProcessError:
         org = getpass.getuser()
@@ -288,8 +290,7 @@ def generate_header(args: SimpleNamespace, lang: str) -> None:
             template = load_package_template(args.license, header=True)
         except OSError:
             sys.stderr.write(
-                "Sorry, no source headers are available for "
-                f"{args.license}.\n"
+                f"Sorry, no source headers are available for {args.license}.\n"
             )
             raise typer.Exit(1) from None
 
