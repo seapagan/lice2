@@ -39,8 +39,8 @@ dependencies = [
 [project.scripts]
 lice = "lice2.core:app"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
   "mypy >= 1.11.2",
   "pre-commit >= 3.8.0",
   "ruff >= 0.7.3",
@@ -106,8 +106,6 @@ omit = ["*/tests/*"]
 line-length = 80
 lint.select = ["ALL"] # we are being very strict!
 lint.ignore = [
-  "ANN101",
-  "ANN102",
   "PGH003",
   "FBT002",
   "FBT003",
