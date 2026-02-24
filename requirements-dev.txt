@@ -28,7 +28,7 @@ coverage==7.6.4
     # via pytest-cov
 cryptography==45.0.7 ; python_full_version < '3.14' or platform_python_implementation == 'PyPy'
     # via pyjwt
-cryptography==46.0.0 ; python_full_version >= '3.14' and platform_python_implementation != 'PyPy'
+cryptography==46.0.5 ; python_full_version >= '3.14' and platform_python_implementation != 'PyPy'
     # via pyjwt
 csscompressor==0.9.5
     # via mkdocs-minify-plugin
