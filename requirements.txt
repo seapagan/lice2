@@ -16,7 +16,9 @@ rich==13.9.4
     # via
     #   lice2
     #   typer
-rtoml==0.12.0
+rtoml==0.12.0 ; python_full_version < '3.10'
+    # via simple-toml-settings
+rtoml==0.13.0 ; python_full_version >= '3.10'
     # via simple-toml-settings
 shellingham==1.5.4
     # via typer
