@@ -42,7 +42,7 @@ def guess_organization() -> str:
         return settings.organization
 
     try:
-        stdout = subprocess.check_output(  # noqa: S603
+        stdout = subprocess.check_output(
             ["git", "config", "--get", "user.name"]  # noqa: S607
         )
         org = stdout.strip().decode("UTF-8")
@@ -245,7 +245,7 @@ def get_suffix(name: str) -> Union[str, None]:
     """
     a = name.count(".")
     if a:
-        ext = name.split(".")[-1]
+        ext = name.rsplit(".", maxsplit=1)[-1]
         if ext in LANGS:
             return ext
     return None
@@ -302,7 +302,7 @@ def generate_header(args: SimpleNamespace, lang: str) -> None:
             sys.stdout.write(out.getvalue())
         else:
             try:
-                import pyperclip
+                import pyperclip  # noqa: PLC0415
 
                 pyperclip.copy(out.getvalue())
                 typer.secho(
@@ -340,7 +340,7 @@ def validate_license(license_name: str) -> str:
 def copy_to_clipboard(out: StringIO) -> None:
     """Try to copy to clipboard, exit with error if not possible."""
     try:
-        import pyperclip
+        import pyperclip  # noqa: PLC0415
 
         pyperclip.copy(out.getvalue())
         typer.secho(
