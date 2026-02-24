@@ -127,7 +127,7 @@ pygments==2.18.0
 pyjwt==2.9.0
     # via pygithub
 pymarkdownlnt==0.9.25
-pymdown-extensions==10.12
+pymdown-extensions==10.21
     # via mkdocs-material
 pynacl==1.6.2
     # via pygithub
