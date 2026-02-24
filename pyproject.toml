@@ -39,10 +39,9 @@ dependencies = [
 [project.scripts]
 lice = "lice2.core:app"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
   "mypy >= 1.11.2",
-  "pre-commit >= 3.8.0",
   "ruff >= 0.7.3",
   "pymarkdownlnt >= 0.9.22",
   "pyfakefs >= 5.6.0",
@@ -62,6 +61,7 @@ dev-dependencies = [
   "mkdocs-minify-plugin >= 0.8.0",
   "pymdown-extensions >= 10.9",
   "pygments >= 2.18.0",
+  "prek>=0.3.3",
 ]
 
 [build-system]
@@ -70,8 +70,8 @@ build-backend = "hatchling.build"
 
 
 [tool.poe.tasks]
-pre.cmd = "pre-commit run --all-files"
-pre.help = "Run pre-commit checks"
+pre.cmd = "prek run --all-files"
+pre.help = "Run pre-commit checks with 'prek'"
 mypy.cmd = "mypy . --strict"
 mypy.help = "Run mypy checks"
 format.help = "Format code with Ruff"
@@ -106,8 +106,6 @@ omit = ["*/tests/*"]
 line-length = 80
 lint.select = ["ALL"] # we are being very strict!
 lint.ignore = [
-  "ANN101",
-  "ANN102",
   "PGH003",
   "FBT002",
   "FBT003",

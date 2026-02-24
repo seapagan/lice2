@@ -107,7 +107,7 @@ def get_available_licenses() -> list[str]:
         List of license names sorted alphabetically
     """
     # Get the current package name
-    package_name = __package__ if __package__ else __name__.split(".")[0]
+    package_name = __package__ or __name__.split(".")[0]
 
     template_path = resources.files(package_name).joinpath("templates")
     licenses = []
