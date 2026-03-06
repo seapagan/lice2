@@ -59,7 +59,7 @@ jsmin==3.0.1
     # via mkdocs-minify-plugin
 librt==0.8.1 ; platform_python_implementation != 'PyPy'
     # via mypy
-markdown==3.7
+markdown==3.8.1
     # via
     #   mkdocs
     #   mkdocs-autorefs
