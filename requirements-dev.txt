@@ -120,7 +120,7 @@ pycparser==2.22 ; implementation_name != 'PyPy' and platform_python_implementati
 pyfakefs==5.7.1
 pygithub==2.5.0
     # via github-changelog-md
-pygments==2.18.0
+pygments==2.20.0
     # via
     #   mkdocs-material
     #   rich
