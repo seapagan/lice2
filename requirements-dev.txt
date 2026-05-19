@@ -41,7 +41,7 @@ ghp-import==2.1.0
 github-changelog-md==0.9.5
 htmlmin2==0.1.13
     # via mkdocs-minify-plugin
-idna==3.10
+idna==3.15
     # via requests
 importlib-metadata==8.5.0 ; python_full_version < '3.10'
     # via
